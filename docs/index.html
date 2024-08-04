@@ -1,46 +1,157 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Astronaut Profile: [Astronaut Name]</title>
+    <title>Gaganyatri</title>
     <style>
-        /* Add your CSS styles here */
+
+    /* Default styles for larger screens */
+body {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.nav-menu {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Styles for smaller screens */
+@media only screen and (max-width: 600px) {
+  body {
+    font-size: 18px;
+  }
+
+  .container {
+    width: 90%;
+  }
+
+  .nav-menu {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-menu a {
+    margin-bottom: 10px;
+  }
+}
+
+    /* Dark theme styles */
+    body {
+        background-color: #121212;
+        color: #f5f5f5;
+        font-family: Arial, sans-serif;
+    }
+
+    header, footer {
+        background-color: #212121;
+        color: #f5f5f5;
+        padding: 20px;
+        text-align: center;
+    }
+
+    main {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    section {
+        margin-bottom: 40px;
+    }
+
+    h1, h2, h3 {
+        color: #ffcc00;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    blockquote {
+        border-left: 3px solid #ffcc00;
+        padding-left: 10px;
+        margin-bottom: 20px;
+    }
+
+    .responsive-image {
+  max-width: 100%;
+  height: auto;
+}
+
+@media only screen and (max-width: 400px) {
+  .responsive-image {
+    width: 80%; /* Adjust the size as needed */
+  }
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.section {
+  flex: 1;
+  margin-right: 10px; /* Adjust as needed */
+}
+
+.section:last-child {
+  margin-right: 0;
+}
+/* Media query for mobile */
+@media screen and (max-width: 600px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .section {
+    margin-right: 0;
+    margin-bottom: 10px; /* Adjust as needed */
+  }
+
+  .section:last-child {
+    margin-bottom: 0;
+  }
+}
+
+    footer p {
+        font-size: 0.9em;
+    }
     </style>
 </head>
 <body>
     <header>
-        <h1>Astronaut Profile</h1>
+        <h1>Gaganyatri</h1>
         <nav>
             <!-- Add navigation links here -->
         </nav>
     </header>
     <main>
-        <section id="profile">
-            <h2>[Astronaut Name]</h2>
-            <img src="[Astronaut Image URL]" alt="[Astronaut Name]">
-            <p><strong>Birthdate:</strong> [Astronaut Birthdate]</p>
-            <p><strong>Birthplace:</strong> [Astronaut Birthplace]</p>
-            <p><strong>Education:</strong> [Astronaut Education]</p>
-            <p><strong>Missions:</strong> [Astronaut Missions]</p>
-            <p><strong>Notable Achievements:</strong> [Astronaut Achievements]</p>
+        <div class="container">
+        <section id="prime-astronaut">
+            <h2>Shubhanshu Shukla</h2>
+            <h3>Prime Gaganyatri</h3>
+            <img src="img/prime-1.png" class="responsive-image" alt="Shubhanshu Shukla" width="300" height="300">
+            <p><strong>Missions:</strong> [Prime Astronaut Missions]</p>
+            <p><strong>Notable Achievements:</strong> [Prime Astronaut Achievements]</p>
         </section>
-        <section id="biography">
-            <h3>Biography</h3>
-            <p>[Astronaut Biography]</p>
+        <section id="backup-astronaut">
+            <h2>Backup Gaganyatri</h2>
+            <h3>[Backup Astronaut Name]</h3>
+            <img src="[Backup Astronaut Image URL]" alt="[Backup Astronaut Name]">
+            <p><strong>Missions:</strong> [Backup Astronaut Missions]</p>
+            <p><strong>Notable Achievements:</strong> [Backup Astronaut Achievements]</p>
         </section>
-        <section id="quotes">
-            <h3>Quotes</h3>
-            <blockquote>
-                <p>[Astronaut Quote 1]</p>
-                <footer>- [Astronaut Name]</footer>
-            </blockquote>
-            <blockquote>
-                <p>[Astronaut Quote 2]</p>
-                <footer>- [Astronaut Name]</footer>
-            </blockquote>
-        </section>
+    </div>
     </main>
     <footer>
-        <p>&copy; [Your Website Name]</p>
+        <p>&copy; gaganyatri.in</p>
     </footer>
 </body>
 </html>
