@@ -2,136 +2,66 @@
 <html>
 <head>
     <title>Gaganyatri</title>
-    <style>
-
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        nav ul li a {
-            color: #f5f5f5;
-            text-decoration: none;
-            padding: 10px;
-        }
-
-        nav ul li a:hover {
-            color: #ffcc00;
-        }
-        /* General styles */
-        body {
-            background-color: #121212;
-            color: #f5f5f5;
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-        }
-
-        header, footer {
-            background-color: #212121;
-            color: #f5f5f5;
-            padding: 20px;
-            text-align: center;
-        }
-
-        main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        section {
-            margin-bottom: 40px;
-        }
-
-        h1, h2, h3 {
-            color: #ffcc00;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        blockquote {
-            border-left: 3px solid #ffcc00;
-            padding-left: 10px;
-            margin-bottom: 20px;
-        }
-
-        /* Responsive styles */
-        .container {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-
-        .astronaut {
-            flex: 1 0 300px;
-            margin: 10px;
-        }
-
-        @media screen and (max-width: 600px) {
-            .astronaut {
-                flex: 1 0 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Gaganyatri</h1>
         <nav>
             <ul>
+                <li><a href="#missions">Missions</a></li>
                 <li><a href="#space-suit">Space Suit</a></li>
-                <li><a href="#prime-astronaut">Prime Astronaut</a></li>
-                <li><a href="#backup-astronaut">Backup Astronaut</a></li>
+                <li><a href="#astronaut-ax4">Gaganyatri's</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <button id="infoButton">Space Suit Info</button>
-        <script>
-        document.getElementById("infoButton").addEventListener("click", function() {
-            var infoDiv = document.getElementById("spaceSuitInfo");
-            if (infoDiv.style.display === "none") {
-                infoDiv.style.display = "block";
-            } else {
-                infoDiv.style.display = "none";
-            }
-        });
-        </script>
+        <section id="missions">
+            <h2>Missions</h2>
+            <div id="mission1">
+                <h3>Gaganyaan - 1 </h3>
+                <p>Axiom 4</p>
+            </div>
+            <!-- Add more mission divs as needed -->
+        </section>
         <section id="space-suit">
             <h2>SpaceX Space Suit</h2>
-            <img src="img/space-suit.jpg" alt="SpaceX Space Suit" width="300" height="300">
+            <button id="spaceSuitButton">
+                <img src="img/space-suit.jpg" alt="SpaceX Space Suit" width="300" height="300">
+            </button>
             <div id="spaceSuitInfo" style="display: none;">
-                <p>The SpaceX space suit iis made of a multi-layer fabric that provides thermal insulation, radiation protection, and life support.</p>
+                <p>The SpaceX space suit is made of a multi-layer fabric that provides thermal insulation, radiation protection, and life support.</p>
                 <p>The suit includes a helmet with a built-in display and communication system, a life support system that provides oxygen and water, and a waste management system that recycles urine and carbon dioxide.</p>
             </div>
         </section>
-        <div class="container">
+        <div class="container" id="astronaut-ax4">
             <section id="prime-astronaut" class="astronaut">
                 <h2>Shubhanshu Shukla</h2>
                 <h3>Prime</h3>
-                <img src="img/prime-1.png" alt="Shubhanshu Shukla" width="300" height="300">
+                <button id="primeAstronautButton">
+                <img src="img/shukla_shubhanshu.jpg" alt="Shubhanshu Shukla" width="300" height="300">
+                </button>
+                <div id="prime-astronaut-info" style="display: none;">
                 <p><strong>Missions:</strong> [Prime Astronaut Missions]</p>
                 <p><strong>Notable Achievements:</strong> [Prime Astronaut Achievements]</p>
+                </div>
             </section>
             <section id="backup-astronaut" class="astronaut">
-                <h2>Backup Gaganyatri</h2>
-                <h3>[Backup Astronaut Name]</h3>
-                <img src="[Backup Astronaut Image URL]" alt="[Backup Astronaut Name]">
+                <h2>Prasanth Balakrishnan Nair</h2>
+                <h3>Backup</h3>
+                <button id="backupAstronautButton">
+                <img src="img/prasanth_nair.jpg" alt="Prasanth Balakrishnan Nair" width="300" height="300">
+                </button>
+                <div id="backup-astronaut-info" style="display: none;">
                 <p><strong>Missions:</strong> [Backup Astronaut Missions]</p>
                 <p><strong>Notable Achievements:</strong> [Backup Astronaut Achievements]</p>
+                </div>
             </section>
         </div> 
     </main>
     <footer>
         <p>&copy; gaganyatri.in</p>
     </footer>
+    <script src="main.js"></script>
 </body>
 </html>
