@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Gaganyatri - News</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
@@ -19,6 +19,7 @@
         <section id="news">
             <h2>News</h2>
             <div id="news-items"></div>
+            <div id="pagination"></div>
         </section>
     </main>
     <footer>
@@ -29,33 +30,6 @@
         </p>
     </footer>
 
-<script>
-    fetch('data/news.json')
-        .then(response => response.json())
-        .then(data => {
-            const newsItemsDiv = document.getElementById('news-items');
-
-            data.forEach(item => {
-                const newsItemDiv = document.createElement('div');
-                newsItemDiv.className = 'news-item';
-
-                const title = document.createElement('h3');
-                title.textContent = item.title;
-
-                const date = document.createElement('p');
-                date.textContent = `Date: ${item.date}`;
-
-                const description = document.createElement('p');
-                description.textContent = item.description;
-
-                newsItemDiv.appendChild(title);
-                newsItemDiv.appendChild(date);
-                newsItemDiv.appendChild(description);
-
-                newsItemsDiv.appendChild(newsItemDiv);
-            });
-        })
-        .catch(error => console.error('Error:', error));
-</script>
+    <script src="js/news.js"></script>
 </body>
 </html>
