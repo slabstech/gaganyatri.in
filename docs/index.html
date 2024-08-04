@@ -4,151 +4,131 @@
     <title>Gaganyatri</title>
     <style>
 
-    /* Default styles for larger screens */
-body {
-  font-size: 16px;
-  line-height: 1.5;
-}
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+        }
 
-.container {
-  width: 80%;
-  margin: 0 auto;
-}
+        nav ul li a {
+            color: #f5f5f5;
+            text-decoration: none;
+            padding: 10px;
+        }
 
-.nav-menu {
-  display: flex;
-  justify-content: space-between;
-}
+        nav ul li a:hover {
+            color: #ffcc00;
+        }
+        /* General styles */
+        body {
+            background-color: #121212;
+            color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
 
-/* Styles for smaller screens */
-@media only screen and (max-width: 600px) {
-  body {
-    font-size: 18px;
-  }
+        header, footer {
+            background-color: #212121;
+            color: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+        }
 
-  .container {
-    width: 90%;
-  }
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-  .nav-menu {
-    flex-direction: column;
-    align-items: center;
-  }
+        section {
+            margin-bottom: 40px;
+        }
 
-  .nav-menu a {
-    margin-bottom: 10px;
-  }
-}
+        h1, h2, h3 {
+            color: #ffcc00;
+        }
 
-    /* Dark theme styles */
-    body {
-        background-color: #121212;
-        color: #f5f5f5;
-        font-family: Arial, sans-serif;
-    }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
 
-    header, footer {
-        background-color: #212121;
-        color: #f5f5f5;
-        padding: 20px;
-        text-align: center;
-    }
+        blockquote {
+            border-left: 3px solid #ffcc00;
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
 
-    main {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-    }
+        /* Responsive styles */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
 
-    section {
-        margin-bottom: 40px;
-    }
+        .astronaut {
+            flex: 1 0 300px;
+            margin: 10px;
+        }
 
-    h1, h2, h3 {
-        color: #ffcc00;
-    }
-
-    img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 5px;
-        margin-bottom: 20px;
-    }
-
-    blockquote {
-        border-left: 3px solid #ffcc00;
-        padding-left: 10px;
-        margin-bottom: 20px;
-    }
-
-    .responsive-image {
-  max-width: 100%;
-  height: auto;
-}
-
-@media only screen and (max-width: 400px) {
-  .responsive-image {
-    width: 80%; /* Adjust the size as needed */
-  }
-}
-.container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.section {
-  flex: 1;
-  margin-right: 10px; /* Adjust as needed */
-}
-
-.section:last-child {
-  margin-right: 0;
-}
-/* Media query for mobile */
-@media screen and (max-width: 600px) {
-  .container {
-    flex-direction: column;
-  }
-
-  .section {
-    margin-right: 0;
-    margin-bottom: 10px; /* Adjust as needed */
-  }
-
-  .section:last-child {
-    margin-bottom: 0;
-  }
-}
-
-    footer p {
-        font-size: 0.9em;
-    }
+        @media screen and (max-width: 600px) {
+            .astronaut {
+                flex: 1 0 100%;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Gaganyatri</h1>
         <nav>
-            <!-- Add navigation links here -->
+            <ul>
+                <li><a href="#space-suit">Space Suit</a></li>
+                <li><a href="#prime-astronaut">Prime Astronaut</a></li>
+                <li><a href="#backup-astronaut">Backup Astronaut</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </nav>
     </header>
     <main>
+        <button id="infoButton">Space Suit Info</button>
+        <script>
+        document.getElementById("infoButton").addEventListener("click", function() {
+            var infoDiv = document.getElementById("spaceSuitInfo");
+            if (infoDiv.style.display === "none") {
+                infoDiv.style.display = "block";
+            } else {
+                infoDiv.style.display = "none";
+            }
+        });
+        </script>
+        <section id="space-suit">
+            <h2>SpaceX Space Suit</h2>
+            <img src="img/space-suit.jpg" alt="SpaceX Space Suit" width="300" height="300">
+            <div id="spaceSuitInfo" style="display: none;">
+                <p>The SpaceX space suit iis made of a multi-layer fabric that provides thermal insulation, radiation protection, and life support.</p>
+                <p>The suit includes a helmet with a built-in display and communication system, a life support system that provides oxygen and water, and a waste management system that recycles urine and carbon dioxide.</p>
+            </div>
+        </section>
         <div class="container">
-        <section id="prime-astronaut">
-            <h2>Shubhanshu Shukla</h2>
-            <h3>Prime Gaganyatri</h3>
-            <img src="img/prime-1.png" class="responsive-image" alt="Shubhanshu Shukla" width="300" height="300">
-            <p><strong>Missions:</strong> [Prime Astronaut Missions]</p>
-            <p><strong>Notable Achievements:</strong> [Prime Astronaut Achievements]</p>
-        </section>
-        <section id="backup-astronaut">
-            <h2>Backup Gaganyatri</h2>
-            <h3>[Backup Astronaut Name]</h3>
-            <img src="[Backup Astronaut Image URL]" alt="[Backup Astronaut Name]">
-            <p><strong>Missions:</strong> [Backup Astronaut Missions]</p>
-            <p><strong>Notable Achievements:</strong> [Backup Astronaut Achievements]</p>
-        </section>
-    </div>
+            <section id="prime-astronaut" class="astronaut">
+                <h2>Shubhanshu Shukla</h2>
+                <h3>Prime</h3>
+                <img src="img/prime-1.png" alt="Shubhanshu Shukla" width="300" height="300">
+                <p><strong>Missions:</strong> [Prime Astronaut Missions]</p>
+                <p><strong>Notable Achievements:</strong> [Prime Astronaut Achievements]</p>
+            </section>
+            <section id="backup-astronaut" class="astronaut">
+                <h2>Backup Gaganyatri</h2>
+                <h3>[Backup Astronaut Name]</h3>
+                <img src="[Backup Astronaut Image URL]" alt="[Backup Astronaut Name]">
+                <p><strong>Missions:</strong> [Backup Astronaut Missions]</p>
+                <p><strong>Notable Achievements:</strong> [Backup Astronaut Achievements]</p>
+            </section>
+        </div> 
     </main>
     <footer>
         <p>&copy; gaganyatri.in</p>
