@@ -6,9 +6,9 @@ let speedText = document.querySelector('.speed');
 let altitudeText = document.querySelector('.altitude');
 let visibilityText = document.querySelector('.visibility');
 
-/* default latitude and longitude. Here lat and long is for "London" */
-let lat = 51.505;
-let long = -0.09;
+/* default latitude and longitude. Here lat and long is for "Wurzburg, Germany" */
+let lat = 49.7929;
+let long = 9.9522;
 let zoomLevel = 8;
 
 // set iss.png image as Marker
@@ -22,18 +22,11 @@ const icon = L.icon({
 // drawing map interface on #map-div
 const map = L.map('map-div').setView([lat, long], zoomLevel);
 
-// add map tiles from Mapbox's Static Tiles API
-/* Make sure you replaced 'your.mapbox.access.token' with your Mapbox API accessToken, otherwise the Map willnot show anything */
-/* to get Mapbox API accessToken --> https://account.mapbox.com/access-tokens/ (do Signup or SignIn) */
-/*L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-  attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-  maxZoom: 18,
-  id: 'mapbox/streets-v11',
-  tileSize: 512,
-  zoomOffset: -1,
-  accessToken: 'your.mapbox.access.token'
-}).addTo(map);
-*/
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+  
+
 // adding the Marker to map
 const marker = L.marker([lat, long], { icon: icon }).addTo(map);
 
@@ -75,4 +68,4 @@ function updateISS(lat, long, timestamp, speed, altitude, visibility) {
 findISS();
 
 // call findISS() for every 2 seconds
-setInterval(findISS, 2000);
+setInterval(findISS, 3000);
