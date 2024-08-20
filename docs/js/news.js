@@ -1,13 +1,13 @@
 const data = [
     {
-      "title": "News Title 1",
-      "date": "October 1, 2023",
-      "description": "Brief description of the news item."
+      "title": "Polaris Dawn",
+      "date": "August 26, 2024",
+      "description": "Extra-vehicular Activity with Dragon"
     },
     {
-      "title": "News Title 2",
-      "date": "October 2, 2023",
-      "description": "Brief description of the news item."
+      "title": "Axiom-4",
+      "date": "February 10, 2025",
+      "description": "First Indian astronaut to International Space Station"
     }
     ];
 
