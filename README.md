@@ -52,3 +52,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Reference
 
 ISS tracker - https://github.com/the-coding-pie/ISSTracker
+
+
+- Code
+  - npm create vite@latest gaganyatri -- --template react-swc-ts
+  - npm install
+  - npm run dev
+  - npm run build
+  - npm run deploy
