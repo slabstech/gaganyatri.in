@@ -1,6 +1,7 @@
+Backend
+
+
 Setup
-
-
 
 git clone https://huggingface.co/spaces/gaganyatri/django_spaces
 
@@ -19,9 +20,21 @@ docker run slabstech/gaganyatri
    - python manage.py migrate
    - python manage.py runserver
 
+   - python manage.py startapp space_walks
+   - python manage.py makemigrations
+   - python manage.py migrate
+
 
    - pip install uvicorn
    - python -m uvicorn spaces.asgi:application
+
+
+- Merge for Huggingface
+   - git fetch --all
+   - git checkout main
+   - git merge --squash django-setup
+   - git commit -m "merge"
+   - git push origin main
 
 
 
@@ -29,3 +42,5 @@ docker run slabstech/gaganyatri
     - https://www.djangoproject.com/download/
     - https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/
     - https://github.com/testdrivenio/django-on-docker
+
+   

@@ -1,0 +1,14 @@
+<table>
+    <tr>
+        <th>Column 1</th>
+        <th>Column 2</th>
+        <th>Column 3</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+        <td>{{ item.column1 }}</td>
+        <td>{{ item.column2 }}</td>
+        <td>{{ item.column3 }}</td>
+    </tr>
+    {% endfor %}
+</table>
