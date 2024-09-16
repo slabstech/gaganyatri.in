@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import './App.css'
 import './css/styles.css'
+import spaceSuit from  './img/space-suit.jpg' 
+import primeOne from './img/shukla_shubhanshu.jpg'
+import primeTwo from './img/prasanth_nair.jpg'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -33,7 +36,7 @@ function App() {
       <section id="space-suit">
         <h2>SpaceX Space Suit</h2>
         <button id="spaceSuitButton">
-          <img src="src/img/space-suit.jpg" alt="SpaceX Space Suit" width="300" height="300"/>
+          <img src={spaceSuit} alt="SpaceX Space Suit" width="300" height="300"/>
         </button>
         <div id="spaceSuitInfo" >
           <p>The SpaceX space suit is made of a multi-layer fabric that provides thermal insulation, radiation protection, and life support.</p>
@@ -45,7 +48,7 @@ function App() {
             <h2>Shubhanshu Shukla</h2>
             <h3>Prime</h3>
             <button id="primeAstronautButton">
-            <img src="src/img/shukla_shubhanshu.jpg" alt="Shubhanshu Shukla" width="300" height="300"/>
+            <img src={primeOne} alt="Shubhanshu Shukla" width="300" height="300"/>
             </button>
             <div id="prime-astronaut-info" >
             <p><strong>Missions:</strong> [Prime Astronaut Missions]</p>
@@ -56,7 +59,7 @@ function App() {
             <h2>Prasanth Balakrishnan Nair</h2>
             <h3>Backup</h3>
             <button id="backupAstronautButton">
-            <img src="src/img/prasanth_nair.jpg" alt="Prasanth Balakrishnan Nair" width="300" height="300"/>
+            <img src={primeTwo} alt="Prasanth Balakrishnan Nair" width="300" height="300"/>
             </button>
             <div id="backup-astronaut-info" >
             <p><strong>Missions:</strong> [Backup Astronaut Missions]</p>
