@@ -80,3 +80,15 @@ border: none;
 padding: 0;
 cursor: pointer;
 }
+
+.spaceSuitInfo{
+    display: none;
+}
+
+.backup-astronaut-info{
+    display: none;
+}
+
+.prime-astronaut-info{
+    display: none;
+}
