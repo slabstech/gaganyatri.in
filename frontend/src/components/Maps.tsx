@@ -4,14 +4,30 @@ import L from 'leaflet';
 const Maps: React.FC = () => {
 	const mapRef = useRef<L.Map | null>(null);
 	const markerRef = useRef<L.Marker | null>(null);
+	const latitudeText = document.querySelector('.latitude') as HTMLElement;
+	const longitudeText = document.querySelector('.longitude') as HTMLElement;
+	const timeText = document.querySelector('.time') as HTMLElement;
+	const speedText = document.querySelector('.speed') as HTMLElement;
+	const altitudeText = document.querySelector('.altitude') as HTMLElement;
+	const visibilityText = document.querySelector('.visibility') as HTMLElement;
+	let lat = 49.7929;
+	let long = 9.9522;
+	const zoomLevel = 8;
+				const icon = L.icon({
+			iconUrl: '../img/iss.png',
+			iconSize: [90, 45],
+			iconAnchor: [25, 94],
+			popupAnchor: [20, -86]
+			});
 	useEffect(() => {
+
 		if (!mapRef.current) {
 		
-		mapRef.current = L.map('map').setView([0, 0], 2);
+		mapRef.current = L.map('map').setView([lat, long], zoomLevel);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 		}).addTo(mapRef.current);
-		markerRef.current = L.marker([0, 0]).addTo(mapRef.current);
+		markerRef.current = L.marker([lat, long],{ icon: icon } ).addTo(mapRef.current);
 	
 		// Call findISS initially to set the ISS location
 		findISS();
@@ -46,8 +62,12 @@ const Maps: React.FC = () => {
 			  // Update the map's view
 			  mapRef.current.setView([lat, long]);
 		
-			  // Update other elements on the page
-			  // ...
+			  latitudeText.innerText = String(lat);
+			  longitudeText.innerText = String(long);
+			  timeText.innerText = timestamp;
+			  speedText.innerText = `${speed} km/hr`;
+			  altitudeText.innerText = `${altitude} km`;
+			  visibilityText.innerText = visibility;
 			}
 		  }  
 /*
@@ -105,7 +125,36 @@ const Maps: React.FC = () => {
 		  };
 		}, []);
 	  */
-		return <div id="map" style={{ height: '400px' }}></div>;
+		return (	<div>
+			<div id="map" style={{ height: '400px' }}></div>
+			<div id="details">
+		  <div>
+			Time:
+			<span className="time"></span>
+		  </div>
+		   <div>
+			Latitude:
+			<span className="latitude"></span>
+		  </div>
+		   <div>
+			Longitude:
+			<span className="longitude"></span>
+		  </div>
+		   <div>
+			Speed:
+			<span className="speed"></span>
+		  </div>
+		   <div>
+			Altitude:
+			<span className="altitude"></span>
+		  </div>
+		   <div>
+			Visibility:
+			<span className="visibility"></span>
+		  </div>
+		</div>
+		</div>
+		);
 	  /*
 	return (
 		<div>
