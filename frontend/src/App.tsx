@@ -4,12 +4,25 @@ import './css/styles.css'
 import spaceSuit from  './img/space-suit.jpg' 
 import primeOne from './img/shukla_shubhanshu.jpg'
 import primeTwo from './img/prasanth_nair.jpg'
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import NavBar from './components/NavBar';
+import { lazy, Suspense } from 'react';
+const Home = lazy(() => import('./components/Home'));
+const About = lazy(() => import('./components/About'));
+const Products = lazy(() => import('./components/Products'));
+const ProductDetails = lazy(() => import('./components/ProductDetails'));
+const NoMatch = lazy(() => import('./components/NoMatch'));
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+      <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="*" element={<NoMatch />} />
+          </Routes>
       <header>
       <nav>
           <ul>
