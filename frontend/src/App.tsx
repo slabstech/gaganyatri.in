@@ -6,12 +6,20 @@ import primeOne from './img/shukla_shubhanshu.jpg'
 import primeTwo from './img/prasanth_nair.jpg'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
-import { lazy, Suspense } from 'react';
+/*import { lazy, Suspense } from 'react';
 const Home = lazy(() => import('./components/Home'));
 const About = lazy(() => import('./components/About'));
 const Products = lazy(() => import('./components/Products'));
 const ProductDetails = lazy(() => import('./components/ProductDetails'));
 const NoMatch = lazy(() => import('./components/NoMatch'));
+*/
+import Home from './components/Home';
+import About from './components/About';
+import NoMatch from './components/NoMatch';
+import Maps from './components/Maps';
+import News from './components/news/News';
+
+
 function App() {
   const [count, setCount] = useState(0)
 
@@ -20,20 +28,11 @@ function App() {
       <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/map" element={<Maps />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NoMatch />} />
           </Routes>
-      <header>
-      <nav>
-          <ul>
-              <li><a href="src/iss-map.html">ISS</a></li> 
-              <li><a href="#missions">Missions</a></li>
-              <li><a href="#space-suit">Space Suit</a></li>
-              <li><a href="#astronaut-ax4">Gaganyatri's</a></li>
-              <li><a href="src/news.html">News</a></li> 
-          </ul>
-      </nav>
-      </header>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
