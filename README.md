@@ -60,3 +60,7 @@ ISS tracker - https://github.com/the-coding-pie/ISSTracker
   - npm run dev
   - npm run build
   - npm run deploy
+
+- gaganyatri.in
+- Backend
+  - https://gaganyatri-django-spaces.hf.space/swagger/
