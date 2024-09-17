@@ -29,7 +29,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/news" element={<News />} />
-          <Route path="/map" element={<Maps />} />
+          <Route path="/maps" element={<Maps />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NoMatch />} />
           </Routes>
