@@ -4,7 +4,7 @@ import './css/styles.css'
 import spaceSuit from  './img/space-suit.jpg' 
 import primeOne from './img/shukla_shubhanshu.jpg'
 import primeTwo from './img/prasanth_nair.jpg'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 /*import { lazy, Suspense } from 'react';
 const Home = lazy(() => import('./components/Home'));

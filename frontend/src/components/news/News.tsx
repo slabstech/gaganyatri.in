@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import * as newsData from './newsData.json'; // Assuming you have a JSON file with your news data
 
 // Define any interfaces or types needed for your data
@@ -6,7 +6,7 @@ interface NewsItem {
   title: string;
   content: string;
   // Add other properties as needed
-}
+}*/
 /*
 // Define any functions or classes needed for your page
 function displayNews(newsItems: NewsItem[]): void {
