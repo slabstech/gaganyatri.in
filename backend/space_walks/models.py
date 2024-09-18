@@ -1,9 +1,10 @@
 from django.db import models
 
 class SpaceWalks(models.Model):
-    column1 = models.CharField(max_length=100)
-    column2 = models.IntegerField()
-    column3 = models.DateTimeField(auto_now_add=True)
+    astronaut = models.CharField(max_length=100)
+    duration = models.DurationField()
+    date = models.DateTimeField(auto_now_add=True)
+    description = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.column1
+        return self.astronaut

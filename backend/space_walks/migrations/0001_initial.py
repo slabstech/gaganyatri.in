@@ -15,9 +15,10 @@ class Migration(migrations.Migration):
             name='SpaceWalks',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('column1', models.CharField(max_length=100)),
-                ('column2', models.IntegerField()),
-                ('column3', models.DateTimeField(auto_now_add=True)),
+                ( 'astronaut',models.CharField(max_length=100)),
+                ('duration' , models.DurationField()),
+                ('date', models.DateTimeField(auto_now_add=True)),
+                ( 'description',models.CharField(max_length=255)),
             ],
         ),
     ]
