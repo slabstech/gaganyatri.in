@@ -1,27 +1,14 @@
 # Gaganyatri Project
 
-Welcome to the Gaganyatri project! This project is a website that provides information about the first Gaganyatri mission to fly on AX-4. The mission is led by Group Captain Shubhanshu Shukla (Prime) and Group Captain Prasanth Balakrishnan Nair (Backup).
-
-## Table of Contents
-
-- [About](#about)
-- [Features](#features)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-
-## About
-
-The Gaganyatri project aims to provide a comprehensive and engaging website that showcases the mission, the astronauts, and the space suit used in the mission. The website is built using HTML, CSS, and JavaScript.
-
-## Features
-
-- Mission information
-- Space suit details
-- Astronaut profiles
-- News section
-- Contact information
+- Tech Stack
+  - Frontend
+    - React + Vite + Typescript
+    - Hostend on GitHub Pages
+  - Backend
+    - Django + Python
+    - Hosted on HuggingFace
+  - AI inference
+    - La Platforme - Mistral
 
 ## Getting Started
 

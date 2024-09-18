@@ -1,9 +1,13 @@
 from django.db import models
 
 class SpaceWalks(models.Model):
-    column1 = models.CharField(max_length=100)
-    column2 = models.IntegerField()
-    column3 = models.DateTimeField(auto_now_add=True)
+    astronaut = models.CharField(max_length=100)
+    date = models.DateField()
+    duration = models.DurationField()
+    description = models.TextField()
 
     def __str__(self):
-        return self.column1
+        return f"{self.astronaut} - {self.date}"
+
+    class Meta:
+        ordering = ['-date']
