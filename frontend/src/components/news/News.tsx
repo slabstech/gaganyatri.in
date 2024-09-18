@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 interface SpaceWalks {
-  id: number;
-  column1: string;
-  column2: number;
-  column3: string;
-  // add other properties if they exist
+  astronaut: string;
+  date: string;
+  duration: string;
+  description: string;
 }
 
 const News: React.FC = () => {  
@@ -22,11 +21,12 @@ const News: React.FC = () => {
 
    return (
     <div>
-      {newsData.map((spaceWalk) => (
-        <div key={spaceWalk.id} className="news-item">
-          <h2 className="news-title">{spaceWalk.column1}</h2>
-          <p className="news-content">{spaceWalk.column2}</p>
-          <p className="news-date">{spaceWalk.column3}</p>
+      {newsData.map((news, index) => (
+        <div key={index}>
+          <h2>Astronaut: {news.astronaut}</h2>
+          <p>Date: {news.date}</p>
+          <p>Duration: {news.duration}</p>
+          <p>Description: {news.description}</p>
         </div>
       ))}
     </div>
