@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 //import './App.css'
 import TextField from '@mui/material/TextField';
 import '../css/styles.css'
-import { Mistral } from "mistralai";
+import { Mistral } from "@mistralai/mistralai";
 
 interface AppState {
   base64StringImage: string | null;
@@ -90,31 +90,30 @@ class Home extends Component<{}, AppState> {
   };
 
   sendImageToOllama = async () => {
-    const apiKey = process.env.MISTRAL_API_KEY;
+  const apiKey  = import.meta.env.MISTRAL_API_KEY;
+  const mistral = new Mistral({apiKey: apiKey});
 
-const mistral = new Mistral({apiKey: apiKey});
+  const chatResponse = await mistral.chat.complete({
+      model: "pixtral-12b-2409",
+      messages: [
+          {
+          "role": "user",
+          "content": [
+              {
+              "type": "text",
+              "text": "What s in this image?"
+              },
+              {
+              "type": "image_url",
+              "image_url": "https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg"
+              }
+          ]
+          }
+      ]
+      }
+  );
 
-const chatResponse = await mistral.chat.complete({
-    model: "pixtral-12b-2409",
-    messages: [
-        {
-        "role": "user",
-        "content": [
-            {
-            "type": "text",
-            "text": "What’s in this image?"
-            },
-            {
-            "type": "image_url",
-            "image_url": "https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg"
-            }
-        ]
-        }
-    ]
-    }
-);
-
-console.log('JSON:', chatResponse.choices[0].message.content)
+  console.log('JSON:', chatResponse.choices[0].message.content)
     /*
     if (!this.state.base64StringImage) return;
     
