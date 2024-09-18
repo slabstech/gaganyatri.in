@@ -51,3 +51,10 @@ ISS tracker - https://github.com/the-coding-pie/ISSTracker
 - gaganyatri.in
 - Backend
   - https://gaganyatri-django-spaces.hf.space/swagger/
+
+
+# set Mistral API Key (using bash for example)
+$ echo 'export MISTRAL_API_KEY=[your_key_here]' >> ~/.bashrc
+
+# reload the environment (or just quit and open a new terminal)
+$ source ~/.bashrc
