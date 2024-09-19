@@ -91,20 +91,70 @@ class Home extends Component<{}, AppState> {
 
   sendImageToOllama = async () => {
   const apiKey  = import.meta.env.MISTRAL_API_KEY;
+  //let apiKey = process.env["MISTRAL_API_KEY"];
+  console.log(apiKey);
   const mistral = new Mistral({apiKey: apiKey});
 
+  /*
+  async function run() {
+    const result = await mistral.chat.complete({
+        model: "mistral-small-latest",
+        messages: [
+            {
+                content: "Who is the best French painter? Answer in one short sentence.",
+                role: "user",
+            },
+        ],
+    });
+
+    // Handle the result
+    console.log(result);
+    }
+
+    run();
+
+    */
+   /*
+    async function runImage() {
+      const result = await mistral.chat.complete({
+          model: "pixtral-12b-2409",
+          messages: [
+              {
+                  "role": "user",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "What is in this image?"
+                    },
+                    {
+                      "type": "image_url",
+                      "image_url": "https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg"
+                    }
+                  ]
+              },
+          ],
+      });
+  
+      // Handle the result
+      console.log(result);
+      }
+  
+      runImage();
+*/
+      /*
+  
   const chatResponse = await mistral.chat.complete({
       model: "pixtral-12b-2409",
       messages: [
           {
-          "role": "user",
-          "content": [
+          role: "user",
+          content: [
               {
-              "type": "text",
-              "text": "What s in this image?"
+              type: "text",
+              text: "What s in this image?"
               },
               {
-              "type": "image_url",
+              type: "image_url",
               "image_url": "https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg"
               }
           ]
@@ -114,6 +164,8 @@ class Home extends Component<{}, AppState> {
   );
 
   console.log('JSON:', chatResponse.choices[0].message.content)
+  */
+  
     /*
     if (!this.state.base64StringImage) return;
     
