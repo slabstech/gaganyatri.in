@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 //import './App.css'
 import TextField from '@mui/material/TextField';
 import '../css/styles.css'
-import { Mistral } from "@mistralai/mistralai";
+//import { Mistral } from "@mistralai/mistralai";
 
 interface AppState {
   base64StringImage: string | null;
@@ -90,12 +90,13 @@ class Home extends Component<{}, AppState> {
   };
 
   sendImageToOllama = async () => {
-  const apiKey  = import.meta.env.MISTRAL_API_KEY;
+ 
+
+  /*
+   const apiKey  = import.meta.env.MISTRAL_API_KEY;
   //let apiKey = process.env["MISTRAL_API_KEY"];
   console.log(apiKey);
   const mistral = new Mistral({apiKey: apiKey});
-
-  /*
   async function run() {
     const result = await mistral.chat.complete({
         model: "mistral-small-latest",
@@ -114,59 +115,10 @@ class Home extends Component<{}, AppState> {
     run();
 
     */
-   /*
-    async function runImage() {
-      const result = await mistral.chat.complete({
-          model: "pixtral-12b-2409",
-          messages: [
-              {
-                  "role": "user",
-                  "content": [
-                    {
-                      "type": "text",
-                      "text": "What is in this image?"
-                    },
-                    {
-                      "type": "image_url",
-                      "image_url": "https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg"
-                    }
-                  ]
-              },
-          ],
-      });
-  
-      // Handle the result
-      console.log(result);
-      }
-  
-      runImage();
-*/
-      /*
-  
-  const chatResponse = await mistral.chat.complete({
-      model: "pixtral-12b-2409",
-      messages: [
-          {
-          role: "user",
-          content: [
-              {
-              type: "text",
-              text: "What s in this image?"
-              },
-              {
-              type: "image_url",
-              "image_url": "https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg"
-              }
-          ]
-          }
-      ]
-      }
-  );
+   
 
-  console.log('JSON:', chatResponse.choices[0].message.content)
-  */
   
-    /*
+    
     if (!this.state.base64StringImage) return;
     
     const requestBody = {
@@ -193,7 +145,7 @@ class Home extends Component<{}, AppState> {
       console.error('Error processing image:', (error as AxiosError).message);
       throw error;
     }
-      */
+    
   };
 
   render(){
