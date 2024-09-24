@@ -58,3 +58,30 @@ def recipe_generate_route(request):
         print(f"An error occurred: {e}")
         return Response({'error': 'Something went wrong'}, status=500)
     return Response(result)
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import MyModelSerializer
+'''
+class MyModelView(APIView):
+    def post(self, request):
+        serializer = MyModelSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_201_CREATED)
+        return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+'''
+class MyModelView(APIView):
+    def post(self, request):
+        serializer = MyModelSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
