@@ -42,6 +42,7 @@ INSTALLED_APPS = [
   #  'spaces'
     'space_walks',
     'csp',
+    'recipes'
 ]
 
 MIDDLEWARE = [
