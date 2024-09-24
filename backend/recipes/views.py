@@ -1,15 +1,30 @@
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import serializers
 from .engine import execute_prompt, bundle_function, propose_recipes, get_json_objects, compute_reduced_prices
 import json
 
+class PromptSerializer(serializers.Serializer):
+    prompt = serializers.CharField()
+
+@api_view(['POST'])
+def execute_prompt_route(request):
+    serializer = PromptSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    prompt = serializer.validated_data['prompt']
+    is_local = False
+    result = execute_prompt(prompt, is_local)
+    return Response(result)
+
+'''
 @api_view(['POST'])
 def execute_prompt_route(request):
     prompt = request.data.get('prompt')
-    result = execute_prompt(prompt)
+    is_local=False
+    result = execute_prompt(prompt, is_local)
     return Response(result)
-
+'''
 @api_view(['GET'])
 def recipe_generate_route(request):
     try:

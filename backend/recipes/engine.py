@@ -2,37 +2,39 @@ import pandas as pd
 import numpy as np
 import requests
 import json
+from .mistral_inference import text_llm
 
+def execute_prompt(prompt, local=True):
 
-def execute_prompt(prompt):
+    if local: 
+        #url = "http://10.211.137.191:11434/api/generate"
+        url = "http://localhost:11434/api/generate"
+        headers = {"Content-Type": "application/json"}
+        data = {
+            "model": "mistral",
+            #"model": "mistral-nemo",
+            "prompt": prompt,
+            "stream": False
+        }
 
+        response = requests.post(url, headers=headers, data=json.dumps(data))
+        output = ""
+        if response.status_code == 200:
+            responses = response.text.strip().split('\n')
+            for resp in responses:
+                try:
+                    result = json.loads(resp)
+                    print(result.get('response', ''))
+                    output += result.get('response', '') + '\n'
+                except json.JSONDecodeError:
+                    print(f"Error decoding JSON: {resp}")
 
-    #url = "http://10.211.137.191:11434/api/generate"
-    url = "http://localhost:11434/api/generate"
-    headers = {"Content-Type": "application/json"}
-    data = {
-        "model": "mistral",
-        #"model": "mistral-nemo",
-        "prompt": prompt,
-        "stream": False
-    }
-
-    response = requests.post(url, headers=headers, data=json.dumps(data))
-    output = ""
-    if response.status_code == 200:
-        responses = response.text.strip().split('\n')
-        for resp in responses:
-            try:
-                result = json.loads(resp)
-                print(result.get('response', ''))
-                output += result.get('response', '') + '\n'
-            except json.JSONDecodeError:
-                print(f"Error decoding JSON: {resp}")
-
+        else:
+            print(f"Error: {response.status_code}")
+        return output.strip()
     else:
-        print(f"Error: {response.status_code}")
-    return output.strip()
-
+        response = text_llm(prompt)
+        print(response)
 
 from datetime import datetime
 

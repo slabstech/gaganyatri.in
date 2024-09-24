@@ -3,14 +3,15 @@ import os
 import base64
 import requests
 
-def text_llm():
+def text_llm(text_prompt):
     s = Mistral(
         api_key=os.getenv("MISTRAL_API_KEY", ""),
     )
 
+    # text_prompt = "Who is the best French painter? Answer in one short sentence."
     res = s.chat.complete(model="mistral-small-latest", messages=[
         {
-            "content": "Who is the best French painter? Answer in one short sentence.",
+            "content": text_prompt,
             "role": "user",
         },
     ])
@@ -18,6 +19,7 @@ def text_llm():
     if res is not None:
         # handle response
         print(res)
+        return res
 
 def vision_llm_url():
 
@@ -113,4 +115,4 @@ def vision_llm_image():
 
 #text_llm()
 #vision_llm_url()
-vision_llm_image()
+#vision_llm_image()
