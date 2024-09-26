@@ -5,6 +5,7 @@ import Home from './components/Home';
 import About from './components/About';
 import NoMatch from './components/NoMatch';
 import Maps from './components/Maps';
+import Space from './components/Space';
 import News from './components/news/News';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/space" element={<Space />} />
           <Route path="/news" element={<News />} />
           <Route path="/maps" element={<Maps />} />
           <Route path="/about" element={<About />} />

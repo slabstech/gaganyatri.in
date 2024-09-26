@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'drf_yasg',
   #  'spaces'
     'space_walks',
+    'recipes',
     'csp',
 ]
 
