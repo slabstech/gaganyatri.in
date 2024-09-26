@@ -17,6 +17,16 @@ def execute_prompt_route(request):
     result = execute_prompt(prompt, is_local)
     return Response(result)
 
+
+@api_view(['GET'])
+def execute_prompt_route_get(request):
+    prompt = request.query_params.get('prompt', None)
+    if prompt is None:
+        return Response({"error": "No prompt provided"}, status=400)
+    is_local = False
+    result = execute_prompt(prompt, is_local)
+    return Response(result)
+
 '''
 @api_view(['POST'])
 def execute_prompt_route(request):
