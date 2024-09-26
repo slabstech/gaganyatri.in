@@ -17,6 +17,7 @@ interface AppState {
 }
 class Home extends Component<{}, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
+  serverBaseUrl = import.meta.env.VITE_SERVER_BASE_URL;
   constructor(props:{}) {
     super(props);
     this.state = {
@@ -31,7 +32,7 @@ class Home extends Component<{}, AppState> {
   }
 
   componentDidMount() {
-    this.getOrPullModel(this.state.selectedModel);
+    //this.getOrPullModel(this.state.selectedModel);
   }
 
   checkModelExists = async (modelName:string) => {
@@ -85,40 +86,12 @@ class Home extends Component<{}, AppState> {
 
   handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({ selectedModel: event.target.value }, () => {
-      this.getOrPullModel(this.state.selectedModel);
+      //this.getOrPullModel(this.state.selectedModel);
     });
   };
 
   sendImageToOllama = async () => {
- 
-
-  /*
-   const apiKey  = import.meta.env.MISTRAL_API_KEY;
-  //let apiKey = process.env["MISTRAL_API_KEY"];
-  console.log(apiKey);
-  const mistral = new Mistral({apiKey: apiKey});
-  async function run() {
-    const result = await mistral.chat.complete({
-        model: "mistral-small-latest",
-        messages: [
-            {
-                content: "Who is the best French painter? Answer in one short sentence.",
-                role: "user",
-            },
-        ],
-    });
-
-    // Handle the result
-    console.log(result);
-    }
-
-    run();
-
-    */
-   
-
-  
-    
+     
     if (!this.state.base64StringImage) return;
     
     const requestBody = {
@@ -148,52 +121,134 @@ class Home extends Component<{}, AppState> {
     
   };
 
+  sendPromptToServer = async () => {
+         
+    const requestBody = {
+      model: 'pixtral',
+      messages: [
+        {
+          role: 'user',
+          content: this.state.prompt,
+        }
+      ],
+      stream: false
+    };
+
+    const serverEndpoint = this.ollamaBaseUrl + '/chat';
+
+    try {
+      const response = await axios.post(serverEndpoint, requestBody);
+      console.log("Prompt - ", this.state.prompt);
+      console.log('Image processing result:', response.data.message.content);
+      this.setState({ response: response.data.message.content });
+      return response.data.message.content;
+    } catch (error) {
+      console.error('Error processing image:', (error as AxiosError).message);
+      throw error;
+    }
+    
+  };
+
+
   render(){
   return (
     <>
     <div className="app-container">
       <p className="read-the-docs">
-        Warehouse UI
+        LLM Use Cases
       </p>
-      <div className="input-container">
-          <TextField
-            value={this.state.prompt}
-            onChange={this.handlePromptChange}
-            placeholder="Enter your prompt here..."
-            fullWidth
-          />
-            <input 
-              type="file" 
-              onChange={this.handleImageUpload} 
-          />
-          <button 
-            onClick={this.sendImageToOllama} 
-            disabled={this.state.isLoading}>
-            {this.state.isLoading ? 'Processing...' : 'Upload'}
-          </button>
-          <select 
-            value={this.state.selectedModel} 
-            onChange={this.handleModelChange}>
-            {this.state.models.map((model) => (
-              <option key={model} value={model}>
-                {model}
-              </option>
-            ))}
-          </select>        
-      </div>    
-      {this.state.response && (
-        <div className="response-container">
-          <h4>Response:</h4>
-          <pre>{JSON.stringify(this.state.response, null, 2)}</pre>
-          {this.state.uploadedImage && (
-              <img 
-              src={this.state.uploadedImage} 
-              alt="Uploaded" 
-              width="100" height="100" />
-            )}
+      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+      <tbody>
+      <tr>
+        Text LLM Demo
+      </tr>
+      <tr>
+        <td style={{ border: '1px solid white' }}>
+          <div className="input-container">
+              <TextField
+                value={this.state.prompt}
+                onChange={this.handlePromptChange}
+                placeholder="Enter your prompt here..."
+                fullWidth
+              />
+              <button 
+                onClick={this.sendPromptToServer} 
+                disabled={this.state.isLoading}>
+                {this.state.isLoading ? 'Processing...' : 'Send'}
+              </button>
+              <select 
+                value={this.state.selectedModel} 
+                onChange={this.handleModelChange}>
+                {this.state.models.map((model) => (
+                  <option key={model} value={model}>
+                    {model}
+                  </option>
+                ))}
+              </select>        
+          </div>    
+          {this.state.response && (
+            <div className="response-container">
+              <h4>Response:</h4>
+              <pre>{JSON.stringify(this.state.response, null, 2)}</pre>
+              {this.state.uploadedImage && (
+                  <img 
+                  src={this.state.uploadedImage} 
+                  alt="Uploaded" 
+                  width="100" height="100" />
+                )}
+            </div>
+          )}
+        </td>
+      </tr>
+      <tr>
+        Vision Demo
+      </tr>
+      <tr>
+      <td style={{ border: '1px solid white' }}>
+        <div className="input-container">
+            <TextField
+              value={this.state.prompt}
+              onChange={this.handlePromptChange}
+              placeholder="Enter your prompt here..."
+              fullWidth
+            />
+              <input 
+                type="file" 
+                onChange={this.handleImageUpload} 
+            />
+            <button 
+              onClick={this.sendImageToOllama} 
+              disabled={this.state.isLoading}>
+              {this.state.isLoading ? 'Processing...' : 'Upload'}
+            </button>
+            <select 
+              value={this.state.selectedModel} 
+              onChange={this.handleModelChange}>
+              {this.state.models.map((model) => (
+                <option key={model} value={model}>
+                  {model}
+                </option>
+              ))}
+            </select>        
+        </div>    
+        {this.state.response && (
+          <div className="response-container">
+            <h4>Response:</h4>
+            <pre>{JSON.stringify(this.state.response, null, 2)}</pre>
+            {this.state.uploadedImage && (
+                <img 
+                src={this.state.uploadedImage} 
+                alt="Uploaded" 
+                width="100" height="100" />
+              )}
+          </div>
+        )}
+      </td>
+    </tr>
+    </tbody>
+  </table>
         </div>
-      )}
-      </div>  
+
     </>
   )
 }
