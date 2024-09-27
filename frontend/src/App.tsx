@@ -7,6 +7,7 @@ import NoMatch from './components/NoMatch';
 import Maps from './components/Maps';
 import Space from './components/Space';
 import News from './components/news/News';
+import Demos from './components/Demos';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
       <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/demos" element={<Demos />} />
           <Route path="/space" element={<Space />} />
           <Route path="/news" element={<News />} />
           <Route path="/maps" element={<Maps />} />
