@@ -3,6 +3,7 @@ import numpy as np
 import requests
 import json
 from .mistral_inference import text_llm
+from django.core.files.storage import default_storage
 
 def execute_prompt(prompt, local=True):
 
@@ -127,7 +128,11 @@ def price_reduction(time_to_expiration, product_type, demand, stock):
 
 
 def compute_reduced_prices(as_json=True):
-    df = pd.read_json('../data/articles.json')
+    #df = pd.read_json('articles.json')
+    file = default_storage.open('data/articles.json', 'r')
+    data = json.load(file)
+    file.close()
+    df = pd.DataFrame(data)
     df["product_type"] = 1
     df["time_to_expiration"] = np.random.rand(len(df.index))
     df["demand"] = np.random.rand(len(df.index))
