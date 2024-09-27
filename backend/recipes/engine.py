@@ -34,7 +34,8 @@ def execute_prompt(prompt, local=True):
         return output.strip()
     else:
         response = text_llm(prompt)
-        print(response)
+        #print(response)
+        return response
 
 from datetime import datetime
 

@@ -17,7 +17,7 @@ interface AppState {
 }
 class Home extends Component<{}, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-  serverBaseUrl = import.meta.env.VITE_SERVER_BASE_URL;
+  serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
   constructor(props:{}) {
     super(props);
     this.state = {
@@ -134,13 +134,18 @@ class Home extends Component<{}, AppState> {
       stream: false
     };
 
-    const serverEndpoint = this.ollamaBaseUrl + '/chat';
-
+    const serverEndpoint = this.serverBaseUrl + 'recipes/execute_prompt_get/';
+    const serverRequest = `${serverEndpoint}?prompt="${this.state.prompt}"`;
+    console.log(serverRequest);
     try {
-      const response = await axios.post(serverEndpoint, requestBody);
+//      const response = await axios.post(serverEndpoint, requestBody);
+      const response = await axios.get(serverRequest);
+
       console.log("Prompt - ", this.state.prompt);
-      console.log('Image processing result:', response.data.message.content);
-      this.setState({ response: response.data.message.content });
+      console.log(response.data);
+
+      //console.log('Image processing result:', response.data.message.content);
+      //this.setState({ response: response.data.message.content });
       return response.data.message.content;
     } catch (error) {
       console.error('Error processing image:', (error as AxiosError).message);
@@ -160,7 +165,7 @@ class Home extends Component<{}, AppState> {
       <table style={{ borderCollapse: 'collapse', width: '100%' }}>
       <tbody>
       <tr>
-        Text LLM Demo
+      <td>Text LLM Demo</td>
       </tr>
       <tr>
         <td style={{ border: '1px solid white' }}>
@@ -201,7 +206,7 @@ class Home extends Component<{}, AppState> {
         </td>
       </tr>
       <tr>
-        Vision Demo
+        <td>Vision Demo</td>
       </tr>
       <tr>
       <td style={{ border: '1px solid white' }}>
