@@ -15,7 +15,8 @@ interface AppState {
   uploadedImage: string | null;
   isLoading: boolean;
   models: string[]; 
-  selectedModel: string; 
+  textSelectedModel: string; 
+  imageSelectedModel: string; 
 }
 class Home extends Component<{}, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
@@ -31,8 +32,9 @@ class Home extends Component<{}, AppState> {
       textprompt: '',
       uploadedImage: null,
       isLoading: false,
-      models: ['pixtral', 'llava'], 
-      selectedModel: 'pixtral', 
+      models: ['pixtral', 'mistral-large'], 
+      textSelectedModel: 'mistral-large',
+      imageSelectedModel: 'pixtral', 
     };
   }
 
@@ -85,12 +87,22 @@ class Home extends Component<{}, AppState> {
     }
   };
 
-  handlePromptChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ prompt: event.target.value });
+  handleTextPromptChange = (event: ChangeEvent<HTMLInputElement>) => {
+    this.setState({ textprompt: event.target.value });
   };
 
-  handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ selectedModel: event.target.value }, () => {
+  handleImagePromptChange = (event: ChangeEvent<HTMLInputElement>) => {
+    this.setState({ imageprompt: event.target.value });
+  };
+
+  handleTextModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    this.setState({ textSelectedModel: event.target.value }, () => {
+      //this.getOrPullModel(this.state.selectedModel);
+    });
+  };
+
+  handleImageModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    this.setState({ imageSelectedModel: event.target.value }, () => {
       //this.getOrPullModel(this.state.selectedModel);
     });
   };
@@ -169,7 +181,7 @@ class Home extends Component<{}, AppState> {
           <div className="input-container">
               <TextField
                 value={this.state.textprompt}
-                onChange={this.handlePromptChange}
+                onChange={this.handleTextPromptChange}
                 placeholder="Enter your prompt here..."
                 fullWidth
               />
@@ -179,8 +191,8 @@ class Home extends Component<{}, AppState> {
                 {this.state.isLoading ? 'Processing...' : 'Send'}
               </button>
               <select 
-                value={this.state.selectedModel} 
-                onChange={this.handleModelChange}>
+                value={this.state.textSelectedModel} 
+                onChange={this.handleTextModelChange}>
                 {this.state.models.map((model) => (
                   <option key={model} value={model}>
                     {model}
@@ -204,7 +216,7 @@ class Home extends Component<{}, AppState> {
         <div className="input-container">
             <TextField
               value={this.state.imageprompt}
-              onChange={this.handlePromptChange}
+              onChange={this.handleImagePromptChange}
               placeholder="Enter your prompt here..."
               fullWidth
             />
@@ -218,8 +230,8 @@ class Home extends Component<{}, AppState> {
               {this.state.isLoading ? 'Processing...' : 'Upload'}
             </button>
             <select 
-              value={this.state.selectedModel} 
-              onChange={this.handleModelChange}>
+              value={this.state.imageSelectedModel} 
+              onChange={this.handleImageModelChange}>
               {this.state.models.map((model) => (
                 <option key={model} value={model}>
                   {model}
