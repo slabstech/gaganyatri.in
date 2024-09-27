@@ -18,7 +18,7 @@ interface AppState {
 class Home extends Component<{}, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   //serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
-  serverBaseUrl = "http://gaganyatri-django-spaces.hf.space/" ;
+  serverBaseUrl = "http://gaganyatri-django-spaces.hf.space/api/v1" ;
   constructor(props:{}) {
     super(props);
     this.state = {
@@ -124,7 +124,7 @@ class Home extends Component<{}, AppState> {
 
   sendPromptToServer = async () => {
          
-    const serverEndpoint = this.serverBaseUrl + 'recipes/execute_prompt_get/';
+    const serverEndpoint = this.serverBaseUrl + '/recipes/execute_prompt_get/';
     const serverRequest = `${serverEndpoint}?prompt="${this.state.prompt}"`;
     console.log(serverRequest);
     try {
