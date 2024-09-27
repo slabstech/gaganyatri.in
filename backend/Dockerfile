@@ -25,6 +25,7 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 COPY --chown=user . /app
 
+RUN python manage.py migrate
 CMD ["python", "manage.py", "runserver", "0.0.0.0:7860"]
 
 #CMD ["uvicorn", "spaces.asgi:application", "--host", "0.0.0.0", "--port", "7860"]

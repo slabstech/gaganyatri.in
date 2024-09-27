@@ -43,4 +43,4 @@ docker run slabstech/gaganyatri
     - https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/
     - https://github.com/testdrivenio/django-on-docker
 
-   
+   http://localhost:8000/api/v1/recipes/execute_prompt_get/?prompt=%22sachin%22
