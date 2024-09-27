@@ -3,6 +3,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import serializers
 from .engine import execute_prompt, bundle_function, propose_recipes, compute_reduced_prices
+from rest_framework.views import APIView
+from mistralai import Mistral
+import os
+import base64
 import json
 
 class PromptSerializer(serializers.Serializer):
@@ -33,4 +37,51 @@ def recipe_generate_route(request):
         print(f"An error occurred: {e}")
         return Response({'error': 'Something went wrong'}, status=500)
     return Response(result)
+
+
+
+class VisionLLMView(APIView):
+    def post(self, request, format=None):
+        data = request.data
+
+        #print(data)
+        # Retrieve the API key from environment variables
+        api_key = os.environ["MISTRAL_API_KEY"]
+
+        # Specify model
+        model = "pixtral-12b-2409"
+
+        # Initialize the Mistral client
+        client = Mistral(api_key=api_key)
+
+        # Decode the base64 image
+        #image_data = base64.b64decode(data['image'])
+        #image_data = base64.b64decode(data['messages'][0]['image'][0])
+        image_data = (data['messages'][0]['image'][0])
+
+        # Define the messages for the chat
+        messages = [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": data['messages'][0]['prompt']
+                    },
+                    {
+                        "type": "image_url",
+                        "image_url": f"data:image/jpeg;base64,{image_data}" 
+                    }
+                ]
+            }
+        ]
+
+        # Get the chat response
+        chat_response = client.chat.complete(
+            model=model,
+            messages=messages
+        )
+        #print(chat_response.choices[0].message.content)
+        # Return the content of the response
+        return Response({"response": chat_response.choices[0].message.content})
 
