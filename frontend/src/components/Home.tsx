@@ -209,6 +209,12 @@ class Home extends Component<{}, AppState> {
         </td>
       </tr>
       <tr>
+        <td>
+          <hr /><hr />
+        </td>
+      </tr>
+      
+      <tr>
         <td>Vision Demo</td>
       </tr>
       <tr>

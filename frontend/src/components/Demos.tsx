@@ -8,6 +8,8 @@ const Demos = () => {
         <div className="col-md-6">
           <FoodGuardian />
         </div>
+        <hr />
+        <hr />
         <div className="col-md-6">
           <Recipes />
         </div>
