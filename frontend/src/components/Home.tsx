@@ -17,7 +17,8 @@ interface AppState {
 }
 class Home extends Component<{}, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-  serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
+  //serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
+  serverBaseUrl = "http://gaganyatri-django-spaces.hf.space/" ;
   constructor(props:{}) {
     super(props);
     this.state = {
