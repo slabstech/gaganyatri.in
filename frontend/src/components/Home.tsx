@@ -123,30 +123,20 @@ class Home extends Component<{}, AppState> {
 
   sendPromptToServer = async () => {
          
-    const requestBody = {
-      model: 'pixtral',
-      messages: [
-        {
-          role: 'user',
-          content: this.state.prompt,
-        }
-      ],
-      stream: false
-    };
-
     const serverEndpoint = this.serverBaseUrl + 'recipes/execute_prompt_get/';
     const serverRequest = `${serverEndpoint}?prompt="${this.state.prompt}"`;
     console.log(serverRequest);
     try {
-//      const response = await axios.post(serverEndpoint, requestBody);
       const response = await axios.get(serverRequest);
 
-      console.log("Prompt - ", this.state.prompt);
-      console.log(response.data);
+      //console.log("Prompt - ", this.state.prompt);
+      //console.log(response.data);
+  
+      const messageContent = response.data[5][1][0][1][1][0][1];
+      console.log(messageContent);
 
-      //console.log('Image processing result:', response.data.message.content);
-      //this.setState({ response: response.data.message.content });
-      return response.data.message.content;
+      this.setState({ response: messageContent });
+      return messageContent;
     } catch (error) {
       console.error('Error processing image:', (error as AxiosError).message);
       throw error;
@@ -195,12 +185,6 @@ class Home extends Component<{}, AppState> {
             <div className="response-container">
               <h4>Response:</h4>
               <pre>{JSON.stringify(this.state.response, null, 2)}</pre>
-              {this.state.uploadedImage && (
-                  <img 
-                  src={this.state.uploadedImage} 
-                  alt="Uploaded" 
-                  width="100" height="100" />
-                )}
             </div>
           )}
         </td>
