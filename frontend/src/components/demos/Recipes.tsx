@@ -29,6 +29,7 @@ function cleanJsonString(inputString: string) {
 
 class Recipes extends Component<{}, RecipesState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
+  serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
   constructor(props:{}) {
     super(props);
     this.state = {
@@ -44,31 +45,34 @@ class Recipes extends Component<{}, RecipesState> {
    
   }
 
-
-
-
   handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({ selectedModel: event.target.value }, () => {
     });
   };
 
   sendImageToOllama = async () => {
-    
-    const ollamaEndpoint = "http://localhost:5000/recipe_generate" ;
 
+    this.serverBaseUrl = 'http://localhost:8000/api/v1';
+    const serverRequest = this.serverBaseUrl + '/recipes/recipe_generate/';
+    //const serverRequest = `${serverEndpoint}`;
+    console.log(serverRequest);
     try {
-      const response = await  axios.get(ollamaEndpoint);
-      //console.log('Analyse result:', response.data);
-      const respone_data = cleanJsonString(response.data);
-      console.log(respone_data);
+      const response = await axios.get(serverRequest);
 
+      //console.log("Prompt - ", this.state.prompt);
+      //console.log(response.data);
+  
+      const messageContent = response.data[5][1][0][1][1][0][1];
+      //console.log(messageContent);
 
+      const respone_data = cleanJsonString(messageContent);
       this.setState({ response: respone_data });
-      return response.data;
+      return respone_data;
     } catch (error) {
-      console.error('Error Process JSON:', (error as AxiosError).message);
+      console.error('Error processing image:', (error as AxiosError).message);
       throw error;
     }
+    
   };
 
   render(){
