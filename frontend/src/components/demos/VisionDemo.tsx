@@ -1,26 +1,18 @@
 import { Component, ChangeEvent } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
-//import './App.css'
 import TextField from '@mui/material/TextField';
-import '../css/styles.css'
-import VisionDemo from './demos/VisionDemo';
-import TextDemo from './demos/TextDemo';
-//import { Mistral } from "@mistralai/mistralai";
 
 interface AppState {
   base64StringImage: string | null;
-  textresponse: any;
   imageresponse: any;
   imageprompt: string;
-  textprompt: string;
   uploadedImage: string | null;
   isLoading: boolean;
   models: string[]; 
-  textSelectedModel: string; 
   imageSelectedModel: string; 
 }
-class Home extends Component<{}, AppState> {
+class VisionDemo extends Component<{}, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   //serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
   serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
@@ -29,13 +21,10 @@ class Home extends Component<{}, AppState> {
     this.state = {
       base64StringImage: null,
       imageresponse: null,
-      textresponse: null,
       imageprompt: '',
-      textprompt: '',
       uploadedImage: null,
       isLoading: false,
       models: ['pixtral', 'mistral-large'], 
-      textSelectedModel: 'mistral-large',
       imageSelectedModel: 'pixtral', 
     };
   }
@@ -89,19 +78,11 @@ class Home extends Component<{}, AppState> {
     }
   };
 
-  handleTextPromptChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ textprompt: event.target.value });
-  };
 
   handleImagePromptChange = (event: ChangeEvent<HTMLInputElement>) => {
     this.setState({ imageprompt: event.target.value });
   };
 
-  handleTextModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ textSelectedModel: event.target.value }, () => {
-      //this.getOrPullModel(this.state.selectedModel);
-    });
-  };
 
   handleImageModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({ imageSelectedModel: event.target.value }, () => {
@@ -142,47 +123,65 @@ class Home extends Component<{}, AppState> {
     
   };
 
-  sendPromptToServer = async () => {
-         
-    const serverEndpoint = this.serverBaseUrl + '/recipes/execute_prompt_get/';
-    const serverRequest = `${serverEndpoint}?prompt="${this.state.textprompt}"`;
-    console.log(serverRequest);
-    try {
-      const response = await axios.get(serverRequest);
-
-      //console.log("Prompt - ", this.state.prompt);
-      //console.log(response.data);
-  
-      const messageContent = response.data[5][1][0][1][1][0][1];
-      //console.log(messageContent);
-
-      this.setState({ textresponse: messageContent });
-      return messageContent;
-    } catch (error) {
-      console.error('Error processing image:', (error as AxiosError).message);
-      throw error;
-    }
-    
-  };
-
-
   render(){
   return (
     <>
     <div className="app-container">
-      <p className="read-the-docs">
-        LLM Use Cases
-      </p>
-      <div className="row">
-        <div className="col-md-6">
-          <VisionDemo />
-        </div>
-        <hr />
-        <hr />
-        <div className="col-md-6">
-          <TextDemo />
-        </div>
-      </div>
+      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+      <tbody>    
+      <tr>
+        <td>
+          <hr /><hr />
+        </td>
+      </tr>
+      
+      <tr>
+        <td>Vision Demo</td>
+      </tr>
+      <tr>
+      <td style={{ border: '1px solid white' }}>
+        <div className="input-container">
+            <TextField
+              value={this.state.imageprompt}
+              onChange={this.handleImagePromptChange}
+              placeholder="Enter your prompt here..."
+              fullWidth
+            />
+              <input 
+                type="file" 
+                onChange={this.handleImageUpload} 
+            />
+            <button 
+              onClick={this.sendImageToServer} 
+              disabled={this.state.isLoading}>
+              {this.state.isLoading ? 'Processing...' : 'Upload'}
+            </button>
+            <select 
+              value={this.state.imageSelectedModel} 
+              onChange={this.handleImageModelChange}>
+              {this.state.models.map((model) => (
+                <option key={model} value={model}>
+                  {model}
+                </option>
+              ))}
+            </select>        
+        </div>    
+        {this.state.imageresponse && (
+          <div className="response-container">
+            <h4>Response:</h4>
+            <pre>{JSON.stringify(this.state.imageresponse, null, 2)}</pre>
+            {this.state.uploadedImage && (
+                <img 
+                src={this.state.uploadedImage} 
+                alt="Uploaded" 
+                width="100" height="100" />
+              )}
+          </div>
+        )}
+      </td>
+    </tr>
+    </tbody>
+  </table>
         </div>
 
     </>
@@ -190,4 +189,4 @@ class Home extends Component<{}, AppState> {
 }
 }
 
-export default Home;
+export default VisionDemo;
