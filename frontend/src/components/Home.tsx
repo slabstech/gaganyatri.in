@@ -107,7 +107,7 @@ class Home extends Component<{}, AppState> {
     });
   };
 
-  sendImageToOllama = async () => {
+  sendImageToServer = async () => {
      
     if (!this.state.base64StringImage) return;
     
@@ -231,7 +231,7 @@ class Home extends Component<{}, AppState> {
                 onChange={this.handleImageUpload} 
             />
             <button 
-              onClick={this.sendImageToOllama} 
+              onClick={this.sendImageToServer} 
               disabled={this.state.isLoading}>
               {this.state.isLoading ? 'Processing...' : 'Upload'}
             </button>
