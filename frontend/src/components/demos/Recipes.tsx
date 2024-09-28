@@ -50,9 +50,9 @@ class Recipes extends Component<{}, RecipesState> {
     });
   };
 
-  sendImageToOllama = async () => {
+  sendDatatoServer = async () => {
 
-    this.serverBaseUrl = 'http://localhost:8000/api/v1';
+    //this.serverBaseUrl = 'http://localhost:8000/api/v1';
     const serverRequest = this.serverBaseUrl + '/recipes/recipe_generate/';
     //const serverRequest = `${serverEndpoint}`;
     console.log(serverRequest);
@@ -85,7 +85,7 @@ class Recipes extends Component<{}, RecipesState> {
       <div className="input-container">
 
           <button 
-            onClick={this.sendImageToOllama} 
+            onClick={this.sendDatatoServer} 
             disabled={this.state.isLoading}>
             {this.state.isLoading ? 'Processing...' : 'Analyse'}
           </button>
