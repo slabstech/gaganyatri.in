@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import ReactDOMServer from 'react-dom/server';
 import axios from 'axios';
 import { AxiosError } from 'axios';
 import './Recipes.css'

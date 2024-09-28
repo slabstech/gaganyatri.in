@@ -3,7 +3,6 @@ import spaceSuit from  '../img/space-suit.jpg'
 //import primeOne from '../img/shukla_shubhanshu.jpg'
 //import primeTwo from '../img/prasanth_nair.jpg'
 import '../css/styles.css'
-const imageDisabled = true;
 const Space = () => {
 	return (
 		<div className="container">
