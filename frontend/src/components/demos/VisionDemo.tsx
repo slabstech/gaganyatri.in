@@ -147,10 +147,18 @@ class VisionDemo extends Component<{}, AppState> {
               placeholder="Enter your prompt here..."
               fullWidth
             />
-              <input 
-                type="file" 
-                onChange={this.handleImageUpload} 
-            />
+<input
+  type="file"
+  onChange={this.handleImageUpload}
+  style={{
+    // Add your custom styles here
+    backgroundColor: '#f0f0f0',
+    padding: '10px',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    cursor: 'pointer',
+  }}
+/>
             <button 
               onClick={this.sendImageToServer} 
               disabled={this.state.isLoading}>
