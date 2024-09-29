@@ -1,5 +1,9 @@
 # Gaganyatri Project
 
+
+![Tech Stack](docs/architecture.jpg)
+
+
 - Tech Stack
   - Frontend
     - React + Vite + Typescript
