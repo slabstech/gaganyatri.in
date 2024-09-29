@@ -1,4 +1,4 @@
-import { Component, ChangeEvent } from 'react';
+import { Component } from 'react';
 
 import VisionDemo from './demos/VisionDemo';
 import TextDemo from './demos/TextDemo';

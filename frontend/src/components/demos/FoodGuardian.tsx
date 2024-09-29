@@ -37,7 +37,7 @@ function FoodGuardian() {
 
     //food descriptions
     const stream = await generateResponseFromJson(jsonStr);
-    let fullResponse = '';
+    //let fullResponse = '';
     console.log(stream);
     setResponse(stream);
     /*for await (const part of stream) {
