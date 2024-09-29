@@ -1,7 +1,7 @@
 import { Component } from 'react';
 
-import VisionDemo from './demos/VisionDemo';
-import TextDemo from './demos/TextDemo';
+import VisionDemo from './vision/VisionDemo';
+import TextDemo from './text_llm/TextDemo';
 //import { Mistral } from "@mistralai/mistralai";
 
 interface AppState {

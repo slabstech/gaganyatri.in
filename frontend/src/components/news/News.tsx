@@ -12,7 +12,7 @@ const News: React.FC = () => {
   const [newsData, setNewsData] = useState<SpaceWalks[]>([]);
   useEffect(() => {
     const fetchNewsData = async () => {
-      const result = await axios.get<SpaceWalks[]>('http://gaganyatri-django-spaces.hf.space/space_walks/api/space_walks/');
+      const result = await axios.get<SpaceWalks[]>('https://gaganyatri-django-spaces.hf.space/api/v1/space_walks/api/space_walks/');
       setNewsData(result.data);
     };
 

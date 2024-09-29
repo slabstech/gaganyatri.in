@@ -8,8 +8,16 @@ import Maps from './components/Maps';
 import Space from './components/Space';
 import News from './components/news/News';
 import Demos from './components/Demos';
+import React, { useState } from 'react';
+import Switch from 'react-switch';
+const App = () => {
+  const [url, setUrl] = useState('initialUrl');
+  const [checked, setChecked] = useState(false);
 
-function App() {
+  const handleChange = nextChecked => {
+    setChecked(nextChecked);
+    setUrl(nextChecked ? 'newUrl' : 'initialUrl');
+  };
 
   return (
     <>
@@ -24,6 +32,16 @@ function App() {
           <Route path="*" element={<NoMatch />} />
           </Routes>
       <footer>
+      <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
+        <label htmlFor="url-toggle">
+          <span>{checked ? 'offline' : 'online'}</span>
+          <Switch
+            onChange={handleChange}
+            checked={checked}
+            id="url-toggle"
+          />
+        </label>
+      </div>
         <p>
             &copy; gaganyatri.in |
             <a href="https://github.com/slabstech" target="_blank"><i className="fab fa-github"></i></a> |
