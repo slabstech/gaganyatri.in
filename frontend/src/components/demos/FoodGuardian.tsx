@@ -38,16 +38,18 @@ function FoodGuardian() {
     //food descriptions
     const stream = await generateResponseFromJson(jsonStr);
     let fullResponse = '';
-    for await (const part of stream) {
+    console.log(stream);
+    setResponse(stream);
+    /*for await (const part of stream) {
       fullResponse += part.response;
       setResponse(fullResponse);
-    }
+    }*/
   };
 
   return (
     <>
       <div>
-        <h1>Food Guardian AI</h1>
+        <h5>Food Guardian AI</h5>
         <div id="fileUploadContainer">
           <label htmlFor="file-upload" className="custom-file-upload">
             Upload Image
