@@ -51,7 +51,7 @@ function FoodGuardian() {
       <div>
         <h5>Food Guardian AI</h5>
         <div id="fileUploadContainer">
-          <label htmlFor="file-upload" className="custom-file-upload">
+          <label htmlFor="file-upload" className="custom-file-upload" style={{ backgroundColor: 'white' , color: 'black'}}>
             Upload Image
           </label>
           <input id="file-upload" type="file" onChange={handleFileChange} accept="image/*" />

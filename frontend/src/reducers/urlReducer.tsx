@@ -1,9 +1,13 @@
 // src/reducers/urlReducer.js
+import { Action } from 'redux';
 const initialState = {
     url: 'initialUrl',
   };
   
-  const urlReducer = (state = initialState, action) => {
+  interface UrlAction extends Action {
+    payload: any; // Replace `any` with the actual type of your payload
+  }
+  const urlReducer = (state = initialState, action: UrlAction) => {
     switch (action.type) {
       case 'SET_URL':
         return {

@@ -103,11 +103,17 @@ class TextDemo extends Component<{}, AppState> {
                 onChange={this.handleTextPromptChange}
                 placeholder="Enter your prompt here..."
                 fullWidth
+                InputProps={{
+                  style: {
+                    backgroundColor: 'white',
+                    color: 'black',
+                  },
+                }}
               />
               <button 
                 onClick={this.sendPromptToServer} 
                 disabled={this.state.isLoading}>
-                {this.state.isLoading ? 'Processing...' : 'Send'}
+                {this.state.isLoading ? 'Processing...' : 'Submit'}
               </button>
               <select 
                 value={this.state.textSelectedModel} 

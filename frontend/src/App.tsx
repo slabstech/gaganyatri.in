@@ -8,12 +8,14 @@ import Maps from './components/Maps';
 import Space from './components/Space';
 import News from './components/news/News';
 import Demos from './components/Demos';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Switch from 'react-switch';
 //import { useDispatch, useSelector } from 'react-redux';
 
 const App = () => {
   const [url, setUrl] = useState('initialUrl');
+  // TODO - remove below log
+  console.log(url);
   const [checked, setChecked] = useState(false);
   /*const dispatch = useDispatch();
   const url = useSelector(state => state.url.url);
@@ -21,7 +23,7 @@ const App = () => {
     dispatch({ type: 'SET_URL', payload: nextChecked ? 'newUrl' : 'initialUrl' });
   };*/
 
-  const handleChange = nextChecked => {
+  const handleChange = (nextChecked: boolean) => {
     setChecked(nextChecked);
     setUrl(nextChecked ? 'newUrl' : 'initialUrl');
   };

@@ -146,6 +146,12 @@ class VisionDemo extends Component<{}, AppState> {
               onChange={this.handleImagePromptChange}
               placeholder="Enter your prompt here..."
               fullWidth
+              InputProps={{
+                style: {
+                  backgroundColor: 'white',
+                  color: 'black',
+                },
+              }}
             />
 <label htmlFor="upload-image" style={{
   // Add your custom styles here
@@ -170,7 +176,7 @@ class VisionDemo extends Component<{}, AppState> {
             <button 
               onClick={this.sendImageToServer} 
               disabled={this.state.isLoading}>
-              {this.state.isLoading ? 'Processing...' : 'Upload'}
+              {this.state.isLoading ? 'Processing...' : 'Submit'}
             </button>
             <select 
               value={this.state.imageSelectedModel} 
