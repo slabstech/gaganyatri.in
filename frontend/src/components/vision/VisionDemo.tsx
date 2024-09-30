@@ -9,6 +9,7 @@ interface AppState {
   imageprompt: string;
   uploadedImage: string | null;
   isLoading: boolean;
+  modelEndpoints: string[]; 
   models: string[]; 
   imageSelectedModel: string; 
   functionEndpoint:string;
@@ -26,7 +27,8 @@ class VisionDemo extends Component<{}, AppState> {
       imageprompt: '',
       uploadedImage: null,
       isLoading: false,
-      models: ['pixtral', 'llama3.2-vision'], 
+      models: ['pixtral', 'llama3.2-vision'],
+      modelEndpoints: ['pixtral-12b-2409', 'meta/llama-3.2-11b-vision-instruct'],  
       imageSelectedModel: 'pixtral', 
       functionEndpoint:'/recipes/vision_llm_url/',
     };
@@ -92,6 +94,7 @@ class VisionDemo extends Component<{}, AppState> {
       //this.getOrPullModel(this.state.selectedModel);
       if(this.state.imageSelectedModel == 'pixtral')
         this.setState({ functionEndpoint: '/recipes/vision_llm_url/' });
+        //this.setS
       else
         this.setState({ functionEndpoint: '/recipes/nim_vision_llm_url/' });
     });

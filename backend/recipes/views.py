@@ -51,8 +51,7 @@ class VisionLLMView(APIView):
         # Retrieve the API key from environment variables
         api_key = os.environ["MISTRAL_API_KEY"]
 
-        # Specify model
-        model = "pixtral-12b-2409"
+
 
         # Initialize the Mistral client
         client = Mistral(api_key=api_key)
@@ -62,6 +61,9 @@ class VisionLLMView(APIView):
         #image_data = base64.b64decode(data['messages'][0]['image'][0])
         image_data = (data['messages'][0]['image'][0])
         prompt =  data['messages'][0]['prompt']
+        # Specify model
+        #model = "pixtral-12b-2409"
+        model = data['messages'][0]['model']
 
         # Define the messages for the chat
         messages = [
@@ -99,6 +101,7 @@ class NIMVisionLLMView(APIView):
             stream = False
             api_key = os.environ["NIM_API_KEY"]
             data = request.data
+            model = data['messages'][0]['model']
             image_data = (data['messages'][0]['image'][0])
             prompt =  data['messages'][0]['prompt']
             headers = {
@@ -106,7 +109,7 @@ class NIMVisionLLMView(APIView):
             "Accept": "text/event-stream" if stream else "application/json"
             }
             payload = {
-            "model": 'meta/llama-3.2-11b-vision-instruct',
+            "model": model,
             "messages": [
                 {
                 "role": "user",
