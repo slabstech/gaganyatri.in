@@ -8,6 +8,7 @@ from mistralai import Mistral
 import os
 import base64
 import json
+import requests
 
 class PromptSerializer(serializers.Serializer):
     prompt = serializers.CharField()
@@ -60,6 +61,7 @@ class VisionLLMView(APIView):
         #image_data = base64.b64decode(data['image'])
         #image_data = base64.b64decode(data['messages'][0]['image'][0])
         image_data = (data['messages'][0]['image'][0])
+        prompt =  data['messages'][0]['prompt']
 
         # Define the messages for the chat
         messages = [
@@ -68,7 +70,7 @@ class VisionLLMView(APIView):
                 "content": [
                     {
                         "type": "text",
-                        "text": data['messages'][0]['prompt']
+                        "text": prompt
                     },
                     {
                         "type": "image_url",
@@ -83,7 +85,56 @@ class VisionLLMView(APIView):
             model=model,
             messages=messages
         )
+
+        content = chat_response.choices[0].message.content
         #print(chat_response.choices[0].message.content)
         # Return the content of the response
-        return Response({"response": chat_response.choices[0].message.content})
+        return Response({"response": content})
 
+
+class NIMVisionLLMView(APIView):
+    def post(self, request, format=None):
+        try:
+            invoke_url = "https://ai.api.nvidia.com/v1/gr/meta/llama-3.2-11b-vision-instruct/chat/completions"
+            stream = False
+            api_key = os.environ["NIM_API_KEY"]
+            data = request.data
+            image_data = (data['messages'][0]['image'][0])
+            prompt =  data['messages'][0]['prompt']
+            headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Accept": "text/event-stream" if stream else "application/json"
+            }
+            payload = {
+            "model": 'meta/llama-3.2-11b-vision-instruct',
+            "messages": [
+                {
+                "role": "user",
+                "content": f'{prompt} <img src="data:image/png;base64,{image_data}" />'
+                }
+            ],
+            "max_tokens": 512,
+            "temperature": 1.00,
+            "top_p": 1.00,
+            "stream": stream
+            }
+            response = requests.post(invoke_url, headers=headers, json=payload)
+
+            if stream:
+                for line in response.iter_lines():
+                    if line:
+                        #print(line.decode("utf-8"))
+                        data = line.decode("utf-8")
+                        #content = json.loads(data)['choices'][0]['delta'].get('content', '') 
+            else:
+                #print(response.json())
+                data =  response.json()
+                content = data['choices'][0]['message']['content']
+
+                #print(content)
+                return Response({"response": content})
+
+
+        except Exception as e:  # Added general exception handling
+            print(f"Error: {e}")
+        return None
