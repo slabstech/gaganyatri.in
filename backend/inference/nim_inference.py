@@ -1,12 +1,12 @@
 
 import requests, base64
 import os
-
+import json
 
 def vision_inference(image_name):
   try:
     invoke_url = "https://ai.api.nvidia.com/v1/gr/meta/llama-3.2-11b-vision-instruct/chat/completions"
-    stream = True
+    stream = False
 
     with open(image_name, "rb") as f:
       image_b64 = base64.b64encode(f.read()).decode()
@@ -17,10 +17,9 @@ def vision_inference(image_name):
     api_key = os.environ["NIM_API_KEY"]
 
     headers = {
-      "Authorization": "Bearer {api_key}",
+      "Authorization": f"Bearer {api_key}",
       "Accept": "text/event-stream" if stream else "application/json"
     }
-
     payload = {
       "model": 'meta/llama-3.2-11b-vision-instruct',
       "messages": [
@@ -40,12 +39,21 @@ def vision_inference(image_name):
     if stream:
         for line in response.iter_lines():
             if line:
-                print(line.decode("utf-8"))
+                #print(line.decode("utf-8"))
+                data = line.decode("utf-8")
+                #content = json.loads(data)['choices'][0]['delta'].get('content', '') 
     else:
-        print(response.json())
+        #print(response.json())
+        data =  response.json()
+        content = data['choices'][0]['message']['content']
+
+        #print(content)
+        return content
+
   except Exception as e:  # Added general exception handling
         print(f"Error: {e}")
         return None
 
 image_name = "/home/gaganyatri/Pictures/hackathon/eat-health/fruit-stall-1.jpg"
-vision_inference(image_name)
+content = vision_inference(image_name)
+print(content)
