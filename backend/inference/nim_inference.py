@@ -54,6 +54,6 @@ def vision_inference(image_name):
         print(f"Error: {e}")
         return None
 
-image_name = "/home/gaganyatri/Pictures/hackathon/eat-health/fruit-stall-1.jpg"
-content = vision_inference(image_name)
-print(content)
+#image_name = "/home/gaganyatri/Pictures/hackathon/eat-health/fruit-stall-1.jpg"
+#content = vision_inference(image_name)
+#print(content)

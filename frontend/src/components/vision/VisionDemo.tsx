@@ -11,11 +11,13 @@ interface AppState {
   isLoading: boolean;
   models: string[]; 
   imageSelectedModel: string; 
+  functionEndpoint:string;
 }
 class VisionDemo extends Component<{}, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   //serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
   serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
+  //serverBaseUrl = 'http://localhost:8000/api/v1' ;
   constructor(props:{}) {
     super(props);
     this.state = {
@@ -24,8 +26,9 @@ class VisionDemo extends Component<{}, AppState> {
       imageprompt: '',
       uploadedImage: null,
       isLoading: false,
-      models: ['pixtral', 'mistral-large'], 
+      models: ['pixtral', 'llama3.2-vision'], 
       imageSelectedModel: 'pixtral', 
+      functionEndpoint:'/recipes/vision_llm_url/',
     };
   }
 
@@ -87,7 +90,12 @@ class VisionDemo extends Component<{}, AppState> {
   handleImageModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({ imageSelectedModel: event.target.value }, () => {
       //this.getOrPullModel(this.state.selectedModel);
+      if(this.state.imageSelectedModel == 'pixtral')
+        this.setState({ functionEndpoint: '/recipes/vision_llm_url/' });
+      else
+        this.setState({ functionEndpoint: '/recipes/nim_vision_llm_url/' });
     });
+
   };
 
   sendImageToServer = async () => {
@@ -107,7 +115,8 @@ class VisionDemo extends Component<{}, AppState> {
     };
 
     //const ollamaEndpoint = this.ollamaBaseUrl + '/chat';
-    const serverEndpoint = this.serverBaseUrl + '/recipes/vision_llm_url/';
+    const serverEndpoint = this.serverBaseUrl + this.state.functionEndpoint;
+    console.log(serverEndpoint);
 
     try {
       const response = await axios.post(serverEndpoint, requestBody);

@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import requests
 import json
-from ..inference.mistral_inference import text_llm
+from inference.mistral_inference import text_llm
 from django.core.files.storage import default_storage
 
 def execute_prompt(prompt, local=True):
