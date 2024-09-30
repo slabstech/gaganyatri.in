@@ -10,16 +10,16 @@ import News from './components/news/News';
 import Demos from './components/Demos';
 import React, { useState } from 'react';
 import Switch from 'react-switch';
-import { useDispatch, useSelector } from 'react-redux';
+//import { useDispatch, useSelector } from 'react-redux';
 
 const App = () => {
   const [url, setUrl] = useState('initialUrl');
   const [checked, setChecked] = useState(false);
-  const dispatch = useDispatch();
+  /*const dispatch = useDispatch();
   const url = useSelector(state => state.url.url);
   const handleCheckboxChange = (nextChecked) => {
     dispatch({ type: 'SET_URL', payload: nextChecked ? 'newUrl' : 'initialUrl' });
-  };
+  };*/
 
   const handleChange = nextChecked => {
     setChecked(nextChecked);
