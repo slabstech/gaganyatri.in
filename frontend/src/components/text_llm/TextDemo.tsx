@@ -128,7 +128,7 @@ class TextDemo extends Component<{}, AppState> {
           {this.state.textresponse && (
             <div className="response-container">
               <h4>Response:</h4>
-              <pre>{JSON.stringify(this.state.textresponse, null, 2)}</pre>
+              <textarea value={JSON.stringify(this.state.textresponse, null, 2)} readOnly style={{ width: '95%', height: '100px' }}/>
             </div>
           )}
         </td>

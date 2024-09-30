@@ -200,7 +200,7 @@ class VisionDemo extends Component<{}, AppState> {
         {this.state.imageresponse && (
           <div className="response-container">
             <h4>Response:</h4>
-            <pre>{JSON.stringify(this.state.imageresponse, null, 2)}</pre>
+            <textarea value={JSON.stringify(this.state.imageresponse, null, 2)} readOnly style={{ width: '95%', height: '100px' }}/>
             {this.state.uploadedImage && (
                 <img 
                 src={this.state.uploadedImage} 
