@@ -77,17 +77,26 @@ class TextDemo extends Component<{}, AppState> {
   };
 
   sendPromptToServer = async () => {
-    //this.state.tableAIProgressLoading = true;
     this.setState({tableAIProgressLoading:true});
-    //setTableAIProgressLoading(true);
-    const serverEndpoint = this.serverBaseUrl + '/recipes/execute_prompt_get/';
-    const serverRequest = `${serverEndpoint}?prompt="${this.state.textprompt}"`;
- //   console.log(serverRequest);
-    try {
-      const response = await axios.get(serverRequest);
 
-      const messageContent = response.data[5][1][0][1][1][0][1];
-      //setTableAIProgressLoading(false);
+    const serverEndpoint = this.serverBaseUrl + '/recipes/text_llm_url/';
+
+
+    const model = this.state.models.get(this.state.textSelectedModel);
+        
+    const requestBody = {
+      model: model,
+      messages: [
+        {
+          role: 'user',
+          prompt: this.state.textprompt,
+        }
+      ],
+      stream: false
+    };
+    try {
+      const response = await axios.post(serverEndpoint, requestBody);
+      const messageContent = response.data.response;
       this.setState({tableAIProgressLoading:false});
     
       this.setState({ textresponse: messageContent });

@@ -10,20 +10,6 @@ import base64
 import json
 import requests
 
-class PromptSerializer(serializers.Serializer):
-    prompt = serializers.CharField()
-
-
-@api_view(['GET'])
-def execute_prompt_route_get(request):
-    prompt = request.query_params.get('prompt', None)
-    print(prompt)
-    if prompt is None:
-        return Response({"error": "No prompt provided"}, status=400)
-    is_local = False
-    result = execute_prompt(prompt, is_local)
-    return Response(result)
-
 
 class TextLLMView(APIView):
     def post(self, request, format=None):
@@ -33,7 +19,6 @@ class TextLLMView(APIView):
         # Initialize the Mistral client
         client = Mistral(api_key=api_key)
 
-        image_data = (data['messages'][0]['image'][0])
         prompt =  data['messages'][0]['prompt']
         # Specify model
         #model = "pixtral-12b-2409"
