@@ -2,9 +2,12 @@ import { Component, ChangeEvent } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
 import TextField from '@mui/material/TextField';
+import IndeterminateProgressBar from '../demos/IndeterminateProgressBar';
+
 
 interface AppState {
   base64StringImage: string | null;
+  tableAIProgressLoading: boolean;
   imageresponse: any;
   imageprompt: string;
   uploadedImage: string | null;
@@ -23,6 +26,7 @@ class VisionDemo extends Component<{}, AppState> {
     super(props);
     this.state = {
       base64StringImage: null,
+      tableAIProgressLoading: false,
       imageresponse: null,
       imageprompt: '',
       uploadedImage: null,
@@ -104,6 +108,7 @@ class VisionDemo extends Component<{}, AppState> {
   sendImageToServer = async () => {
      
     if (!this.state.base64StringImage) return;
+    this.setState({tableAIProgressLoading:true});
     
     const requestBody = {
       model: 'pixtral',
@@ -119,17 +124,19 @@ class VisionDemo extends Component<{}, AppState> {
 
     //const ollamaEndpoint = this.ollamaBaseUrl + '/chat';
     const serverEndpoint = this.serverBaseUrl + this.state.functionEndpoint;
-    console.log(serverEndpoint);
+//    console.log(serverEndpoint);
 
     try {
       const response = await axios.post(serverEndpoint, requestBody);
       //console.log("Prompt - ", this.state.prompt);
       const messageContent = response.data.response;
+      this.setState({tableAIProgressLoading:false});
       //console.log('Image processing result:', messageContent);
       this.setState({ imageresponse: messageContent });
       return messageContent;
     } catch (error) {
       console.error('Error processing image:', (error as AxiosError).message);
+      this.setState({tableAIProgressLoading:false});
       throw error;
     }
     
@@ -199,6 +206,9 @@ class VisionDemo extends Component<{}, AppState> {
                 </option>
               ))}
             </select>        
+        </div>
+        <div id="botResult">
+          <IndeterminateProgressBar loading={this.state.tableAIProgressLoading} />
         </div>    
         {this.state.imageresponse && (
           <div className="response-container">

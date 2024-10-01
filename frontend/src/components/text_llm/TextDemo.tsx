@@ -1,5 +1,4 @@
 import { Component, ChangeEvent } from 'react';
-import { useState } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
 import IndeterminateProgressBar from '../demos/IndeterminateProgressBar';
@@ -18,7 +17,8 @@ class TextDemo extends Component<{}, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   //serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
   serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
-
+  //serverBaseUrl = "http://localhost:8000/api/v1" ;
+  
   constructor(props:{}) {
     super(props);
     this.state = {
@@ -78,7 +78,7 @@ class TextDemo extends Component<{}, AppState> {
     //setTableAIProgressLoading(true);
     const serverEndpoint = this.serverBaseUrl + '/recipes/execute_prompt_get/';
     const serverRequest = `${serverEndpoint}?prompt="${this.state.textprompt}"`;
-    console.log(serverRequest);
+ //   console.log(serverRequest);
     try {
       const response = await axios.get(serverRequest);
 
@@ -91,6 +91,7 @@ class TextDemo extends Component<{}, AppState> {
       return messageContent;
     } catch (error) {
       console.error('Error processing Text Prompt:', (error as AxiosError).message);
+      this.setState({tableAIProgressLoading:false});
       throw error;
     }
     
