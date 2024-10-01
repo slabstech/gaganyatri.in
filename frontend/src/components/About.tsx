@@ -12,16 +12,10 @@ const About = () => {
 			</div>
 			<div className="about-container">
 				<p>
-					Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum
-					eos tenetur beatae nihil dolorum possimus voluptate esse voluptatibus,
-					aliquid ratione facere enim eveniet modi necessitatibus quas
-					asperiores pariatur, amet velit?
+					Building Tech for Mars
 				</p>
 				<p>
-					Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum
-					eos tenetur beatae nihil dolorum possimus voluptate esse voluptatibus,
-					aliquid ratione facere enim eveniet modi necessitatibus quas
-					asperiores pariatur, amet velit?
+					Creating Intelligent software to incorporate on Robots
 				</p>
 			</div>
 		</div>

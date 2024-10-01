@@ -1,25 +1,29 @@
 import { Component, ChangeEvent } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
-
+import IndeterminateProgressBar from '../demos/IndeterminateProgressBar';
 import TextField from '@mui/material/TextField';
 
 interface AppState {
-
+  tableAIProgressLoading: boolean;
   textresponse: any;
   textprompt: string;
   isLoading: boolean;
   models: string[]; 
   textSelectedModel: string; 
 }
+//const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
 class TextDemo extends Component<{}, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   //serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
   serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
+
   constructor(props:{}) {
     super(props);
     this.state = {
       textresponse: null,
+      tableAIProgressLoading: false,
       textprompt: '',
       isLoading: false,
       models: ['pixtral', 'mistral-large'], 
@@ -42,6 +46,7 @@ class TextDemo extends Component<{}, AppState> {
       throw error; // Rethrow other errors
     }
   };
+
 
   getOrPullModel = async (modelName:string) => {
     try {
@@ -68,7 +73,9 @@ class TextDemo extends Component<{}, AppState> {
   };
 
   sendPromptToServer = async () => {
-         
+    //this.state.tableAIProgressLoading = true;
+    this.setState({tableAIProgressLoading:true});
+    //setTableAIProgressLoading(true);
     const serverEndpoint = this.serverBaseUrl + '/recipes/execute_prompt_get/';
     const serverRequest = `${serverEndpoint}?prompt="${this.state.textprompt}"`;
     console.log(serverRequest);
@@ -76,11 +83,14 @@ class TextDemo extends Component<{}, AppState> {
       const response = await axios.get(serverRequest);
 
       const messageContent = response.data[5][1][0][1][1][0][1];
-
+      //setTableAIProgressLoading(false);
+      this.setState({tableAIProgressLoading:false});
+    
       this.setState({ textresponse: messageContent });
+
       return messageContent;
     } catch (error) {
-      console.error('Error processing image:', (error as AxiosError).message);
+      console.error('Error processing Text Prompt:', (error as AxiosError).message);
       throw error;
     }
     
@@ -124,7 +134,10 @@ class TextDemo extends Component<{}, AppState> {
                   </option>
                 ))}
               </select>        
-          </div>    
+          </div>
+          <div id="botResult">
+          <IndeterminateProgressBar loading={this.state.tableAIProgressLoading} />
+        </div>    
           {this.state.textresponse && (
             <div className="response-container">
               <h4>Response:</h4>

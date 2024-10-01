@@ -1,0 +1,17 @@
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+nav ul li a {
+    color: #000000;
+    text-decoration: none;
+    padding: 10px;
+}
+
+nav ul li a:hover {
+    color: #ffcc00;
+}
