@@ -26,57 +26,6 @@ def execute_prompt_route_get(request):
 
 
 class TextLLMView(APIView):
-    '''
-      if local: 
-        #url = "http://10.211.137.191:11434/api/generate"
-        url = "http://localhost:11434/api/generate"
-        headers = {"Content-Type": "application/json"}
-        data = {
-            "model": "mistral",
-            #"model": "mistral-nemo",
-            "prompt": prompt,
-            "stream": False
-        }
-
-        response = requests.post(url, headers=headers, data=json.dumps(data))
-        output = ""
-        if response.status_code == 200:
-            responses = response.text.strip().split('\n')
-            for resp in responses:
-                try:
-                    result = json.loads(resp)
-                    print(result.get('response', ''))
-                    output += result.get('response', '') + '\n'
-                except json.JSONDecodeError:
-                    print(f"Error decoding JSON: {resp}")
-
-        else:
-            print(f"Error: {response.status_code}")
-        return output.strip()
-    else:
-        response = text_llm(prompt)
-        #print(response)
-        return response
-
-        text_llm
-            s = Mistral(
-        api_key=os.getenv("MISTRAL_API_KEY", ""),
-    )
-
-    # text_prompt = "Who is the best French painter? Answer in one short sentence."
-    res = s.chat.complete(model="mistral-small-latest", messages=[
-        {
-            "content": text_prompt,
-            "role": "user",
-        },
-    ])
-
-    if res is not None:
-        # handle response
-        print(res)
-        return res
-    '''
-
     def post(self, request, format=None):
         data = request.data
         api_key = os.environ["MISTRAL_API_KEY"]
@@ -97,10 +46,6 @@ class TextLLMView(APIView):
                     {
                         "type": "text",
                         "text": prompt
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": f"data:image/jpeg;base64,{image_data}" 
                     }
                 ]
             }
