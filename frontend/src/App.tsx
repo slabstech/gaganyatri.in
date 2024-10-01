@@ -10,10 +10,14 @@ import Switch from 'react-switch';
 //import { useDispatch, useSelector } from 'react-redux';
 
 const App = () => {
-  const [url, setUrl] = useState('initialUrl');
+
+  const offlineUrl =  'http://localhost:8000/api/v1' ;
+  const onlineUrl  = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
+  const [url, setUrl] = useState(onlineUrl);
   // TODO - remove below log
   console.log(url);
-  const [checked, setChecked] = useState(false);
+  //serverBaseUrl =
+  const [checked, setChecked] = useState(true);
   /*const dispatch = useDispatch();
   const url = useSelector(state => state.url.url);
   const handleCheckboxChange = (nextChecked) => {
@@ -22,7 +26,7 @@ const App = () => {
 
   const handleChange = (nextChecked: boolean) => {
     setChecked(nextChecked);
-    setUrl(nextChecked ? 'newUrl' : 'initialUrl');
+    setUrl(nextChecked ? onlineUrl : offlineUrl);
   };
 
   return (
@@ -38,7 +42,7 @@ const App = () => {
       <footer>
       <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
         <label htmlFor="url-toggle">
-          <span>{checked ? 'offline' : 'online'}</span>
+          <span>{checked ? 'online' : 'offline'}</span>
           <Switch
             onChange={handleChange}
             checked={checked}
