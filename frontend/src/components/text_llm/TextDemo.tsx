@@ -9,7 +9,7 @@ interface AppState {
   textresponse: any;
   textprompt: string;
   isLoading: boolean;
-  models: string[]; 
+  models: Map<string, any>; 
   textSelectedModel: string; 
 }
 //const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
@@ -26,8 +26,12 @@ class TextDemo extends Component<{}, AppState> {
       tableAIProgressLoading: false,
       textprompt: '',
       isLoading: false,
-      models: ['pixtral', 'mistral-large'], 
-      textSelectedModel: 'mistral-large',
+      models: new Map([
+        ['mistral-nemo', 'open-mistral-nemo'],
+        ['mistral-small','mistral-small-latest'],
+        ['mistral-large','mistral-large-latest']
+      ]), 
+      textSelectedModel: 'mistral-nemo',
     };
   }
 
@@ -129,11 +133,11 @@ class TextDemo extends Component<{}, AppState> {
               <select 
                 value={this.state.textSelectedModel} 
                 onChange={this.handleTextModelChange}>
-                {this.state.models.map((model) => (
-                  <option key={model} value={model}>
-                    {model}
-                  </option>
-                ))}
+                {Array.from(this.state.models.entries()).map(([key, ]) => (
+                    <option key={key} value={key}>
+                      {key}
+                    </option>
+                  ))}
               </select>        
           </div>
           <div id="botResult">

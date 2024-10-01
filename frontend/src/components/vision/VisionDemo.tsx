@@ -12,16 +12,15 @@ interface AppState {
   imageprompt: string;
   uploadedImage: string | null;
   isLoading: boolean;
-  modelEndpoints: string[]; 
-  models: string[]; 
+  models: Map<string, any>; 
   imageSelectedModel: string; 
   functionEndpoint:string;
 }
 class VisionDemo extends Component<{}, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   //serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
-  serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
-  //serverBaseUrl = 'http://localhost:8000/api/v1' ;
+  //serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
+  serverBaseUrl = 'http://localhost:8000/api/v1' ;
   constructor(props:{}) {
     super(props);
     this.state = {
@@ -31,8 +30,11 @@ class VisionDemo extends Component<{}, AppState> {
       imageprompt: '',
       uploadedImage: null,
       isLoading: false,
-      models: ['pixtral', 'llama3.2-vision'],
-      modelEndpoints: ['pixtral-12b-2409', 'meta/llama-3.2-11b-vision-instruct'],  
+      models: new Map([
+        ['pixtral', 'pixtral-12b-2409'],
+        ['llama3.2-vision','meta/llama-3.2-11b-vision-instruct'],
+        ['moondream','monndream']
+      ]), 
       imageSelectedModel: 'pixtral', 
       functionEndpoint:'/recipes/vision_llm_url/',
     };
@@ -109,9 +111,11 @@ class VisionDemo extends Component<{}, AppState> {
      
     if (!this.state.base64StringImage) return;
     this.setState({tableAIProgressLoading:true});
+
+    const model = this.state.models.get(this.state.imageSelectedModel);
     
     const requestBody = {
-      model: 'pixtral',
+      model: model,
       messages: [
         {
           role: 'user',
@@ -122,6 +126,7 @@ class VisionDemo extends Component<{}, AppState> {
       stream: false
     };
 
+    console.log(requestBody);
     //const ollamaEndpoint = this.ollamaBaseUrl + '/chat';
     const serverEndpoint = this.serverBaseUrl + this.state.functionEndpoint;
 //    console.log(serverEndpoint);
@@ -175,9 +180,8 @@ class VisionDemo extends Component<{}, AppState> {
 <label htmlFor="upload-image" style={{
   // Add your custom styles here
   backgroundColor: '#f0f0f0',
-  padding: '10px',
+  padding: '5px',
   border: '1px solid #ccc',
-  borderRadius: '4px',
   cursor: 'pointer',
   display: 'inline-block',
   color: 'black',
@@ -200,11 +204,11 @@ class VisionDemo extends Component<{}, AppState> {
             <select 
               value={this.state.imageSelectedModel} 
               onChange={this.handleImageModelChange}>
-              {this.state.models.map((model) => (
-                <option key={model} value={model}>
-                  {model}
-                </option>
-              ))}
+                {Array.from(this.state.models.entries()).map(([key, ]) => (
+                    <option key={key} value={key}>
+                      {key}
+                    </option>
+                  ))}
             </select>        
         </div>
         <div id="botResult">
