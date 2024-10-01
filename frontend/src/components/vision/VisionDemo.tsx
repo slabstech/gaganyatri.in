@@ -2,14 +2,17 @@ import { Component, ChangeEvent } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
 import TextField from '@mui/material/TextField';
+import IndeterminateProgressBar from '../demos/IndeterminateProgressBar';
+
 
 interface AppState {
   base64StringImage: string | null;
+  tableAIProgressLoading: boolean;
   imageresponse: any;
   imageprompt: string;
   uploadedImage: string | null;
   isLoading: boolean;
-  models: string[]; 
+  models: Map<string, any>; 
   imageSelectedModel: string; 
   functionEndpoint:string;
 }
@@ -22,11 +25,16 @@ class VisionDemo extends Component<{}, AppState> {
     super(props);
     this.state = {
       base64StringImage: null,
+      tableAIProgressLoading: false,
       imageresponse: null,
       imageprompt: '',
       uploadedImage: null,
       isLoading: false,
-      models: ['pixtral', 'llama3.2-vision'], 
+      models: new Map([
+        ['pixtral', 'pixtral-12b-2409'],
+        ['llama3.2-vision','meta/llama-3.2-11b-vision-instruct'],
+        ['moondream','monndream']
+      ]), 
       imageSelectedModel: 'pixtral', 
       functionEndpoint:'/recipes/vision_llm_url/',
     };
@@ -92,6 +100,7 @@ class VisionDemo extends Component<{}, AppState> {
       //this.getOrPullModel(this.state.selectedModel);
       if(this.state.imageSelectedModel == 'pixtral')
         this.setState({ functionEndpoint: '/recipes/vision_llm_url/' });
+        //this.setS
       else
         this.setState({ functionEndpoint: '/recipes/nim_vision_llm_url/' });
     });
@@ -101,9 +110,12 @@ class VisionDemo extends Component<{}, AppState> {
   sendImageToServer = async () => {
      
     if (!this.state.base64StringImage) return;
+    this.setState({tableAIProgressLoading:true});
+
+    const model = this.state.models.get(this.state.imageSelectedModel);
     
     const requestBody = {
-      model: 'pixtral',
+      model: model,
       messages: [
         {
           role: 'user',
@@ -114,19 +126,22 @@ class VisionDemo extends Component<{}, AppState> {
       stream: false
     };
 
+    console.log(requestBody);
     //const ollamaEndpoint = this.ollamaBaseUrl + '/chat';
     const serverEndpoint = this.serverBaseUrl + this.state.functionEndpoint;
-    console.log(serverEndpoint);
+//    console.log(serverEndpoint);
 
     try {
       const response = await axios.post(serverEndpoint, requestBody);
       //console.log("Prompt - ", this.state.prompt);
       const messageContent = response.data.response;
+      this.setState({tableAIProgressLoading:false});
       //console.log('Image processing result:', messageContent);
       this.setState({ imageresponse: messageContent });
       return messageContent;
     } catch (error) {
       console.error('Error processing image:', (error as AxiosError).message);
+      this.setState({tableAIProgressLoading:false});
       throw error;
     }
     
@@ -165,9 +180,8 @@ class VisionDemo extends Component<{}, AppState> {
 <label htmlFor="upload-image" style={{
   // Add your custom styles here
   backgroundColor: '#f0f0f0',
-  padding: '10px',
+  padding: '5px',
   border: '1px solid #ccc',
-  borderRadius: '4px',
   cursor: 'pointer',
   display: 'inline-block',
   color: 'black',
@@ -190,17 +204,20 @@ class VisionDemo extends Component<{}, AppState> {
             <select 
               value={this.state.imageSelectedModel} 
               onChange={this.handleImageModelChange}>
-              {this.state.models.map((model) => (
-                <option key={model} value={model}>
-                  {model}
-                </option>
-              ))}
+                {Array.from(this.state.models.entries()).map(([key, ]) => (
+                    <option key={key} value={key}>
+                      {key}
+                    </option>
+                  ))}
             </select>        
+        </div>
+        <div id="botResult">
+          <IndeterminateProgressBar loading={this.state.tableAIProgressLoading} />
         </div>    
         {this.state.imageresponse && (
           <div className="response-container">
             <h4>Response:</h4>
-            <pre>{JSON.stringify(this.state.imageresponse, null, 2)}</pre>
+            <textarea value={JSON.stringify(this.state.imageresponse, null, 2)} readOnly style={{ width: '95%', height: '100px' }}/>
             {this.state.uploadedImage && (
                 <img 
                 src={this.state.uploadedImage} 

@@ -1,11 +1,8 @@
-import './App.css'
 import { Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import About from './components/About';
 import NoMatch from './components/NoMatch';
-import Maps from './components/Maps';
-import Space from './components/Space';
 import News from './components/news/News';
 import Demos from './components/Demos';
 import { useState } from 'react';
@@ -34,9 +31,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/demos" element={<Demos />} />
-          <Route path="/space" element={<Space />} />
           <Route path="/news" element={<News />} />
-          <Route path="/maps" element={<Maps />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NoMatch />} />
           </Routes>

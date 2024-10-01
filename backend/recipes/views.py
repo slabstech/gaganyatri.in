@@ -10,19 +10,43 @@ import base64
 import json
 import requests
 
-class PromptSerializer(serializers.Serializer):
-    prompt = serializers.CharField()
 
+class TextLLMView(APIView):
+    def post(self, request, format=None):
+        data = request.data
+        api_key = os.environ["MISTRAL_API_KEY"]
 
-@api_view(['GET'])
-def execute_prompt_route_get(request):
-    prompt = request.query_params.get('prompt', None)
-    print(prompt)
-    if prompt is None:
-        return Response({"error": "No prompt provided"}, status=400)
-    is_local = False
-    result = execute_prompt(prompt, is_local)
-    return Response(result)
+        # Initialize the Mistral client
+        client = Mistral(api_key=api_key)
+
+        prompt =  data['messages'][0]['prompt']
+        # Specify model
+        #model = "pixtral-12b-2409"
+        model = data['model']
+        # Define the messages for the chat
+        messages = [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": prompt
+                    }
+                ]
+            }
+        ]
+
+        # Get the chat response
+        chat_response = client.chat.complete(
+            model=model,
+            messages=messages
+        )
+
+        content = chat_response.choices[0].message.content
+        #print(chat_response.choices[0].message.content)
+        # Return the content of the response
+        return Response({"response": content})
+
 
 
 @api_view(['GET'])
@@ -46,23 +70,16 @@ def recipe_generate_route(request):
 class VisionLLMView(APIView):
     def post(self, request, format=None):
         data = request.data
-
-        #print(data)
-        # Retrieve the API key from environment variables
         api_key = os.environ["MISTRAL_API_KEY"]
-
-        # Specify model
-        model = "pixtral-12b-2409"
 
         # Initialize the Mistral client
         client = Mistral(api_key=api_key)
 
-        # Decode the base64 image
-        #image_data = base64.b64decode(data['image'])
-        #image_data = base64.b64decode(data['messages'][0]['image'][0])
         image_data = (data['messages'][0]['image'][0])
         prompt =  data['messages'][0]['prompt']
-
+        # Specify model
+        #model = "pixtral-12b-2409"
+        model = data['model']
         # Define the messages for the chat
         messages = [
             {
@@ -99,6 +116,8 @@ class NIMVisionLLMView(APIView):
             stream = False
             api_key = os.environ["NIM_API_KEY"]
             data = request.data
+            model = data['model']
+            print(model)
             image_data = (data['messages'][0]['image'][0])
             prompt =  data['messages'][0]['prompt']
             headers = {
@@ -106,7 +125,7 @@ class NIMVisionLLMView(APIView):
             "Accept": "text/event-stream" if stream else "application/json"
             }
             payload = {
-            "model": 'meta/llama-3.2-11b-vision-instruct',
+            "model": model,
             "messages": [
                 {
                 "role": "user",

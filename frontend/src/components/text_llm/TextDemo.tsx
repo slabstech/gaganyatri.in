@@ -1,29 +1,37 @@
 import { Component, ChangeEvent } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
-
+import IndeterminateProgressBar from '../demos/IndeterminateProgressBar';
 import TextField from '@mui/material/TextField';
 
 interface AppState {
-
+  tableAIProgressLoading: boolean;
   textresponse: any;
   textprompt: string;
   isLoading: boolean;
-  models: string[]; 
+  models: Map<string, any>; 
   textSelectedModel: string; 
 }
+//const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
 class TextDemo extends Component<{}, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   //serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
   serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
+  //serverBaseUrl = "http://localhost:8000/api/v1" ;
+  
   constructor(props:{}) {
     super(props);
     this.state = {
       textresponse: null,
+      tableAIProgressLoading: false,
       textprompt: '',
       isLoading: false,
-      models: ['pixtral', 'mistral-large'], 
-      textSelectedModel: 'mistral-large',
+      models: new Map([
+        ['mistral-nemo', 'open-mistral-nemo'],
+        ['mistral-small','mistral-small-latest'],
+        ['mistral-large','mistral-large-latest']
+      ]), 
+      textSelectedModel: 'mistral-nemo',
     };
   }
 
@@ -42,6 +50,7 @@ class TextDemo extends Component<{}, AppState> {
       throw error; // Rethrow other errors
     }
   };
+
 
   getOrPullModel = async (modelName:string) => {
     try {
@@ -68,19 +77,34 @@ class TextDemo extends Component<{}, AppState> {
   };
 
   sendPromptToServer = async () => {
-         
-    const serverEndpoint = this.serverBaseUrl + '/recipes/execute_prompt_get/';
-    const serverRequest = `${serverEndpoint}?prompt="${this.state.textprompt}"`;
-    console.log(serverRequest);
+    this.setState({tableAIProgressLoading:true});
+
+    const serverEndpoint = this.serverBaseUrl + '/recipes/text_llm_url/';
+
+
+    const model = this.state.models.get(this.state.textSelectedModel);
+        
+    const requestBody = {
+      model: model,
+      messages: [
+        {
+          role: 'user',
+          prompt: this.state.textprompt,
+        }
+      ],
+      stream: false
+    };
     try {
-      const response = await axios.get(serverRequest);
-
-      const messageContent = response.data[5][1][0][1][1][0][1];
-
+      const response = await axios.post(serverEndpoint, requestBody);
+      const messageContent = response.data.response;
+      this.setState({tableAIProgressLoading:false});
+    
       this.setState({ textresponse: messageContent });
+
       return messageContent;
     } catch (error) {
-      console.error('Error processing image:', (error as AxiosError).message);
+      console.error('Error processing Text Prompt:', (error as AxiosError).message);
+      this.setState({tableAIProgressLoading:false});
       throw error;
     }
     
@@ -118,17 +142,20 @@ class TextDemo extends Component<{}, AppState> {
               <select 
                 value={this.state.textSelectedModel} 
                 onChange={this.handleTextModelChange}>
-                {this.state.models.map((model) => (
-                  <option key={model} value={model}>
-                    {model}
-                  </option>
-                ))}
+                {Array.from(this.state.models.entries()).map(([key, ]) => (
+                    <option key={key} value={key}>
+                      {key}
+                    </option>
+                  ))}
               </select>        
-          </div>    
+          </div>
+          <div id="botResult">
+          <IndeterminateProgressBar loading={this.state.tableAIProgressLoading} />
+        </div>    
           {this.state.textresponse && (
             <div className="response-container">
               <h4>Response:</h4>
-              <pre>{JSON.stringify(this.state.textresponse, null, 2)}</pre>
+              <textarea value={JSON.stringify(this.state.textresponse, null, 2)} readOnly style={{ width: '95%', height: '100px' }}/>
             </div>
           )}
         </td>

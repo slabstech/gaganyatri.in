@@ -7,7 +7,7 @@ interface IndeterminateProgressBarProps {
 const IndeterminateProgressBar: React.FC<IndeterminateProgressBarProps> = ({ loading }) => {
     return (
             <div className='progressBar' data-loading={loading ? 'true' : 'false'} >
-                <span>AI Thinking...  </span>
+                <span> looking ..  </span>
                 <progress />
             </div>
     );
