@@ -38,6 +38,7 @@ const App = () => {
           <Route path="/demos" element={<Demos />} />
           <Route path="/news" element={<News />} />
           <Route path="/about" element={<About />} />
+          <Route path="/signup" element={<Signup/>} />
           <Route path="*" element={<NoMatch />} />
         </Routes>
       <footer>
