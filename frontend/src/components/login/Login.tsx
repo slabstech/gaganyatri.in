@@ -1,8 +1,7 @@
 import React, { ChangeEvent } from 'react';
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";  // new import 
-import { connect } from "react-redux";          // new import 
-import PropTypes from "prop-types"; 
+import { Link, useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import {
   Container,
   Button,
@@ -21,10 +20,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = () => {
+const Login = ({ login }) => {
   const classes = useStyles();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const navigate = useNavigate();
 
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -40,7 +40,7 @@ const Login = () => {
       password: password
     };
     console.log("Login " + userData.username + " " + userData.password);
-    this.props.login(userData, "/dashboard");
+    login(userData, () => navigate("/dashboard"));
   };
 
   return (
@@ -84,6 +84,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, {
-  login
-})(withRouter(Login));
+export default connect(mapStateToProps, { Login })(Login);

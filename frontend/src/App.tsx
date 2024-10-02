@@ -13,6 +13,7 @@ import HomePage from './HomePage.tsx';
 import Signup from "./components/signup/Signup";
 import Login from "./components/login/Login";
 import Dashboard from "./components/dashboard/Dashboard";
+import Root from "./reducers/Root.tsx"; 
 
 const App = () => {
 
@@ -23,11 +24,6 @@ const App = () => {
   console.log(url);
   //serverBaseUrl =
   const [checked, setChecked] = useState(true);
-  /*const dispatch = useDispatch();
-  const url = useSelector(state => state.url.url);
-  const handleCheckboxChange = (nextChecked) => {
-    dispatch({ type: 'SET_URL', payload: nextChecked ? 'newUrl' : 'initialUrl' });
-  };*/
 
   const handleChange = (nextChecked: boolean) => {
     setChecked(nextChecked);
@@ -36,7 +32,7 @@ const App = () => {
 
   return (
     <>
-    <ToastContainer hideProgressBar={true} newestOnTop={true} />
+    <Root>
       <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -48,7 +44,8 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard/>} />
           <Route path="/home" element={<HomePage/>} />
           <Route path="*" element={<NoMatch />} />
-          </Routes>
+        </Routes>
+      </Root>
       <footer>
       <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
         <label htmlFor="url-toggle">
