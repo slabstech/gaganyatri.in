@@ -8,6 +8,7 @@ import Demos from './components/Demos';
 import { useState } from 'react';
 import Switch from 'react-switch';
 //import { useDispatch, useSelector } from 'react-redux';
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
 
@@ -31,6 +32,7 @@ const App = () => {
 
   return (
     <>
+    <ToastContainer hideProgressBar={true} newestOnTop={true} />
       <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
