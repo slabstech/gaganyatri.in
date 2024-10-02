@@ -32,20 +32,14 @@ const App = () => {
 
   return (
     <>
-    <Root>
       <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/demos" element={<Demos />} />
           <Route path="/news" element={<News />} />
           <Route path="/about" element={<About />} />
-          <Route path="/signup" element={<Signup/>} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/dashboard" element={<Dashboard/>} />
-          <Route path="/home" element={<HomePage/>} />
           <Route path="*" element={<NoMatch />} />
         </Routes>
-      </Root>
       <footer>
       <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
         <label htmlFor="url-toggle">
