@@ -1,12 +1,11 @@
-
 import React, { Component } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Typography } from "@material-ui/core";
 
 class Dashboard extends Component {
   render() {
     return (
       <Container>
-        <h1>Dashboard</h1>
+        <Typography variant="h1">Dashboard</Typography>
       </Container>
     );
   }

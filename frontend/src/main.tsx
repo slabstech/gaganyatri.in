@@ -1,18 +1,16 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from './store';
+import Root from "./reducers/Root.tsx"; 
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-      <Provider store={store}>
-    <BrowserRouter>
+    <Root>
       <App />
-    </BrowserRouter>
-    </Provider>
+    </Root>
+    <ToastContainer hideProgressBar={true} newestOnTop={true} />
   </StrictMode>,
 )
