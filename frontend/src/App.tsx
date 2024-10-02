@@ -44,10 +44,10 @@ const App = () => {
           <Route path="/demos" element={<Demos />} />
           <Route path="/news" element={<News />} />
           <Route path="/about" element={<About />} />
-          <Route path="/signup" element={Signup} />
-          <Route path="/login" element={Login} />
-          <Route path="/dashboard" element={Dashboard} />
-          <Route exact path="/home" element={HomePage} />
+          <Route path="/signup" element={<Signup/>} />
+          <Route path="/login" element={<Login/>} />
+          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/home" element={<HomePage/>} />
           <Route path="*" element={<NoMatch />} />
           </Routes>
       <footer>

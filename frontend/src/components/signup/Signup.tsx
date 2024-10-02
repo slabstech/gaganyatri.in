@@ -3,11 +3,9 @@ import { Link } from "react-router-dom";
 import {
   Container,
   Button,
-  Row,
-  Col,
-  Form,
-  FormControl
-} from "react-bootstrap";
+  TextField,
+  Grid
+} from '@material-ui/core';
 
 interface AppState {
 }
@@ -19,7 +17,7 @@ class Signup extends Component<{}, AppState> {
       password: ""
     };
   }
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -33,45 +31,42 @@ class Signup extends Component<{}, AppState> {
 
   render() {
     return (
+      <div>
       <Container>
-        <Row>
-          <Col md="4">
+        <Grid container justifyContent="center">
+          <Grid item xs={12} md={4}>
             <h1>Sign up</h1>
-            <Form>
-              <Form.Group controlId="usernameId">
-                <Form.Label>User name</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="username"
-                  placeholder="Enter user name"
-                  value={this.state.username}
-                  onChange={this.onChange}
-                />
-                <FormControl.Feedback type="invalid"></FormControl.Feedback>
-              </Form.Group>
-
-              <Form.Group controlId="passwordId">
-                <Form.Label>Your password</Form.Label>
-                <Form.Control
-                  type="password"
-                  name="password"
-                  placeholder="Enter password"
-                  value={this.password}
-                  onChange={this.onChange}
-                />
-                <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
-              </Form.Group>
-            </Form>
-            <Button 
+            <TextField
+              fullWidth
+              label="User name"
+              name="username"
+              placeholder="Enter user name"
+              value={this.state.username}
+              onChange={(e) => this.onChange(e)}
+              margin="normal"
+            />
+            <TextField
+              fullWidth
+              type="password"
+              label="Your password"
+              name="password"
+              placeholder="Enter password"
+              value={this.state.password}
+              onChange={(e) => this.onChange(e)}
+              margin="normal"
+            />
+            <Button
+              variant="contained"
               color="primary"
-              onClick={this.onSignupClick}  
+              onClick={this.onSignupClick}
             >Sign up</Button>
             <p className="mt-2">
               Already have account? <Link to="/login">Login</Link>
             </p>
-          </Col>
-        </Row>
+          </Grid>
+        </Grid>
       </Container>
+      </div>
     );
   }
 }
