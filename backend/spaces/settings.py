@@ -75,6 +75,10 @@ CSP_FONT_SRC = ("'self'", "https:", "data:")
 CORS_ORIGIN_WHITELIST = [
     'https://gaganyatri.in',
 ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
+]
 
 CORS_ALLOW_CREDENTIALS = True
 

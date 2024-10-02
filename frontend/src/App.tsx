@@ -15,6 +15,9 @@ import Login from "./components/login/Login";
 import Dashboard from "./components/dashboard/Dashboard";
 import Root from "./reducers/Root.tsx"; 
 
+import axios from "axios";
+axios.defaults.baseURL = "http://127.0.0.1:8000";
+
 const App = () => {
 
   const offlineUrl =  'http://localhost:8000/api/v1' ;
