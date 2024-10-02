@@ -1,5 +1,8 @@
-import React, { Component } from "react";
+import React, { ChangeEvent } from 'react';
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";  // new import 
+import { connect } from "react-redux";          // new import 
+import PropTypes from "prop-types"; 
 import {
   Container,
   Button,
@@ -23,11 +26,11 @@ const Login = () => {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const handleUsernameChange = (event) => {
+  const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
 
-  const handlePasswordChange = (event) => {
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
@@ -37,6 +40,7 @@ const Login = () => {
       password: password
     };
     console.log("Login " + userData.username + " " + userData.password);
+    this.props.login(userData, "/dashboard");
   };
 
   return (
@@ -71,4 +75,15 @@ const Login = () => {
   );
 }
 
-export default Login;
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, {
+  login
+})(withRouter(Login));

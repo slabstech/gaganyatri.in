@@ -1,20 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { routerMiddleware } from 'connected-react-router';
-import { createBrowserHistory } from 'history';
-import { connectRouter } from 'connected-react-router';
+
+import { combineReducers } from "redux";
+import { connectRouter } from "connected-react-router";
+
 import { signupReducer } from "../components/signup/SignupReducer";
-export const history = createBrowserHistory();
+import { loginReducer } from "../components/login/LoginReducer"; // add import 
 
-const rootReducer = {
-  router: connectRouter(history),
-  createUser: signupReducer,
-};
+const createRootReducer = history =>
+  combineReducers({
+    router: connectRouter(history),
+    createUser: signupReducer,
+    auth: loginReducer // <--- add reducer
+  });
 
-const middleware = [routerMiddleware(history)];
-
-const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middleware),
-});
-
-export default store;
+export default createRootReducer;
