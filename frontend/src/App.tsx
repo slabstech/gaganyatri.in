@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { Component } from "react";
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import About from './components/About';
@@ -9,6 +10,10 @@ import { useState } from 'react';
 import Switch from 'react-switch';
 //import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from "react-toastify";
+import HomePage from './HomePage.tsx';
+import Signup from "./components/signup/Signup";
+import Login from "./components/login/Login";
+import Dashboard from "./components/dashboard/Dashboard";
 
 const App = () => {
 
@@ -39,6 +44,10 @@ const App = () => {
           <Route path="/demos" element={<Demos />} />
           <Route path="/news" element={<News />} />
           <Route path="/about" element={<About />} />
+          <Route path="/signup" element={Signup} />
+          <Route path="/login" element={Login} />
+          <Route path="/dashboard" element={Dashboard} />
+          <Route exact path="/home" element={HomePage} />
           <Route path="*" element={<NoMatch />} />
           </Routes>
       <footer>

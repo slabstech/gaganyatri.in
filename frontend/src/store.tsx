@@ -1,8 +1,8 @@
 // src/store.js
 import { createStore } from 'redux';
-//import rootReducer from './reducers'; // You'll create this file next
+import rootReducer from './reducers'; // You'll create this file next
 
-
+/*
 
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
@@ -17,7 +17,8 @@ const createRootReducer = history =>
   });
 
   const store = createStore(createRootReducer);
-
+*/
+const store = createStore(rootReducer);
 export default store;
 
 //export default createRootReducer;
