@@ -43,6 +43,10 @@ INSTALLED_APPS = [
     'space_walks',
     'recipes',
     'csp',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -152,4 +156,15 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
+# configure Djoser
+DJOSER = {
+    "USER_ID_FIELD": "username"
 }
