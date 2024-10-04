@@ -1,4 +1,13 @@
 import React from 'react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from '@mui/material';
 
 interface DataTableProps {
   data: Array<{ [key: string]: any }>;
@@ -17,24 +26,29 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
   };
 
   return (
-    <table className="dataTable" >
-      <thead>
-        <tr>
-          {headers.map((header, index) => (
-            <th key={index}>{header}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((item, rowIndex) => (
-          <tr key={rowIndex}>
-            {headers.map((header, colIndex) => (
-              <td key={colIndex}>{renderCellValue(item[header])}</td>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            {headers.map((header, index) => (
+              <TableCell key={index}>{header}</TableCell>
             ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data.map((item, rowIndex) => (
+            <TableRow
+              key={rowIndex}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              {headers.map((header, colIndex) => (
+                <TableCell key={colIndex}>{renderCellValue(item[header])}</TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
