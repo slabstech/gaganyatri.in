@@ -1,7 +1,6 @@
 import { Component, ChangeEvent } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
-//import IndeterminateProgressBar from '../demos/IndeterminateProgressBar';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
@@ -9,6 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 interface AppState {
   tableAIProgressLoading: boolean;
@@ -76,7 +76,7 @@ class TextDemo extends Component<{}, AppState> {
     this.setState({ textprompt: event.target.value });
   };
 
-  handleTextModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  handleTextModelChange = (event: SelectChangeEvent<string>) => {
     this.setState({ textSelectedModel: event.target.value }, () => {
       //this.getOrPullModel(this.state.selectedModel);
     });
@@ -157,7 +157,7 @@ class TextDemo extends Component<{}, AppState> {
               <h4>Response:</h4>
               <TextField
                 value={JSON.stringify(this.state.textresponse, null, 2)}
-                readOnly
+                disabled
                 multiline
                 fullWidth
                 rows={4}

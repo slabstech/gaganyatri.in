@@ -2,10 +2,11 @@ import { Provider } from "react-redux";
 import { configureStore } from '@reduxjs/toolkit';
 import { createBrowserHistory } from "history";
 import { routerMiddleware, ConnectedRouter } from "connected-react-router";
+import { ReactNode } from 'react';
 
 import rootReducer from "./Reducer";
 
-const Root = ({ children, initialState = {} }) => {
+const Root = ({ children, initialState = {} }: { children: ReactNode, initialState: any }) => {
   const history = createBrowserHistory();
   const middleware = [routerMiddleware(history)];
 

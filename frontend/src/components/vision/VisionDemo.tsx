@@ -1,14 +1,13 @@
 import { Component, ChangeEvent } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
-//import IndeterminateProgressBar from '../demos/IndeterminateProgressBar';
-import React from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 
 interface AppState {
@@ -100,8 +99,7 @@ class VisionDemo extends Component<{}, AppState> {
     this.setState({ imageprompt: event.target.value });
   };
 
-
-  handleImageModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  handleImageModelChange = (event: SelectChangeEvent<string>) => {
     this.setState({ imageSelectedModel: event.target.value }, () => {
       //this.getOrPullModel(this.state.selectedModel);
       if(this.state.imageSelectedModel == 'pixtral')

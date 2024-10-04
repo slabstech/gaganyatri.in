@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
-import React from 'react';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -10,8 +9,7 @@ import InputLabel from '@mui/material/InputLabel';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-
-
+import { SelectChangeEvent } from '@mui/material/Select';
 
 interface RecipesState {
   response: any;
@@ -54,7 +52,7 @@ class Recipes extends Component<{}, RecipesState> {
    
   }
 
-  handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  handleModelChange = (event: SelectChangeEvent<string>) => {
     this.setState({ selectedModel: event.target.value }, () => {
     });
   };
