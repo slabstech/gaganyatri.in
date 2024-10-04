@@ -1,53 +1,68 @@
-//import { Link } from 'react-router-dom';
-import spaceSuit from  '../img/space-suit.jpg' 
-//import primeOne from '../img/shukla_shubhanshu.jpg'
-//import primeTwo from '../img/prasanth_nair.jpg'
+import {
+  Container,
+  Card,
+  Typography,
+  Button,
+  Grid,
+  Paper,
+} from '@mui/material';
+import spaceSuit from '../img/space-suit.jpg';
+
 const Space = () => {
-	return (
-		<div className="container">
-			<div className="card">
-      </div>
-      <section id="missions">
-        <h2>Missions</h2>
-        <div id="mission1">
-          <h3>Gaganyaan - 1 </h3>
-          <p>Axiom 4</p>
-        </div>
-      </section>
-      <section id="space-suit">
-        <h2>SpaceX Space Suit</h2>
-        <button id="spaceSuitButton">
-          <img src={spaceSuit} alt="SpaceX Space Suit" width="300" height="300"/>
-        </button>
-        <div id="spaceSuitInfo" >
-          <p>The SpaceX space suit is made of a multi-layer fabric that provides thermal insulation, radiation protection, and life support.</p>
-          <p>The suit includes a helmet with a built-in display and communication system, a life support system that provides oxygen and water, and a waste management system that recycles urine and carbon dioxide.</p>
-        </div>
-      </section>
-      <div className="container" id="astronaut-ax4">
-        <section id="prime-astronaut" className="astronaut">
-            <h2>Shubhanshu Shukla</h2>
-            <h3>Prime</h3>
-            <button id="primeAstronautButton">
-            </button>
-            <div id="prime-astronaut-info" >
-            <p><strong>Missions:</strong> [Prime Astronaut Missions]</p>
-            <p><strong>Notable Achievements:</strong> [Prime Astronaut Achievements]</p>
-            </div>
-        </section>
-        <section id="backup-astronaut" className="astronaut">
-            <h2>Prasanth Balakrishnan Nair</h2>
-            <h3>Backup</h3>
-            <button id="backupAstronautButton">
-            </button>
-            <div id="backup-astronaut-info" >
-            <p><strong>Missions:</strong> [Backup Astronaut Missions]</p>
-            <p><strong>Notable Achievements:</strong> [Backup Astronaut Achievements]</p>
-            </div>
-        </section>
-      </div>
-		</div>
-	);
+  return (
+    <Container>
+      <Card>
+        {/* Your card content here */}
+      </Card>
+      <Typography variant="h2">Missions</Typography>
+      <Paper elevation={3} style={{ padding: '1rem' }}>
+        <Typography variant="h3">Gaganyaan - 1</Typography>
+        <Typography variant="body1">Axiom 4</Typography>
+      </Paper>
+      <Typography variant="h2">SpaceX Space Suit</Typography>
+      <Button variant="outlined">
+        <img src={spaceSuit} alt="SpaceX Space Suit" width="300" height="300" />
+      </Button>
+      <Typography variant="body1">
+        The SpaceX space suit is made of a multi-layer fabric that provides thermal insulation, radiation protection, and life support.
+      </Typography>
+      <Typography variant="body1">
+        The suit includes a helmet with a built-in display and communication system, a life support system that provides oxygen and water, and a waste management system that recycles urine and carbon dioxide.
+      </Typography>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3} style={{ padding: '1rem' }}>
+            <Typography variant="h3">Shubhanshu Shukla</Typography>
+            <Typography variant="h4">Prime</Typography>
+            <Button variant="outlined">
+              {/* Prime Astronaut Button Content */}
+            </Button>
+            <Typography variant="body1">
+              <strong>Missions:</strong> [Prime Astronaut Missions]
+            </Typography>
+            <Typography variant="body1">
+              <strong>Notable Achievements:</strong> [Prime Astronaut Achievements]
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3} style={{ padding: '1rem' }}>
+            <Typography variant="h3">Prasanth Balakrishnan Nair</Typography>
+            <Typography variant="h4">Backup</Typography>
+            <Button variant="outlined">
+              {/* Backup Astronaut Button Content */}
+            </Button>
+            <Typography variant="body1">
+              <strong>Missions:</strong> [Backup Astronaut Missions]
+            </Typography>
+            <Typography variant="body1">
+              <strong>Notable Achievements:</strong> [Backup Astronaut Achievements]
+            </Typography>
+          </Paper>
+        </Grid>
+      </Grid>
+    </Container>
+  );
 };
 
 export default Space;

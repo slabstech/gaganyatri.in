@@ -1,14 +1,11 @@
-import { Component } from "react";
-import { Container, Typography } from "@material-ui/core";
+import { Container, Typography } from "@mui/material";
 
-class Dashboard extends Component {
-  render() {
-    return (
-      <Container>
-        <Typography variant="h1">Dashboard</Typography>
-      </Container>
-    );
-  }
+function Dashboard() {
+  return (
+    <Container>
+      <Typography variant="h1">Dashboard</Typography>
+    </Container>
+  );
 }
 
 export default Dashboard;
