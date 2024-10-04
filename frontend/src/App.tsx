@@ -6,13 +6,15 @@ import NoMatch from './components/NoMatch';
 import News from './components/news/News';
 import Demos from './components/Demos';
 import { useState } from 'react';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
 //import { ToastContainer } from "react-toastify";
 import Signup from "./components/signup/Signup";
 //import Login from "./components/login/Login";
 //import Dashboard from "./components/dashboard/Dashboard";
 import axios from "axios";
+import { Switch, FormControlLabel, FormGroup, Box, Typography, Link, IconButton } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import TwitterIcon from '@mui/icons-material/Twitter';
+
 
 axios.defaults.baseURL = "http://127.0.0.1:8000";
 
@@ -41,23 +43,44 @@ const App = () => {
           <Route path="*" element={<NoMatch />} />
         </Routes>
       <footer>
-      <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={checked}
-              onChange={handleChange}
-              name="url-toggle"
-            />
-          }
-          label={checked ? 'online' : 'offline'}
-        />
-      </div>
-        <p>
-            &copy; gaganyatri.in |
-            <a href="https://github.com/slabstech" target="_blank"><i className="fab fa-github"></i></a> |
-            <a href="https://x.com/gaganyatri" target="_blank"><i className="fab fa-twitter"></i></a>
-        </p>
+      <Box
+        sx={{
+          position: 'fixed',
+          bottom: '10px',
+          right: '10px',
+        }}
+      >
+        <FormGroup>
+          <FormControlLabel
+            control={<Switch checked={checked} onChange={handleChange} />}
+            label={checked ? 'online' : 'offline'}
+          />
+        </FormGroup>
+      </Box>
+
+      <Box
+        sx={{
+          position: 'fixed',
+          bottom: '10px',
+          left: '10px',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <Typography variant="body2" color="text.secondary" align="center">
+          {'© '}
+          <Link color="inherit" href="https://gaganyatri.in/">
+            gaganyatri.in
+          </Link>{' '}
+          |
+          <IconButton size="small" href="https://github.com/slabstech" target="_blank">
+            <GitHubIcon />
+          </IconButton>
+          <IconButton size="small" href="https://x.com/gaganyatri" target="_blank">
+            <TwitterIcon />
+          </IconButton>
+        </Typography>
+      </Box>
       </footer>
     </>
   )
