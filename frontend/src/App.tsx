@@ -8,10 +8,10 @@ import Demos from './components/Demos';
 import { useState } from 'react';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { ToastContainer } from "react-toastify";
+//import { ToastContainer } from "react-toastify";
 import Signup from "./components/signup/Signup";
-import Login from "./components/login/Login";
-import Dashboard from "./components/dashboard/Dashboard";
+//import Login from "./components/login/Login";
+//import Dashboard from "./components/dashboard/Dashboard";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000";
@@ -21,6 +21,7 @@ const App = () => {
   const offlineUrl =  'http://localhost:8000/api/v1' ;
   const onlineUrl  = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
   const [url, setUrl] = useState(onlineUrl);
+  console.log(url);
   const [checked, setChecked] = useState(true);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

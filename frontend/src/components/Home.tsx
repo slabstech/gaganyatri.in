@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Container, Grid, Typography, Divider } from '@mui/material';
 import VisionDemo from './vision/VisionDemo';
 import TextDemo from './text_llm/TextDemo';
