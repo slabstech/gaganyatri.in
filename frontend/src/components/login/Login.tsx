@@ -8,8 +8,8 @@ import {
   TextField,
   Grid,
   Typography
-} from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
+} from "@mui/material";
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +45,7 @@ const Login = ({ login }) => {
 
   return (
     <Container>
-      <Grid container justify="center">
+      <Grid container justifyContent="center">
         <Grid item xs={12} md={4}>
           <Typography variant="h4">Login</Typography>
           <form className={classes.root} noValidate autoComplete="off">
@@ -65,7 +65,7 @@ const Login = ({ login }) => {
               onChange={handlePasswordChange}
             />
           </form>
-          <Button variant="contained" color="primary" onClick={onLoginClick}>Login</Button>
+          <Button variant="contained" onClick={onLoginClick}>Login</Button>
           <Typography variant="body1" className="mt-2">
             Don't have account? <Link to="/signup">Signup</Link>
           </Typography>
