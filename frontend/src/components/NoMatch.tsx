@@ -1,16 +1,16 @@
-//import React from 'react';
+import { Container, Typography } from '@mui/material';
 
 const NoMatch = () => {
-	return (
-		<div>
-			<div className="container">
-				<div className="error-page">
-					<h1 className="error-code">404</h1>
-					<p className="error-text">Page not found</p>
-				</div>
-			</div>
-		</div>
-	);
+  return (
+    <Container>
+      <Typography variant="h1" component="h1" gutterBottom>
+        404
+      </Typography>
+      <Typography variant="h5" component="h2">
+        Page not found
+      </Typography>
+    </Container>
+  );
 };
 
 export default NoMatch;

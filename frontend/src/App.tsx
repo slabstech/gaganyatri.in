@@ -6,23 +6,29 @@ import NoMatch from './components/NoMatch';
 import News from './components/news/News';
 import Demos from './components/Demos';
 import { useState } from 'react';
-import Switch from 'react-switch';
-//import { useDispatch, useSelector } from 'react-redux';
+//import { ToastContainer } from "react-toastify";
+import Signup from "./components/signup/Signup";
+//import Login from "./components/login/Login";
+//import Dashboard from "./components/dashboard/Dashboard";
+import axios from "axios";
+import { Switch, FormControlLabel, FormGroup, Box, Typography, Link, IconButton } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import TwitterIcon from '@mui/icons-material/Twitter';
+
+
+axios.defaults.baseURL = "http://127.0.0.1:8000";
 
 const App = () => {
-  const [url, setUrl] = useState('initialUrl');
-  // TODO - remove below log
-  console.log(url);
-  const [checked, setChecked] = useState(false);
-  /*const dispatch = useDispatch();
-  const url = useSelector(state => state.url.url);
-  const handleCheckboxChange = (nextChecked) => {
-    dispatch({ type: 'SET_URL', payload: nextChecked ? 'newUrl' : 'initialUrl' });
-  };*/
 
-  const handleChange = (nextChecked: boolean) => {
-    setChecked(nextChecked);
-    setUrl(nextChecked ? 'newUrl' : 'initialUrl');
+  const offlineUrl =  'http://localhost:8000/api/v1' ;
+  const onlineUrl  = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
+  const [url, setUrl] = useState(onlineUrl);
+  console.log(url);
+  const [checked, setChecked] = useState(true);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+    setUrl(event.target.checked ? onlineUrl : offlineUrl);
   };
 
   return (
@@ -33,27 +39,51 @@ const App = () => {
           <Route path="/demos" element={<Demos />} />
           <Route path="/news" element={<News />} />
           <Route path="/about" element={<About />} />
+          <Route path="/signup" element={<Signup/>} />
           <Route path="*" element={<NoMatch />} />
-          </Routes>
+        </Routes>
       <footer>
-      <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
-        <label htmlFor="url-toggle">
-          <span>{checked ? 'offline' : 'online'}</span>
-          <Switch
-            onChange={handleChange}
-            checked={checked}
-            id="url-toggle"
+      <Box
+        sx={{
+          position: 'fixed',
+          bottom: '10px',
+          right: '10px',
+        }}
+      >
+        <FormGroup>
+          <FormControlLabel
+            control={<Switch checked={checked} onChange={handleChange} />}
+            label={checked ? 'online' : 'offline'}
           />
-        </label>
-      </div>
-        <p>
-            &copy; gaganyatri.in |
-            <a href="https://github.com/slabstech" target="_blank"><i className="fab fa-github"></i></a> |
-            <a href="https://x.com/gaganyatri" target="_blank"><i className="fab fa-twitter"></i></a>
-        </p>
+        </FormGroup>
+      </Box>
+
+      <Box
+        sx={{
+          position: 'fixed',
+          bottom: '10px',
+          left: '10px',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <Typography variant="body2" color="text.secondary" align="center">
+          {'© '}
+          <Link color="inherit" href="https://gaganyatri.in/">
+            gaganyatri.in
+          </Link>{' '}
+          |
+          <IconButton size="small" href="https://github.com/slabstech" target="_blank">
+            <GitHubIcon />
+          </IconButton>
+          <IconButton size="small" href="https://x.com/gaganyatri" target="_blank">
+            <TwitterIcon />
+          </IconButton>
+        </Typography>
+      </Box>
       </footer>
     </>
   )
 }
 
-export default App
+export default App;

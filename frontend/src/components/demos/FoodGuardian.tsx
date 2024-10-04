@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { generateResponseFromJson, generateFeatures } from './ollamaservice'
 import DataTable from './DataTable';
-import IndeterminateProgressBar from './IndeterminateProgressBar';
-import './FoodGuardian.css'
+//import IndeterminateProgressBar from './IndeterminateProgressBar';
+
+import { Button, Typography, Box, LinearProgress } from '@mui/material';
+
 
 function FoodGuardian() {
   const [files, setFiles] = useState<File[]>([]);
@@ -48,48 +50,53 @@ function FoodGuardian() {
 
   return (
     <>
-      <div>
-        <h5>Food Guardian AI</h5>
-        <div id="fileUploadContainer">
-          <label htmlFor="file-upload" className="custom-file-upload" style={{ backgroundColor: 'white' , color: 'black'}}>
-            Upload Image
-          </label>
-          <input id="file-upload" type="file" onChange={handleFileChange} accept="image/*" />
-        </div>
-        
-        <div className="img-gallery">
-          {files.map((file, index) => (
-            <img
-              key={index}
-              src={URL.createObjectURL(file)}
-              alt={`Preview ${index}`}
-              className="img-preview"
-            />
-          ))}
-        </div>
-        
-        {files.length > 0 && (
-          <button id="submit" onClick={handleImage}>Submit</button>
-        )}
+    <Box>
+      <Typography variant="h5">Food Guardian AI</Typography>
+      <Box id="fileUploadContainer">
+        <Button
+          variant="contained"
+          component="label"
+          style={{ backgroundColor: 'white', color: 'black' }}
+        >
+          Upload Image
+          <input
+            type="file"
+            onChange={handleFileChange}
+            accept="image/*"
+            hidden
+          />
+        </Button>
+      </Box>
 
-        <div id="botResult">
-          <IndeterminateProgressBar loading={tableAIProgressLoading} />
-          {jsonData.length > 0 && (
-            <>
-              <h4>Food Items</h4>
-              <DataTable data={jsonData} />
-              <div id="foodDescription" >{response}</div>
-            </>
-          )}
-          {errorResponse && (
-            <>
-              <div id="errorDescription" >{errorResponse}</div>
-            </>
-          )}
-        </div>
-        
-      </div>
-    </>
+      <Box className="img-gallery">
+        {files.map((file, index) => (
+          <img
+            key={index}
+            src={URL.createObjectURL(file)}
+            alt={`Preview ${index}`}
+            className="img-preview"
+          />
+        ))}
+      </Box>
+
+      {files.length > 0 && (
+        <Button id="submit" onClick={handleImage}>Submit</Button>
+      )}
+
+      <Box id="botResult">
+        {tableAIProgressLoading && <LinearProgress />}
+        {jsonData.length > 0 && (
+          <>
+            <Typography variant="h6">Food Items</Typography>
+            <DataTable data={jsonData} />
+            <Typography id="foodDescription">{response}</Typography>
+          </>
+        )}
+        {errorResponse && (
+          <Typography id="errorDescription" color="error">{errorResponse}</Typography>
+        )}
+      </Box>
+    </Box>    </>
   )
 }
 

@@ -1,7 +1,15 @@
 import { Component } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
-import './Recipes.css'
+import Button from '@mui/material/Button';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 interface RecipesState {
   response: any;
@@ -44,7 +52,7 @@ class Recipes extends Component<{}, RecipesState> {
    
   }
 
-  handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  handleModelChange = (event: SelectChangeEvent<string>) => {
     this.setState({ selectedModel: event.target.value }, () => {
     });
   };
@@ -77,36 +85,47 @@ class Recipes extends Component<{}, RecipesState> {
   render(){
   return (
     <>
-    <div className="app-container">
-      <p className="read-the-docs">
-        Warehouse UI
-      </p>
-      <div className="input-container">
-
-          <button 
-            onClick={this.sendDatatoServer} 
-            disabled={this.state.isLoading}>
-            {this.state.isLoading ? 'Processing...' : 'Analyse'}
-          </button>
-          <select 
-            value={this.state.selectedModel} 
-            onChange={this.handleModelChange}>
-            {this.state.models.map((model) => (
-              <option key={model} value={model}>
-                {model}
-              </option>
-            ))}
-          </select>        
-      </div>
-      {this.state.response && (
-        <div className="response-container">
-          <h4>Response:</h4>
-          <pre>{JSON.stringify(this.state.response, null, 2)}</pre>
-          <textarea value={this.state.response} readOnly />
-        </div>
-      )}
-      </div>  
-    </>
+    <Box className="app-container" p={2}>
+        <p className="read-the-docs">Warehouse UI</p>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item>
+            <Button
+              variant="contained"
+              onClick={this.sendDatatoServer}
+              disabled={this.state.isLoading}
+            >
+              {this.state.isLoading ? 'Processing...' : 'Analyse'}
+            </Button>
+          </Grid>
+          <Grid item>
+            <FormControl>
+              <InputLabel id="model-select-label">Model</InputLabel>
+              <Select
+                labelId="model-select-label"
+                value={this.state.selectedModel}
+                onChange={this.handleModelChange}
+              >
+                {this.state.models.map((model) => (
+                  <MenuItem key={model} value={model}>
+                    {model}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+        {this.state.response && (
+          <Box className="response-container" mt={2}>
+            <h4>Response:</h4>
+            <pre>{JSON.stringify(this.state.response, null, 2)}</pre>
+            <TextareaAutosize
+              aria-label="empty textarea"
+              value={this.state.response}
+              readOnly
+            />
+          </Box>
+        )}
+      </Box>    </>
   )
 }
 }

@@ -43,6 +43,10 @@ INSTALLED_APPS = [
     'space_walks',
     'recipes',
     'csp',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -70,6 +74,10 @@ CSP_FONT_SRC = ("'self'", "https:", "data:")
 
 CORS_ORIGIN_WHITELIST = [
     'https://gaganyatri.in',
+]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -152,4 +160,15 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
+# configure Djoser
+DJOSER = {
+    "USER_ID_FIELD": "username"
 }
