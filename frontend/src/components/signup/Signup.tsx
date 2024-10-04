@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { signupNewUser } from "./SignupActions";
 
-const Signup = ({ signupNewUser }) => {
+const Signup = ({ signupNewUser }:any) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -75,7 +75,7 @@ Signup.propTypes = {
   signupNewUser: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state:any) => ({
   createUser: state.createUser
 });
 

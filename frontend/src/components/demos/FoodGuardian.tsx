@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { generateResponseFromJson, generateFeatures } from './ollamaservice'
 import DataTable from './DataTable';
-import IndeterminateProgressBar from './IndeterminateProgressBar';
+//import IndeterminateProgressBar from './IndeterminateProgressBar';
 
 import { Button, Typography, Box, LinearProgress } from '@mui/material';
 

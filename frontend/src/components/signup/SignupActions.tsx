@@ -1,17 +1,18 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import { isEmpty } from "../../utils/Utils";
+//import { isEmpty } from "../../utils/Utils";
 import {
   CREATE_USER_ERROR,
   CREATE_USER_SUBMITTED,
   CREATE_USER_SUCCESS
 } from "./SignupTypes";
 
-export const signupNewUser = userData => dispatch => {
+export const signupNewUser = (userData:any) => (dispatch:any) => {
   dispatch({ type: CREATE_USER_SUBMITTED }); // set submitted state
   axios
     .post("/api/v1/accounts/api/users", userData)
     .then(response => {
+      console.log(response.data);
       toast.success(
         "Account for " +
           userData.username +

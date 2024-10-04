@@ -7,21 +7,18 @@ import {
   Button,
   TextField,
   Grid,
-  Typography
+  Typography,
+  styled
 } from "@mui/material";
-import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
+const StyledForm = styled('form')(({ theme }) => ({
+  '& .MuiTextField-root': {
+    margin: theme.spacing(1),
+    width: '25ch',
   },
 }));
 
-const Login = ({ login }) => {
-  const classes = useStyles();
+const Login = ({ login }:any) => {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const navigate = useNavigate();
@@ -48,7 +45,7 @@ const Login = ({ login }) => {
       <Grid container justifyContent="center">
         <Grid item xs={12} md={4}>
           <Typography variant="h4">Login</Typography>
-          <form className={classes.root} noValidate autoComplete="off">
+          <StyledForm noValidate autoComplete="off">
             <TextField
               id="usernameId"
               label="User name"
@@ -64,7 +61,7 @@ const Login = ({ login }) => {
               value={password}
               onChange={handlePasswordChange}
             />
-          </form>
+          </StyledForm>
           <Button variant="contained" onClick={onLoginClick}>Login</Button>
           <Typography variant="body1" className="mt-2">
             Don't have account? <Link to="/signup">Signup</Link>
@@ -80,7 +77,7 @@ Login.propTypes = {
   auth: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state:any) => ({
   auth: state.auth
 });
 
