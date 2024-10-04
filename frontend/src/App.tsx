@@ -6,16 +6,14 @@ import NoMatch from './components/NoMatch';
 import News from './components/news/News';
 import Demos from './components/Demos';
 import { useState } from 'react';
-import Switch from 'react-switch';
-//import { useDispatch, useSelector } from 'react-redux';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import { ToastContainer } from "react-toastify";
-import HomePage from './HomePage.tsx';
 import Signup from "./components/signup/Signup";
 import Login from "./components/login/Login";
 import Dashboard from "./components/dashboard/Dashboard";
-import Root from "./reducers/Root.tsx"; 
-
 import axios from "axios";
+
 axios.defaults.baseURL = "http://127.0.0.1:8000";
 
 const App = () => {
@@ -23,14 +21,11 @@ const App = () => {
   const offlineUrl =  'http://localhost:8000/api/v1' ;
   const onlineUrl  = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
   const [url, setUrl] = useState(onlineUrl);
-  // TODO - remove below log
-  console.log(url);
-  //serverBaseUrl =
   const [checked, setChecked] = useState(true);
 
-  const handleChange = (nextChecked: boolean) => {
-    setChecked(nextChecked);
-    setUrl(nextChecked ? onlineUrl : offlineUrl);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+    setUrl(event.target.checked ? onlineUrl : offlineUrl);
   };
 
   return (
@@ -46,14 +41,16 @@ const App = () => {
         </Routes>
       <footer>
       <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
-        <label htmlFor="url-toggle">
-          <span>{checked ? 'online' : 'offline'}</span>
-          <Switch
-            onChange={handleChange}
-            checked={checked}
-            id="url-toggle"
-          />
-        </label>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={checked}
+              onChange={handleChange}
+              name="url-toggle"
+            />
+          }
+          label={checked ? 'online' : 'offline'}
+        />
       </div>
         <p>
             &copy; gaganyatri.in |
@@ -65,4 +62,4 @@ const App = () => {
   )
 }
 
-export default App
+export default App;

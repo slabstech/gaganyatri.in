@@ -3,6 +3,12 @@ import axios from 'axios';
 import { AxiosError } from 'axios';
 import IndeterminateProgressBar from '../demos/IndeterminateProgressBar';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import LinearProgress from '@mui/material/LinearProgress';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 
 interface AppState {
   tableAIProgressLoading: boolean;
@@ -113,62 +119,54 @@ class TextDemo extends Component<{}, AppState> {
   render(){
   return (
     <>
-    <div className="app-container">
-      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
-      <tbody>
-      <tr>
-      <td>Text LLM Demo</td>
-      </tr>
-      <tr>
-        <td style={{ border: '1px solid white' }}>
-          <div className="input-container">
-              <TextField
-                value={this.state.textprompt}
-                onChange={this.handleTextPromptChange}
-                placeholder="Enter your prompt here..."
-                fullWidth
-                InputProps={{
-                  style: {
-                    backgroundColor: 'white',
-                    color: 'black',
-                  },
-                }}
-              />
-              <button 
-                onClick={this.sendPromptToServer} 
-                disabled={this.state.isLoading}>
-                {this.state.isLoading ? 'Processing...' : 'Submit'}
-              </button>
-              <select 
-                value={this.state.textSelectedModel} 
-                onChange={this.handleTextModelChange}>
-                {Array.from(this.state.models.entries()).map(([key, ]) => (
-                    <option key={key} value={key}>
-                      {key}
-                    </option>
-                  ))}
-              </select>        
-          </div>
-          <div id="botResult">
-          <IndeterminateProgressBar loading={this.state.tableAIProgressLoading} />
-        </div>    
+      <Box className="app-container">
+        <Box>
+          <h2>Text LLM Demo</h2>
+          <Divider />
+          <Box className="input-container">
+            <TextField
+              value={this.state.textprompt}
+              onChange={this.handleTextPromptChange}
+              placeholder="Enter your prompt here..."
+              fullWidth
+              sx={{ backgroundColor: 'white', color: 'black' }}
+            />
+            <Button
+              variant="contained"
+              onClick={this.sendPromptToServer}
+              disabled={this.state.isLoading}
+            >
+              {this.state.isLoading ? 'Processing...' : 'Submit'}
+            </Button>
+            <Select
+              value={this.state.textSelectedModel}
+              onChange={this.handleTextModelChange}
+            >
+              {Array.from(this.state.models.entries()).map(([key, ]) => (
+                <MenuItem key={key} value={key}>
+                  {key}
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
+          <Box id="botResult">
+            {this.state.tableAIProgressLoading && <LinearProgress />}
+          </Box>
           {this.state.textresponse && (
-            <div className="response-container">
+            <Box className="response-container">
               <h4>Response:</h4>
-              <textarea value={JSON.stringify(this.state.textresponse, null, 2)} readOnly style={{ width: '95%', height: '100px' }}/>
-            </div>
+              <TextField
+                value={JSON.stringify(this.state.textresponse, null, 2)}
+                readOnly
+                multiline
+                fullWidth
+                rows={4}
+              />
+            </Box>
           )}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <hr /><hr />
-        </td>
-      </tr>
-    </tbody>
-  </table>
-        </div>
-
+        </Box>
+        <Divider sx={{ my: 2 }} />
+      </Box>
     </>
   )
 }

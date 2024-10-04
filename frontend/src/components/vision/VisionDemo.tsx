@@ -1,8 +1,14 @@
 import { Component, ChangeEvent } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
-import TextField from '@mui/material/TextField';
 import IndeterminateProgressBar from '../demos/IndeterminateProgressBar';
+import React from 'react';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import LinearProgress from '@mui/material/LinearProgress';
+import Box from '@mui/material/Box';
 
 
 interface AppState {
@@ -150,88 +156,62 @@ class VisionDemo extends Component<{}, AppState> {
   render(){
   return (
     <>
-    <div className="app-container">
-      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
-      <tbody>    
-      <tr>
-        <td>
-          <hr /><hr />
-        </td>
-      </tr>
-      
-      <tr>
-        <td>Vision Demo</td>
-      </tr>
-      <tr>
-      <td style={{ border: '1px solid white' }}>
-        <div className="input-container">
-            <TextField
-              value={this.state.imageprompt}
-              onChange={this.handleImagePromptChange}
-              placeholder="Enter your prompt here..."
-              fullWidth
-              InputProps={{
-                style: {
-                  backgroundColor: 'white',
-                  color: 'black',
-                },
-              }}
+         <Box className="app-container">
+        <hr /><hr />
+        <h2>Vision Demo</h2>
+        <Box sx={{ border: '1px solid white' }}>
+          <TextField
+            value={this.state.imageprompt}
+            onChange={this.handleImagePromptChange}
+            placeholder="Enter your prompt here..."
+            fullWidth
+            sx={{ backgroundColor: 'white', color: 'black' }}
+          />
+          <label htmlFor="upload-image">
+            <Button variant="contained" component="span">
+              Choose Image
+            </Button>
+            <input
+              id="upload-image"
+              type="file"
+              onChange={this.handleImageUpload}
+              style={{ display: 'none' }}
             />
-<label htmlFor="upload-image" style={{
-  // Add your custom styles here
-  backgroundColor: '#f0f0f0',
-  padding: '5px',
-  border: '1px solid #ccc',
-  cursor: 'pointer',
-  display: 'inline-block',
-  color: 'black',
-}}>
-  Choose Image
-  <input
-    id="upload-image"
-    type="file"
-    onChange={this.handleImageUpload}
-    style={{
-      display: 'none',
-    }}
-  />
-</label>
-            <button 
-              onClick={this.sendImageToServer} 
-              disabled={this.state.isLoading}>
-              {this.state.isLoading ? 'Processing...' : 'Submit'}
-            </button>
-            <select 
-              value={this.state.imageSelectedModel} 
-              onChange={this.handleImageModelChange}>
-                {Array.from(this.state.models.entries()).map(([key, ]) => (
-                    <option key={key} value={key}>
-                      {key}
-                    </option>
-                  ))}
-            </select>        
-        </div>
-        <div id="botResult">
-          <IndeterminateProgressBar loading={this.state.tableAIProgressLoading} />
-        </div>    
-        {this.state.imageresponse && (
-          <div className="response-container">
-            <h4>Response:</h4>
-            <textarea value={JSON.stringify(this.state.imageresponse, null, 2)} readOnly style={{ width: '95%', height: '100px' }}/>
-            {this.state.uploadedImage && (
-                <img 
-                src={this.state.uploadedImage} 
-                alt="Uploaded" 
-                width="100" height="100" />
+          </label>
+          <Button
+            onClick={this.sendImageToServer}
+            disabled={this.state.isLoading}
+          >
+            {this.state.isLoading ? 'Processing...' : 'Submit'}
+          </Button>
+          <Select
+            value={this.state.imageSelectedModel}
+            onChange={this.handleImageModelChange}
+          >
+            {Array.from(this.state.models.entries()).map(([key, ]) => (
+              <MenuItem key={key} value={key}>
+                {key}
+              </MenuItem>
+            ))}
+          </Select>
+          <LinearProgress
+            style={{ visibility: this.state.tableAIProgressLoading ? 'visible' : 'hidden' }}
+          />
+          {this.state.imageresponse && (
+            <Box className="response-container">
+              <h4>Response:</h4>
+              <textarea value={JSON.stringify(this.state.imageresponse, null, 2)} readOnly style={{ width: '95%', height: '100px' }}/>
+              {this.state.uploadedImage && (
+                <img
+                  src={this.state.uploadedImage}
+                  alt="Uploaded"
+                  width="100" height="100"
+                />
               )}
-          </div>
-        )}
-      </td>
-    </tr>
-    </tbody>
-  </table>
-        </div>
-
+            </Box>
+          )}
+        </Box>
+      </Box>
     </>
   )
 }
