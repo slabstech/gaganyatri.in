@@ -1,10 +1,20 @@
-Space Apps Challenge - Orrery Web App
+Escape to Mars
 
+- Goal - Schedule Cargo Mission to Mars
+  - Avoid Near Earth Orbits (NEO) during Transfers
+  - Play as destroyer spaceship to remove asteroids on the orbit for Mars
+
+- Space Apps Challenge - Orrery Web App
+
+Info
 - https://www.spaceappschallenge.org/nasa-space-apps-2024/challenges/create-an-orrery-web-app-that-displays-near-earth-objects/
 
 - Based on Keplerarian Parameters
 - Show NEO - Near Earth Objects
 
+- 3D Game 
+  - https://github.com/flutterfromscratch/threejs-rocket-game
+  - https://fik-shun.github.io/Fik-shoot/
 
 - https://ssd.jpl.nasa.gov/planets/approx_pos.html
 - https://ssd.jpl.nasa.gov/tools/sbdb_query.html
