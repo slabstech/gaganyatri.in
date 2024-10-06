@@ -8,7 +8,7 @@ import Demos from './components/Demos';
 import { useState } from 'react';
 //import { ToastContainer } from "react-toastify";
 import Signup from "./components/signup/Signup";
-//import Login from "./components/login/Login";
+import Login from "./components/login/Login";
 //import Dashboard from "./components/dashboard/Dashboard";
 import axios from "axios";
 import { Switch, FormControlLabel, FormGroup, Box, Typography, Link, IconButton } from '@mui/material';
@@ -39,7 +39,8 @@ const App = () => {
           <Route path="/demos" element={<Demos />} />
           <Route path="/news" element={<News />} />
           <Route path="/about" element={<About />} />
-          <Route path="/signup" element={<Signup/>} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login/>} />
           <Route path="*" element={<NoMatch />} />
         </Routes>
       <footer>
