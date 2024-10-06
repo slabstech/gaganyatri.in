@@ -11,6 +11,9 @@ import {
   styled
 } from "@mui/material";
 
+
+import { login } from "./LoginActions";
+
 const StyledForm = styled('form')(({ theme }) => ({
   '& .MuiTextField-root': {
     margin: theme.spacing(1),
@@ -18,10 +21,13 @@ const StyledForm = styled('form')(({ theme }) => ({
   },
 }));
 
-const Login = ({ login }:any) => {
+const Login = ({ login, auth }:any) => {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const navigate = useNavigate();
+  if (!auth) {
+    //return null;
+  }
 
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -81,4 +87,4 @@ const mapStateToProps = (state:any) => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { Login })(Login);
+export default connect(mapStateToProps, { login })(Login);

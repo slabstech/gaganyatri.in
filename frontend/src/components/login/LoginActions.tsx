@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { SET_TOKEN, SET_CURRENT_USER, UNSET_CURRENT_USER } from "./LoginTypes";
 import { setAxiosAuthToken, toastOnError } from "../../utils/Utils";
 
-export const login = (userData, redirectTo) => dispatch => {
+export const login = (userData:any, redirectTo:any) => (dispatch:any) => {
   axios
     .post("/api/v1/token/login/", userData)
     .then(response => {
@@ -19,7 +19,7 @@ export const login = (userData, redirectTo) => dispatch => {
     });
 };
 
-export const getCurrentUser = redirectTo => dispatch => {
+export const getCurrentUser = (redirectTo:any) => (dispatch:any) => {
   axios
     .get("/api/v1/users/me/")
     .then(response => {
@@ -35,7 +35,7 @@ export const getCurrentUser = redirectTo => dispatch => {
     });
 };
 
-export const setCurrentUser = (user, redirectTo) => dispatch => {
+export const setCurrentUser = (user:any, redirectTo:any) => (dispatch:any) => {
   localStorage.setItem("user", JSON.stringify(user));
   dispatch({
     type: SET_CURRENT_USER,
@@ -48,7 +48,7 @@ export const setCurrentUser = (user, redirectTo) => dispatch => {
   }
 };
 
-export const setToken = token => dispatch => {
+export const setToken = (token:any) => (dispatch:any) => {
   setAxiosAuthToken(token);
   localStorage.setItem("token", token);
   dispatch({
@@ -57,7 +57,7 @@ export const setToken = token => dispatch => {
   });
 };
 
-export const unsetCurrentUser = () => dispatch => {
+export const unsetCurrentUser = () => (dispatch:any) => {
   setAxiosAuthToken("");
   localStorage.removeItem("token");
   localStorage.removeItem("user");
@@ -66,10 +66,11 @@ export const unsetCurrentUser = () => dispatch => {
   });
 };
 
-export const logout = () => dispatch => {
+export const logout = () => (dispatch:any) => {
   axios
     .post("/api/v1/token/logout/")
     .then(response => {
+      console.log(response);
       dispatch(unsetCurrentUser());
       dispatch(push("/"));
       toast.success("Logout successful.");
