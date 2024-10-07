@@ -1,2 +1,2 @@
-nomic
+nomic[local]
 flask
