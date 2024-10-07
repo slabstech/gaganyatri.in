@@ -4,6 +4,8 @@
 ![Tech Stack](docs/architecture.jpg)
 
 
+[Discord Server](https://discord.gg/h8ygUwvw)
+
 - Tech Stack
   - Frontend
     - React + Vite + Typescript
