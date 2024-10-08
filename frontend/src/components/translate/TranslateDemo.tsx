@@ -118,9 +118,13 @@ class TranslateDemo extends Component<{}, AppState> {
 
 
     const model = this.state.models.get(this.state.textSelectedModel);
-        
+    const sourceLanguage =  this.state.sourceLang.get(this.state.sourceSelectedLanguage);
+    const targetLanguage = this.state.targetLang.get(this.state.targetSelectedLanguage);
+    
     const requestBody = {
       model: model,
+      sourceLanguage : sourceLanguage,
+      targetLanguage : targetLanguage,
       messages: [
         {
           role: 'user',

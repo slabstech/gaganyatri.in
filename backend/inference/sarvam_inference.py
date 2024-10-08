@@ -2,11 +2,10 @@
 import requests
 import os
 
-api_key=os.getenv("SARVAM_API_KEY", "")
-url = "https://api.sarvam.ai/translate"
-
-
 def translate_text(text_string, source_lang, target_lang):
+
+    api_key=os.getenv("SARVAM_API_KEY", "")
+    url = "https://api.sarvam.ai/translate"
     payload = {
         "input": text_string,
         "source_language_code": source_lang,
@@ -26,8 +25,8 @@ def translate_text(text_string, source_lang, target_lang):
     return response.text
 
 
-text_string = "Who is the founder of Bengaluru?"
-source_lang = "en-IN"
-target_lang = "kn-IN"
-response_text = translate_text(text_string, source_lang, target_lang)
-print(response_text)
+#text_string = "Who is the founder of Bengaluru?"
+#source_lang = "en-IN"
+#target_lang = "kn-IN"
+#response_text = translate_text(text_string, source_lang, target_lang)
+#print(response_text)
