@@ -1,5 +1,11 @@
 RAG 
 
+- For Embedding - Use nomic
+    - https://docs.nomic.ai/atlas/models/text-embedding
+
+
+
+
 https://github.com/mistralai/cookbook/blob/main/third_party/panel/README.md
 
 https://github.com/mistralai/cookbook/blob/main/mistral/rag/basic_RAG.ipynb

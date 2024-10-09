@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { Container, Grid, Typography, Divider } from '@mui/material';
 import VisionDemo from './vision/VisionDemo';
 import TextDemo from './text_llm/TextDemo';
+import TranslateDemo from './translate/TranslateDemo';
 
 interface AppState {
 }
@@ -22,13 +23,19 @@ class Home extends Component<{}, AppState> {
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <VisionDemo />
+            <TranslateDemo />
           </Grid>
           <Grid item xs={12}>
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextDemo />
+          </Grid>
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <VisionDemo />
           </Grid>
         </Grid>
       </Container>

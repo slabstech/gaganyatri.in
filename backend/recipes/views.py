@@ -10,43 +10,80 @@ import base64
 import json
 import requests
 
+class TranslateLLMView(APIView):
+    def post(self, request, format=None):
+        try: 
+            data = request.data
+            prompt =  data['messages'][0]['prompt']
+            # Specify model
+            source_language = data['sourceLanguage']
+            target_language = data['targetLanguage']
+            #model = data['model']
+            # Define the messages for the chat
+            api_key=os.getenv("SARVAM_API_KEY", "")
+            url = "https://api.sarvam.ai/translate"
+
+            payload = {
+                "input": prompt,
+                "source_language_code": source_language,
+                "target_language_code": target_language,
+                "speaker_gender": "Male",
+                "mode": "formal",
+                "model": "mayura:v1",
+                "enable_preprocessing": True
+            }
+            headers = {"Content-Type": "application/json",
+                    'API-Subscription-Key': f"{api_key}"
+                    }
+
+            response = requests.request("POST", url, json=payload, headers=headers)
+            content = response.text
+            #print(chat_response.choices[0].message.content)
+            # Return the content of the response
+            return Response({"response": content})
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return Response({'error': 'Something went wrong'}, status=500)
 
 class TextLLMView(APIView):
     def post(self, request, format=None):
-        data = request.data
-        api_key = os.environ["MISTRAL_API_KEY"]
+        try:
+            data = request.data
+            api_key = os.environ["MISTRAL_API_KEY"]
 
-        # Initialize the Mistral client
-        client = Mistral(api_key=api_key)
+            # Initialize the Mistral client
+            client = Mistral(api_key=api_key)
 
-        prompt =  data['messages'][0]['prompt']
-        # Specify model
-        #model = "pixtral-12b-2409"
-        model = data['model']
-        # Define the messages for the chat
-        messages = [
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": prompt
-                    }
-                ]
-            }
-        ]
+            prompt =  data['messages'][0]['prompt']
+            # Specify model
+            #model = "pixtral-12b-2409"
+            model = data['model']
+            # Define the messages for the chat
+            messages = [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": prompt
+                        }
+                    ]
+                }
+            ]
 
-        # Get the chat response
-        chat_response = client.chat.complete(
-            model=model,
-            messages=messages
-        )
+            # Get the chat response
+            chat_response = client.chat.complete(
+                model=model,
+                messages=messages
+            )
 
-        content = chat_response.choices[0].message.content
-        #print(chat_response.choices[0].message.content)
-        # Return the content of the response
-        return Response({"response": content})
-
+            content = chat_response.choices[0].message.content
+            #print(chat_response.choices[0].message.content)
+            # Return the content of the response
+            return Response({"response": content})
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return Response({'error': 'Something went wrong'}, status=500)
 
 
 @api_view(['GET'])
@@ -69,44 +106,48 @@ def recipe_generate_route(request):
 
 class VisionLLMView(APIView):
     def post(self, request, format=None):
-        data = request.data
-        api_key = os.environ["MISTRAL_API_KEY"]
+        try:
+            data = request.data
+            api_key = os.environ["MISTRAL_API_KEY"]
 
-        # Initialize the Mistral client
-        client = Mistral(api_key=api_key)
+            # Initialize the Mistral client
+            client = Mistral(api_key=api_key)
 
-        image_data = (data['messages'][0]['image'][0])
-        prompt =  data['messages'][0]['prompt']
-        # Specify model
-        #model = "pixtral-12b-2409"
-        model = data['model']
-        # Define the messages for the chat
-        messages = [
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": prompt
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": f"data:image/jpeg;base64,{image_data}" 
-                    }
-                ]
-            }
-        ]
+            image_data = (data['messages'][0]['image'][0])
+            prompt =  data['messages'][0]['prompt']
+            # Specify model
+            #model = "pixtral-12b-2409"
+            model = data['model']
+            # Define the messages for the chat
+            messages = [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": prompt
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": f"data:image/jpeg;base64,{image_data}" 
+                        }
+                    ]
+                }
+            ]
 
-        # Get the chat response
-        chat_response = client.chat.complete(
-            model=model,
-            messages=messages
-        )
+            # Get the chat response
+            chat_response = client.chat.complete(
+                model=model,
+                messages=messages
+            )
 
-        content = chat_response.choices[0].message.content
-        #print(chat_response.choices[0].message.content)
-        # Return the content of the response
-        return Response({"response": content})
+            content = chat_response.choices[0].message.content
+            #print(chat_response.choices[0].message.content)
+            # Return the content of the response
+            return Response({"response": content})
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return Response({'error': 'Something went wrong'}, status=500)
 
 
 class NIMVisionLLMView(APIView):
@@ -155,5 +196,5 @@ class NIMVisionLLMView(APIView):
 
 
         except Exception as e:  # Added general exception handling
-            print(f"Error: {e}")
-        return None
+            print(f"An error occurred: {e}")
+            return Response({'error': 'Something went wrong'}, status=500)

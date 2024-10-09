@@ -16,19 +16,18 @@ interface AppState {
   textprompt: string;
   isLoading: boolean;
   models: Map<string, any>; 
+  sourceLang: Map<string, any>; 
+  targetLang: Map<string, any>; 
   textSelectedModel: string; 
+  sourceSelectedLanguage:string;
+  targetSelectedLanguage:string;
 }
 //const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
-class TextDemo extends Component<{}, AppState> {
+class TranslateDemo extends Component<{}, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-  hfBaseUrl = import.meta.env.VITE_HF_SPACES_URL;
-  localInferenceUrl = import.meta.env.VITE_LOCAL_INFERENCE_URL;
   //serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
-  //serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
+  serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
   //serverBaseUrl = "http://localhost:8000/api/v1" ;
-  
-  serverBaseUrl = this.hfBaseUrl;
-
   
   constructor(props:{}) {
     super(props);
@@ -38,16 +37,26 @@ class TextDemo extends Component<{}, AppState> {
       textprompt: '',
       isLoading: false,
       models: new Map([
-        ['mistral-nemo', 'open-mistral-nemo'],
-        ['mistral-small','mistral-small-latest'],
-        ['mistral-large','mistral-large-latest']
+        ['mayura', 'mayura-v1'],
+//        ['mistral-small','mistral-small-latest'],
+//        ['mistral-large','mistral-large-latest']
       ]), 
-      textSelectedModel: 'mistral-nemo',
+      textSelectedModel: 'mayura',
+      sourceLang: new Map([
+        ['English', 'en-IN'],
+//        ['Kannada','kn-IN'],
+//        ['Hindi','hi-IN']
+      ]), 
+      targetLang: new Map([
+        ['Kannada', 'kn-IN'],
+        ['Hindi','hi-IN'],
+        ['Marathi','mr-IN']
+      ]),
+      sourceSelectedLanguage: 'English',
+      targetSelectedLanguage: 'Kannada', 
     };
-    console.log(this.hfBaseUrl);
-    console.log(this.localInferenceUrl);
-
   }
+// hi-IN, bn-IN, kn-IN, ml-IN, mr-IN, od-IN, pa-IN, ta-IN, te-IN,gu-IN 
 
   componentDidMount() {
     //this.getOrPullModel(this.state.selectedModel);
@@ -90,16 +99,32 @@ class TextDemo extends Component<{}, AppState> {
     });
   };
 
+  handleTargetLanguageChange = (event: SelectChangeEvent<string>) => {
+    this.setState({ targetSelectedLanguage: event.target.value }, () => {
+      //this.getOrPullModel(this.state.selectedModel);
+    });
+  };
+
+  handleSourceLanguageChange = (event: SelectChangeEvent<string>) => {
+    this.setState({ sourceSelectedLanguage: event.target.value }, () => {
+      //this.getOrPullModel(this.state.selectedModel);
+    });
+  };
+
   sendPromptToServer = async () => {
     this.setState({tableAIProgressLoading:true});
 
-    const serverEndpoint = this.serverBaseUrl + '/recipes/text_llm_url/';
+    const serverEndpoint = this.serverBaseUrl + '/recipes/translate_llm_url/';
 
 
     const model = this.state.models.get(this.state.textSelectedModel);
-        
+    const sourceLanguage =  this.state.sourceLang.get(this.state.sourceSelectedLanguage);
+    const targetLanguage = this.state.targetLang.get(this.state.targetSelectedLanguage);
+    
     const requestBody = {
       model: model,
+      sourceLanguage : sourceLanguage,
+      targetLanguage : targetLanguage,
       messages: [
         {
           role: 'user',
@@ -129,7 +154,7 @@ class TextDemo extends Component<{}, AppState> {
     <>
       <Box className="app-container">
         <Box>
-          <h2>Text LLM Demo</h2>
+          <h2>Translate Demo</h2>
           <Divider />
           <Box className="input-container">
             <TextField
@@ -151,6 +176,26 @@ class TextDemo extends Component<{}, AppState> {
               onChange={this.handleTextModelChange}
             >
               {Array.from(this.state.models.entries()).map(([key, ]) => (
+                <MenuItem key={key} value={key}>
+                  {key}
+                </MenuItem>
+              ))}
+            </Select>
+            <Select
+              value={this.state.sourceSelectedLanguage}
+              onChange={this.handleSourceLanguageChange}
+            >
+              {Array.from(this.state.sourceLang.entries()).map(([key, ]) => (
+                <MenuItem key={key} value={key}>
+                  {key}
+                </MenuItem>
+              ))}
+            </Select>
+            <Select
+              value={this.state.targetSelectedLanguage}
+              onChange={this.handleTargetLanguageChange}
+            >
+              {Array.from(this.state.targetLang.entries()).map(([key, ]) => (
                 <MenuItem key={key} value={key}>
                   {key}
                 </MenuItem>
@@ -180,4 +225,4 @@ class TextDemo extends Component<{}, AppState> {
 }
 }
 
-export default TextDemo;
+export default TranslateDemo;
