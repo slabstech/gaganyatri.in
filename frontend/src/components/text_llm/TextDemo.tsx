@@ -21,9 +21,14 @@ interface AppState {
 //const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
 class TextDemo extends Component<{}, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
+  hfBaseUrl = import.meta.env.VITE_HF_SPACES_URL;
+  localInferenceUrl = import.meta.env.VITE_LOCAL_INFERENCE_URL;
   //serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
-  serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
+  //serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
   //serverBaseUrl = "http://localhost:8000/api/v1" ;
+  
+  serverBaseUrl = this.hfBaseUrl;
+
   
   constructor(props:{}) {
     super(props);
@@ -39,6 +44,9 @@ class TextDemo extends Component<{}, AppState> {
       ]), 
       textSelectedModel: 'mistral-nemo',
     };
+    console.log(this.hfBaseUrl);
+    console.log(this.localInferenceUrl);
+
   }
 
   componentDidMount() {
