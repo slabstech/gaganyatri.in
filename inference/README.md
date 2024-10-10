@@ -11,6 +11,9 @@ Inference
 
 - curl -X POST http://localhost:5000/embed -H "Content-Type: application/json" -d '{"text": "Your text here"}'
 
+
+- Download model from huggingface
+
 Reference
 - https://python.langchain.com/docs/integrations/text_embedding/nomic/
 
