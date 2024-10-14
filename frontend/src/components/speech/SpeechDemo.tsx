@@ -18,7 +18,8 @@ const SpeechDemo = () => {
   const localInferenceUrl = import.meta.env.VITE_LOCAL_INFERENCE_URL;
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
-  const serverBaseUrl = hfBaseUrl;
+  //const serverBaseUrl = hfBaseUrl;
+  const serverBaseUrl = "http://localhost:8000/api/v1" ;
   const chunks = useRef([]);
   const [recordedUrl, setRecordedUrl] = useState('');
   const mediaRecorder = useRef(null);
@@ -40,7 +41,7 @@ const SpeechDemo = () => {
   ]));
   const [textSelectedModel, setTextSelectedModel] = useState<string>('mistral-nemo');
 
-  const startRecordingNEw = async () => {
+  const startRecording = async () => {
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         mediaRecorder.current = new MediaRecorder(stream);
@@ -52,6 +53,7 @@ const SpeechDemo = () => {
         mediaRecorder.current.onstop = () => {
             const blob = new Blob(chunks.current, { type: 'audio/webm' });
             const url = URL.createObjectURL(blob);
+            setAudioFile(blob);
             setRecordedUrl(url);
             //uploadAudio(blob); // Call upload function after stopping
             chunks.current = []; // Reset chunks for next recording
@@ -63,7 +65,7 @@ const SpeechDemo = () => {
     }
 };
 
-const stopRecordingNew = () => {
+const stopRecording = () => {
     if (mediaRecorder.current) {
         mediaRecorder.current.stop();
     }
@@ -71,51 +73,13 @@ const stopRecordingNew = () => {
 
   useEffect(() => {
     if (isListening) {
-      startRecordingNEw();
+      startRecording();
     } else {
-      stopRecordingNew();
+      stopRecording();
     }
   }, [isListening]);
 
-  /*
-  const stopRecording = () => {
-    if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-
-      // Create a Blob from the audio chunks and do something with it (e.g. upload to a server)
-      const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-      const audioFile = new File([audioBlob], 'recording.wav', { type: 'audio/wav' });
-      const audioUrl = URL.createObjectURL(audioBlob);
-      // Reset the audio chunks array
-      audioChunksRef.current = [];
-        // Check if the audio file can be played
-      const audio = new Audio(audioUrl);
-      audio.onerror = () => {
-        console.error('Audio file could not be decoded.');
-        // Handle the error appropriately
-          setAudioFile(null);
-          setAudioUrl(null);
-      };
-
-      setAudioFile(audioFile);
-      setAudioUrl(audioUrl);
-    }
-  };
-
-  const startRecording = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    mediaRecorderRef.current = new MediaRecorder(stream);
-
-    mediaRecorderRef.current.addEventListener('dataavailable', (event) => {
-      audioChunksRef.current.push(event.data);
-    });
-
-    mediaRecorderRef.current.start();
-    setIsRecording(true);
-  };
-
-*/
+ 
 /*
   const componentDidMount() {
     //this.getOrPullModel(this.state.selectedModel);
@@ -135,11 +99,11 @@ const stopRecordingNew = () => {
 
   const toggleVoiceInput = () => {
     if (isListening) {
-      startRecordingNEw();
-      console.log('isListinening');
+      startRecording();
+      //console.log('isListinening');
     } else {
-      stopRecordingNew();
-     console.log('not listnen');
+      stopRecording();
+     //console.log('not listnen');
     }
     //setIsListening(!isListening);
     setIsListening(!isListening);
@@ -185,7 +149,6 @@ const stopRecordingNew = () => {
     formData.append('model', model);
     formData.append('prompt', textprompt);
     formData.append('audio', audioFile);
-    formData.append('stream', 'false');
   
 
     try {

@@ -15,33 +15,45 @@ class SpeechLLMView(APIView):
     def post(self, request, format=None):
         try: 
             data = request.data
-            prompt =  data['prompt']
+            ##prompt =  data['prompt']
             audio = data['audio']
-            # Specify model
-            source_language = data['sourceLanguage']
-            target_language = data['targetLanguage']
-            #model = data['model']
-            # Define the messages for the chat
+            url = "https://api.sarvam.ai/speech-to-text"
             api_key=os.getenv("SARVAM_API_KEY", "")
-            url = "https://api.sarvam.ai/translate"
 
-            payload = {
-                "input": prompt,
-                "source_language_code": source_language,
-                "target_language_code": target_language,
-                "speaker_gender": "Male",
-                "mode": "formal",
-                "model": "mayura:v1",
-                "enable_preprocessing": True
+            boundary = '----WebKitFormBoundary7MA4YWxkTrZu0gW'
+            headers = {
+                "Content-Type": f"multipart/form-data; boundary={boundary}",
+                'API-Subscription-Key': f"{api_key}"
             }
-            headers = {"Content-Type": "application/json",
-                    'API-Subscription-Key': f"{api_key}"
-                    }
+            
+            # Specify model
+            language_code = 'kn-IN'
+ 
+            #model = data['model']
+            model = 'saarika:v1'
 
-            response = requests.request("POST", url, json=payload, headers=headers)
+            #payload = f"--{boundary}\r\nContent-Disposition: form-data; name=\"file\"; filename=\"{audio}\"\r\nContent-Type: audio/wav\r\n\r\n{audio}\r\n--{boundary}--\r\n"
+
+            
+            payload = f"--{boundary}\r\n"
+            payload += f"Content-Disposition: form-data; name=\"file\"\r\n\r\n"
+            payload += f"{audio}\r\n"
+            payload += f"--{boundary}\r\n"
+            payload += f"Content-Disposition: form-data; name=\"model\"\r\n\r\n"
+            payload += f"{model}\r\n"
+            payload += f"--{boundary}\r\n"
+            payload += f"Content-Disposition: form-data; name=\"language_code\"\r\n\r\n"
+            payload += f"{language_code}\r\n"
+            payload += f"--{boundary}--\r\n"
+
+
+            #payload = "-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"language_code\"\r\n\r\nhi-IN\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"model\"\r\n\r\nsaarika:v1\r\n-----011000010111000001101001--\r\n\r\n"
+            response = requests.request("POST", url, data=payload, headers=headers)
             content = response.text
             #print(chat_response.choices[0].message.content)
             # Return the content of the response
+            
+            #content = 'audio recieved'
             return Response({"response": content})
         except Exception as e:
             print(f"An error occurred: {e}")
