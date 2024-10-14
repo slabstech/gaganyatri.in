@@ -1,4 +1,4 @@
-import { Component, ChangeEvent } from 'react';
+import { useState, useRef, ChangeEvent } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
 import TextField from '@mui/material/TextField';
@@ -20,44 +20,58 @@ interface AppState {
   textSelectedModel: string; 
 }
 //const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
-class SpeechDemo extends Component<{}, AppState> {
-  ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-  hfBaseUrl = import.meta.env.VITE_HF_SPACES_URL;
-  localInferenceUrl = import.meta.env.VITE_LOCAL_INFERENCE_URL;
-  //serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
-  //serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
-  //serverBaseUrl = "http://localhost:8000/api/v1" ;
-  
-  serverBaseUrl = this.hfBaseUrl;
+const SpeechDemo = () => {
+  const ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
+  const hfBaseUrl = import.meta.env.VITE_HF_SPACES_URL;
+  const localInferenceUrl = import.meta.env.VITE_LOCAL_INFERENCE_URL;
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
+  const serverBaseUrl = hfBaseUrl;
 
-  
-  constructor(props:{}) {
-    super(props);
-    this.state = {
-      textresponse: null,
-      tableAIProgressLoading: false,
-      textprompt: '',
-      isListening: false,
-      isLoading: false,
-      models: new Map([
-        ['mistral-nemo', 'open-mistral-nemo'],
-        ['mistral-small','mistral-small-latest'],
-        ['mistral-large','mistral-large-latest']
-      ]), 
-      textSelectedModel: 'mistral-nemo',
-    };
-    console.log(this.hfBaseUrl);
-    console.log(this.localInferenceUrl);
+  const [isRecording, setIsRecording] = useState(false);
 
-  }
+  const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
+  const [textresponse, setTextResponse] = useState<any>(null);
+  const [textprompt, setTextPrompt] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isListening, setIsListening] = useState<boolean>(false);
+  const [models, setModels] = useState<Map<string, any>>(new Map([
+    ['mistral-nemo', 'open-mistral-nemo'],
+    ['mistral-small', 'mistral-small-latest'],
+    ['mistral-large', 'mistral-large-latest']
+  ]));
+  const [textSelectedModel, setTextSelectedModel] = useState<string>('mistral-nemo');
 
-  componentDidMount() {
+  const stopRecording = () => {
+    mediaRecorderRef.current.stop();
+    setIsRecording(false);
+
+    // Create a Blob from the audio chunks and do something with it (e.g. upload to a server)
+    const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
+    // Reset the audio chunks array
+    audioChunksRef.current = [];
+  };
+
+  const startRecording = async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorderRef.current = new MediaRecorder(stream);
+
+    mediaRecorderRef.current.addEventListener('dataavailable', (event) => {
+      audioChunksRef.current.push(event.data);
+    });
+
+    mediaRecorderRef.current.start();
+    setIsRecording(true);
+  };
+
+/*
+  const componentDidMount() {
     //this.getOrPullModel(this.state.selectedModel);
-  }
-
-  checkModelExists = async (modelName:string) => {
+  };
+*/
+  const checkModelExists = async (modelName:string) => {
     try {
-      await axios.post(`${this.ollamaBaseUrl}/show`, { name: modelName });
+      await axios.post(`${ollamaBaseUrl}/show`, { name: modelName });
       return true; // Model exists
     } catch (error) {
       if (error instanceof AxiosError && error.response && error.response.status === 404) {
@@ -67,13 +81,16 @@ class SpeechDemo extends Component<{}, AppState> {
     }
   };
 
-  toggleVoiceInput = () => {
-    if (this.state.isListening) {
+  const toggleVoiceInput = () => {
+    if (isListening) {
        // SpeechRecognition.stopListening();
       // setTextPrompt(transcript);
       //  resetTranscript();
+
+      startRecording();
       console.log('isListinening');
     } else {
+      stopRecording();
       /*
       if (SpeechRecognition.browserSupportsSpeechRecognition()) {
         SpeechRecognition.startListening({ continuous: true });
@@ -83,12 +100,12 @@ class SpeechDemo extends Component<{}, AppState> {
      console.log('not listnen');
     }
     //setIsListening(!isListening);
-    this.setState({isListening: (!this.state.isListening)});
+    setIsListening(!isListening);
   };
 
-  getOrPullModel = async (modelName:string) => {
+  const getOrPullModel = async (modelName:string) => {
     try {
-      const modelExists = await this.checkModelExists(modelName);
+      const modelExists = await checkModelExists(modelName);
       if (modelExists) {
         console.log(`Model '${modelName}' already exists.`);
       } else {
@@ -100,30 +117,29 @@ class SpeechDemo extends Component<{}, AppState> {
   };
 
 
-  handleTextPromptChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ textprompt: event.target.value });
+  const handleTextPromptChange = (event: ChangeEvent<HTMLInputElement>) => {
+    //this.setState({ textprompt: event.target.value });
+    setTextPrompt(event.target.value);
   };
 
-  handleTextModelChange = (event: SelectChangeEvent<string>) => {
-    this.setState({ textSelectedModel: event.target.value }, () => {
+  const handleTextModelChange = (event: SelectChangeEvent<string>) => {
+    //this.setState({ textSelectedModel: event.target.value }, () => {
       //this.getOrPullModel(this.state.selectedModel);
-    });
+    //});
+    setTextSelectedModel(event.target.value);
   };
 
-  sendPromptToServer = async () => {
-    this.setState({tableAIProgressLoading:true});
-
-    const serverEndpoint = this.serverBaseUrl + '/recipes/text_llm_url/';
-
-
-    const model = this.state.models.get(this.state.textSelectedModel);
+  const sendPromptToServer = async () => {
+    setTableAIProgressLoading(true);
+    const serverEndpoint = serverBaseUrl + '/recipes/text_llm_url/';
+    const model = models.get(textSelectedModel);
         
     const requestBody = {
       model: model,
       messages: [
         {
           role: 'user',
-          prompt: this.state.textprompt,
+          prompt: textprompt,
         }
       ],
       stream: false
@@ -131,20 +147,20 @@ class SpeechDemo extends Component<{}, AppState> {
     try {
       const response = await axios.post(serverEndpoint, requestBody);
       const messageContent = response.data.response;
-      this.setState({tableAIProgressLoading:false});
-    
-      this.setState({ textresponse: messageContent });
+      setTableAIProgressLoading(false);
+
+      setTextResponse(messageContent);
+
 
       return messageContent;
     } catch (error) {
       console.error('Error processing Text Prompt:', (error as AxiosError).message);
-      this.setState({tableAIProgressLoading:false});
+      setTableAIProgressLoading(false);
       throw error;
     }
     
   };
 
-  render(){
   return (
     <>
       <Box className="app-container">
@@ -153,31 +169,31 @@ class SpeechDemo extends Component<{}, AppState> {
           <Divider />
           <Box className="input-container">
             <TextField
-              value={this.state.textprompt}
-              onChange={this.handleTextPromptChange}
+              value={textprompt}
+              onChange={handleTextPromptChange}
               placeholder="Enter your prompt here..."
               fullWidth
               sx={{ backgroundColor: 'white', color: 'black' }}
             />
           <Button
             variant="contained"
-            onClick={this.toggleVoiceInput}
-            disabled={this.state.isLoading}
+            onClick={toggleVoiceInput}
+            disabled={isLoading}
           >
-            {this.state.isListening ? 'Stop Voice Input' : 'Start Voice Input'}
+            {isListening ? 'Stop Voice Input' : 'Start Voice Input'}
             </Button>
             <Button
               variant="contained"
-              onClick={this.sendPromptToServer}
-              disabled={this.state.isLoading}
+              onClick={sendPromptToServer}
+              disabled={isLoading}
             >
-              {this.state.isLoading ? 'Processing...' : 'Submit'}
+              {isLoading ? 'Processing...' : 'Submit'}
             </Button>
             <Select
-              value={this.state.textSelectedModel}
-              onChange={this.handleTextModelChange}
+              value={textSelectedModel}
+              onChange={handleTextModelChange}
             >
-              {Array.from(this.state.models.entries()).map(([key, ]) => (
+              {Array.from(models.entries()).map(([key, ]) => (
                 <MenuItem key={key} value={key}>
                   {key}
                 </MenuItem>
@@ -185,13 +201,13 @@ class SpeechDemo extends Component<{}, AppState> {
             </Select>
           </Box>
           <Box id="botResult">
-            {this.state.tableAIProgressLoading && <LinearProgress />}
+            {tableAIProgressLoading && <LinearProgress />}
           </Box>
-          {this.state.textresponse && (
+          {textresponse && (
             <Box className="response-container">
               <h4>Response:</h4>
               <TextField
-                value={JSON.stringify(this.state.textresponse, null, 2)}
+                value={JSON.stringify(textresponse, null, 2)}
                 disabled
                 multiline
                 fullWidth
@@ -204,7 +220,6 @@ class SpeechDemo extends Component<{}, AppState> {
       </Box>
     </>
   )
-}
 }
 
 export default SpeechDemo;
