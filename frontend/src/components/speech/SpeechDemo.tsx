@@ -19,6 +19,9 @@ const SpeechDemo = () => {
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const serverBaseUrl = hfBaseUrl;
+  const chunks = useRef([]);
+  const [recordedUrl, setRecordedUrl] = useState('');
+  const mediaRecorder = useRef(null);
 
   const [isRecording, setIsRecording] = useState(false);
   const [audioFile, setAudioFile] = useState<File | null>(null);
@@ -37,14 +40,44 @@ const SpeechDemo = () => {
   ]));
   const [textSelectedModel, setTextSelectedModel] = useState<string>('mistral-nemo');
 
+  const startRecordingNEw = async () => {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder.current = new MediaRecorder(stream);
+
+        mediaRecorder.current.ondataavailable = (event) => {
+            chunks.current.push(event.data);
+        };
+
+        mediaRecorder.current.onstop = () => {
+            const blob = new Blob(chunks.current, { type: 'audio/webm' });
+            const url = URL.createObjectURL(blob);
+            setRecordedUrl(url);
+            //uploadAudio(blob); // Call upload function after stopping
+            chunks.current = []; // Reset chunks for next recording
+        };
+
+        mediaRecorder.current.start();
+    } catch (error) {
+        console.error('Error accessing microphone:', error);
+    }
+};
+
+const stopRecordingNew = () => {
+    if (mediaRecorder.current) {
+        mediaRecorder.current.stop();
+    }
+};
+
   useEffect(() => {
     if (isListening) {
-      startRecording();
+      startRecordingNEw();
     } else {
-      stopRecording();
+      stopRecordingNew();
     }
   }, [isListening]);
 
+  /*
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
@@ -56,6 +89,14 @@ const SpeechDemo = () => {
       const audioUrl = URL.createObjectURL(audioBlob);
       // Reset the audio chunks array
       audioChunksRef.current = [];
+        // Check if the audio file can be played
+      const audio = new Audio(audioUrl);
+      audio.onerror = () => {
+        console.error('Audio file could not be decoded.');
+        // Handle the error appropriately
+          setAudioFile(null);
+          setAudioUrl(null);
+      };
 
       setAudioFile(audioFile);
       setAudioUrl(audioUrl);
@@ -74,7 +115,7 @@ const SpeechDemo = () => {
     setIsRecording(true);
   };
 
-
+*/
 /*
   const componentDidMount() {
     //this.getOrPullModel(this.state.selectedModel);
@@ -94,10 +135,10 @@ const SpeechDemo = () => {
 
   const toggleVoiceInput = () => {
     if (isListening) {
-      startRecording();
+      startRecordingNEw();
       console.log('isListinening');
     } else {
-      stopRecording();
+      stopRecordingNew();
      console.log('not listnen');
     }
     //setIsListening(!isListening);
@@ -189,19 +230,17 @@ const SpeechDemo = () => {
           >
             {isListening ? 'Stop Voice Input' : 'Start Voice Input'}
             </Button>
-            {audioUrl && (
+            {recordedUrl && (
           <Button
             variant="contained"
             onClick={() => {
-              const audio = new Audio(audioUrl);
+              const audio = new Audio(recordedUrl);
               audio.play();
             }}
           >
             Play Recording
           </Button>
         )}
-
-
             <Button
               variant="contained"
               onClick={sendPromptToServer}
