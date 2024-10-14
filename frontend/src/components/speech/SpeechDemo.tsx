@@ -15,6 +15,7 @@ interface AppState {
   textresponse: any;
   textprompt: string;
   isLoading: boolean;
+  isListening: boolean;
   models: Map<string, any>; 
   textSelectedModel: string; 
 }
@@ -36,6 +37,7 @@ class SpeechDemo extends Component<{}, AppState> {
       textresponse: null,
       tableAIProgressLoading: false,
       textprompt: '',
+      isListening: false,
       isLoading: false,
       models: new Map([
         ['mistral-nemo', 'open-mistral-nemo'],
@@ -65,6 +67,24 @@ class SpeechDemo extends Component<{}, AppState> {
     }
   };
 
+  toggleVoiceInput = () => {
+    if (this.state.isListening) {
+       // SpeechRecognition.stopListening();
+      // setTextPrompt(transcript);
+      //  resetTranscript();
+      console.log('isListinening');
+    } else {
+      /*
+      if (SpeechRecognition.browserSupportsSpeechRecognition()) {
+        SpeechRecognition.startListening({ continuous: true });
+      } else {
+        console.log("Browser does not support speech recognition");
+      }*/
+     console.log('not listnen');
+    }
+    //setIsListening(!isListening);
+    this.setState({isListening: (!this.state.isListening)});
+  };
 
   getOrPullModel = async (modelName:string) => {
     try {
@@ -139,6 +159,13 @@ class SpeechDemo extends Component<{}, AppState> {
               fullWidth
               sx={{ backgroundColor: 'white', color: 'black' }}
             />
+          <Button
+            variant="contained"
+            onClick={this.toggleVoiceInput}
+            disabled={this.state.isLoading}
+          >
+            {this.state.isListening ? 'Stop Voice Input' : 'Start Voice Input'}
+            </Button>
             <Button
               variant="contained"
               onClick={this.sendPromptToServer}
