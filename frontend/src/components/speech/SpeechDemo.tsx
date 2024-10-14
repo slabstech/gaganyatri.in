@@ -1,4 +1,4 @@
-import { useState, useRef, ChangeEvent } from 'react';
+import { useState, useRef, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
 import TextField from '@mui/material/TextField';
@@ -9,17 +9,9 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { SelectChangeEvent } from '@mui/material/Select';
+import { saveAs } from 'file-saver';
 
-interface AppState {
-  tableAIProgressLoading: boolean;
-  textresponse: any;
-  textprompt: string;
-  isLoading: boolean;
-  isListening: boolean;
-  models: Map<string, any>; 
-  textSelectedModel: string; 
-}
-//const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
+
 const SpeechDemo = () => {
   const ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   const hfBaseUrl = import.meta.env.VITE_HF_SPACES_URL;
@@ -29,6 +21,9 @@ const SpeechDemo = () => {
   const serverBaseUrl = hfBaseUrl;
 
   const [isRecording, setIsRecording] = useState(false);
+  const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+
 
   const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
   const [textresponse, setTextResponse] = useState<any>(null);
@@ -42,14 +37,29 @@ const SpeechDemo = () => {
   ]));
   const [textSelectedModel, setTextSelectedModel] = useState<string>('mistral-nemo');
 
-  const stopRecording = () => {
-    mediaRecorderRef.current.stop();
-    setIsRecording(false);
+  useEffect(() => {
+    if (isListening) {
+      startRecording();
+    } else {
+      stopRecording();
+    }
+  }, [isListening]);
 
-    // Create a Blob from the audio chunks and do something with it (e.g. upload to a server)
-    const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-    // Reset the audio chunks array
-    audioChunksRef.current = [];
+  const stopRecording = () => {
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+
+      // Create a Blob from the audio chunks and do something with it (e.g. upload to a server)
+      const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
+      const audioFile = new File([audioBlob], 'recording.wav', { type: 'audio/wav' });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      // Reset the audio chunks array
+      audioChunksRef.current = [];
+
+      setAudioFile(audioFile);
+      setAudioUrl(audioUrl);
+    }
   };
 
   const startRecording = async () => {
@@ -63,6 +73,7 @@ const SpeechDemo = () => {
     mediaRecorderRef.current.start();
     setIsRecording(true);
   };
+
 
 /*
   const componentDidMount() {
@@ -83,20 +94,10 @@ const SpeechDemo = () => {
 
   const toggleVoiceInput = () => {
     if (isListening) {
-       // SpeechRecognition.stopListening();
-      // setTextPrompt(transcript);
-      //  resetTranscript();
-
       startRecording();
       console.log('isListinening');
     } else {
       stopRecording();
-      /*
-      if (SpeechRecognition.browserSupportsSpeechRecognition()) {
-        SpeechRecognition.startListening({ continuous: true });
-      } else {
-        console.log("Browser does not support speech recognition");
-      }*/
      console.log('not listnen');
     }
     //setIsListening(!isListening);
@@ -130,22 +131,28 @@ const SpeechDemo = () => {
   };
 
   const sendPromptToServer = async () => {
+    if (!audioFile) {
+      // If audioFile is null, do not proceed with the request
+      return;
+    }
     setTableAIProgressLoading(true);
-    const serverEndpoint = serverBaseUrl + '/recipes/text_llm_url/';
+    const serverEndpoint = serverBaseUrl + '/recipes/speech_llm_url/';
     const model = models.get(textSelectedModel);
-        
-    const requestBody = {
-      model: model,
-      messages: [
-        {
-          role: 'user',
-          prompt: textprompt,
-        }
-      ],
-      stream: false
-    };
+
+  
+    const formData = new FormData();
+    formData.append('model', model);
+    formData.append('prompt', textprompt);
+    formData.append('audio', audioFile);
+    formData.append('stream', 'false');
+  
+
     try {
-      const response = await axios.post(serverEndpoint, requestBody);
+      const response = await axios.post(serverEndpoint, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       const messageContent = response.data.response;
       setTableAIProgressLoading(false);
 
@@ -182,6 +189,19 @@ const SpeechDemo = () => {
           >
             {isListening ? 'Stop Voice Input' : 'Start Voice Input'}
             </Button>
+            {audioUrl && (
+          <Button
+            variant="contained"
+            onClick={() => {
+              const audio = new Audio(audioUrl);
+              audio.play();
+            }}
+          >
+            Play Recording
+          </Button>
+        )}
+
+
             <Button
               variant="contained"
               onClick={sendPromptToServer}

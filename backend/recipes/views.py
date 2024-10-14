@@ -10,6 +10,43 @@ import base64
 import json
 import requests
 
+
+class SpeechLLMView(APIView):
+    def post(self, request, format=None):
+        try: 
+            data = request.data
+            prompt =  data['prompt']
+            audio = data['audio']
+            # Specify model
+            source_language = data['sourceLanguage']
+            target_language = data['targetLanguage']
+            #model = data['model']
+            # Define the messages for the chat
+            api_key=os.getenv("SARVAM_API_KEY", "")
+            url = "https://api.sarvam.ai/translate"
+
+            payload = {
+                "input": prompt,
+                "source_language_code": source_language,
+                "target_language_code": target_language,
+                "speaker_gender": "Male",
+                "mode": "formal",
+                "model": "mayura:v1",
+                "enable_preprocessing": True
+            }
+            headers = {"Content-Type": "application/json",
+                    'API-Subscription-Key': f"{api_key}"
+                    }
+
+            response = requests.request("POST", url, json=payload, headers=headers)
+            content = response.text
+            #print(chat_response.choices[0].message.content)
+            # Return the content of the response
+            return Response({"response": content})
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return Response({'error': 'Something went wrong'}, status=500)
+
 class TranslateLLMView(APIView):
     def post(self, request, format=None):
         try: 
