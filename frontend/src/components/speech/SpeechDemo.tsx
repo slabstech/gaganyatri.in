@@ -9,30 +9,28 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { saveAs } from 'file-saver';
+import MicIcon from '@mui/icons-material/Mic';
+import MicOffIcon from '@mui/icons-material/MicOff';
 
 
 const SpeechDemo = () => {
   const ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   const hfBaseUrl = import.meta.env.VITE_HF_SPACES_URL;
   const localInferenceUrl = import.meta.env.VITE_LOCAL_INFERENCE_URL;
-  const mediaRecorderRef = useRef(null);
-  const audioChunksRef = useRef([]);
   //const serverBaseUrl = hfBaseUrl;
   const serverBaseUrl = "http://localhost:8000/api/v1" ;
   const chunks = useRef([]);
   const [recordedUrl, setRecordedUrl] = useState('');
   const mediaRecorder = useRef(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [isRecording, setIsRecording] = useState(false);
   const [audioFile, setAudioFile] = useState<File | null>(null);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [isProduction, setIsProduction] = useState(true);
 
 
   const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
   const [textresponse, setTextResponse] = useState<any>(null);
   const [textprompt, setTextPrompt] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isListening, setIsListening] = useState<boolean>(false);
   const [models, setModels] = useState<Map<string, any>>(new Map([
     ['mistral-nemo', 'open-mistral-nemo'],
@@ -76,6 +74,9 @@ const stopRecording = () => {
       startRecording();
     } else {
       stopRecording();
+    }
+    if (process.env.NODE_ENV === 'production') {
+      setIsProduction(true);
     }
   }, [isListening]);
 
@@ -188,18 +189,20 @@ const stopRecording = () => {
             />
           <Button
             variant="contained"
+            color={isListening ? "secondary" : "primary"}
+            startIcon={isListening ? <MicIcon /> : <MicOffIcon />}
             onClick={toggleVoiceInput}
             disabled={isLoading}
           >
-            {isListening ? 'Stop Voice Input' : 'Start Voice Input'}
-            </Button>
-            {recordedUrl && (
+          </Button>
+            {!isProduction && recordedUrl && (
           <Button
             variant="contained"
             onClick={() => {
               const audio = new Audio(recordedUrl);
               audio.play();
             }}
+            disabled={isProduction}
           >
             Play Recording
           </Button>
