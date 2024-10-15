@@ -1,0 +1,19 @@
+services:
+  faster-whisper-server-cuda:
+    image: fedirz/faster-whisper-server:latest-cuda
+    restart: unless-stopped
+    ports:
+      - 8000:8000
+    volumes:
+      - hugging_face_cache:/root/.cache/huggingface
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+    environment:
+      - WHISPER__MODEL=Systran/faster-distil-whisper-small.en
+      - UVICORN_HOST=0.0.0.0
+      - UVICORN_PORT=8000
+volumes:
+  hugging_face_cache:
