@@ -3,6 +3,7 @@ import { Container, Grid, Typography, Divider } from '@mui/material';
 import VisionDemo from './vision/VisionDemo';
 import TextDemo from './text_llm/TextDemo';
 import TranslateDemo from './translate/TranslateDemo';
+import SpeechDemo from './speech/SpeechDemo';
 
 interface AppState {
 }
@@ -24,6 +25,12 @@ class Home extends Component<{}, AppState> {
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <TranslateDemo />
+          </Grid>
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <SpeechDemo />
           </Grid>
           <Grid item xs={12}>
             <Divider />

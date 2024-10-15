@@ -44,8 +44,8 @@ class TextDemo extends Component<{}, AppState> {
       ]), 
       textSelectedModel: 'mistral-nemo',
     };
-    console.log(this.hfBaseUrl);
-    console.log(this.localInferenceUrl);
+    //console.log(this.hfBaseUrl);
+    //console.log(this.localInferenceUrl);
 
   }
 

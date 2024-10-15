@@ -4,7 +4,7 @@
 ![Tech Stack](docs/architecture.jpg)
 
 
-[Discord Server](https://discord.gg/h8ygUwvw)
+[Discord Server](https://discord.gg/HAXjG7sC)
 
 - Tech Stack
   - Frontend

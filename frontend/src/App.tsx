@@ -14,6 +14,7 @@ import axios from "axios";
 import { Switch, FormControlLabel, FormGroup, Box, Typography, Link, IconButton } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
+import DiscordIcon from './assets/discordIcon';
 
 
 axios.defaults.baseURL = "http://127.0.0.1:8000";
@@ -79,6 +80,9 @@ const App = () => {
           </IconButton>
           <IconButton size="small" href="https://x.com/gaganyatri" target="_blank">
             <TwitterIcon />
+          </IconButton>
+          <IconButton size="small" href="https://discord.gg/HAXjG7sC" target="_blank">
+            <DiscordIcon />
           </IconButton>
         </Typography>
       </Box>
