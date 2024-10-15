@@ -1,5 +1,11 @@
 Speech - 
 
+- Download Model to cache - 
+    - huggingface-cli download Systran/faster-distil-whisper-small.en
+- Run Docker with faster-whisper
+    - docker compose -f docker-compose.yml up -d
+
+
 - [Whisper](https://github.com/openai/whisper)
 - [Faster Whisper](https://github.com/SYSTRAN/faster-whisper)
 - WhisperX

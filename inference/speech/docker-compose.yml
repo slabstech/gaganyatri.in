@@ -17,3 +17,8 @@ services:
       - UVICORN_PORT=8000
 volumes:
   hugging_face_cache:
+    driver: local
+    driver_opts:
+      type: none
+      device: ~/.cache/huggingface
+      o: bind
