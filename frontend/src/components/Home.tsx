@@ -24,25 +24,25 @@ class Home extends Component<{}, AppState> {
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <TranslateDemo />
-          </Grid>
-          <Grid item xs={12}>
-            <Divider />
-          </Grid>
-          <Grid item xs={12} md={6}>
             <SpeechDemo />
           </Grid>
           <Grid item xs={12}>
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <TextDemo />
+            <VisionDemo />
           </Grid>
           <Grid item xs={12}>
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <VisionDemo />
+            <TranslateDemo />
+          </Grid>
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextDemo />
           </Grid>
         </Grid>
       </Container>

@@ -3,8 +3,6 @@ import axios from 'axios';
 import { AxiosError } from 'axios';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -32,11 +30,7 @@ const SpeechDemo = () => {
   const [textresponse, setTextResponse] = useState<any>(null);
   const [textprompt, setTextPrompt] = useState<string>('');
   const [isListening, setIsListening] = useState<boolean>(false);
-  const [models, setModels] = useState<Map<string, any>>(new Map([
-    ['mistral-nemo', 'open-mistral-nemo'],
-    ['mistral-small', 'mistral-small-latest'],
-    ['mistral-large', 'mistral-large-latest']
-  ]));
+
   const [textSelectedModel, setTextSelectedModel] = useState<string>('mistral-nemo');
 
   const startRecording = async () => {
@@ -86,17 +80,6 @@ const stopRecording = () => {
     //this.getOrPullModel(this.state.selectedModel);
   };
 */
-  const checkModelExists = async (modelName:string) => {
-    try {
-      await axios.post(`${ollamaBaseUrl}/show`, { name: modelName });
-      return true; // Model exists
-    } catch (error) {
-      if (error instanceof AxiosError && error.response && error.response.status === 404) {
-        return false; // Model doesn't exist
-      }
-      throw error; // Rethrow other errors
-    }
-  };
 
   const toggleVoiceInput = () => {
     if (isListening) {
@@ -110,32 +93,6 @@ const stopRecording = () => {
     setIsListening(!isListening);
   };
 
-  const getOrPullModel = async (modelName:string) => {
-    try {
-      const modelExists = await checkModelExists(modelName);
-      if (modelExists) {
-        console.log(`Model '${modelName}' already exists.`);
-      } else {
-        console.log(`Model '${modelName}' not found. Pulling...`);
-      }
-    } catch (error) {
-      console.error('Error:', (error as AxiosError).message);
-    }
-  };
-
-
-  const handleTextPromptChange = (event: ChangeEvent<HTMLInputElement>) => {
-    //this.setState({ textprompt: event.target.value });
-    setTextPrompt(event.target.value);
-  };
-
-  const handleTextModelChange = (event: SelectChangeEvent<string>) => {
-    //this.setState({ textSelectedModel: event.target.value }, () => {
-      //this.getOrPullModel(this.state.selectedModel);
-    //});
-    setTextSelectedModel(event.target.value);
-  };
-
   const sendPromptToServer = async () => {
     if (!audioFile) {
       // If audioFile is null, do not proceed with the request
@@ -143,12 +100,8 @@ const stopRecording = () => {
     }
     setTableAIProgressLoading(true);
     const serverEndpoint = serverBaseUrl + '/recipes/speech_llm_url/';
-    const model = models.get(textSelectedModel);
-
   
     const formData = new FormData();
-    formData.append('model', model);
-    formData.append('prompt', textprompt);
     formData.append('audio', audioFile);
   
 
@@ -180,13 +133,6 @@ const stopRecording = () => {
           <h2>Speech Demo</h2>
           <Divider />
           <Box className="input-container">
-            <TextField
-              value={textprompt}
-              onChange={handleTextPromptChange}
-              placeholder="Enter your prompt here..."
-              fullWidth
-              sx={{ backgroundColor: 'white', color: 'black' }}
-            />
           <Button
             variant="contained"
             color={isListening ? "secondary" : "primary"}
@@ -214,16 +160,6 @@ const stopRecording = () => {
             >
               {isLoading ? 'Processing...' : 'Submit'}
             </Button>
-            <Select
-              value={textSelectedModel}
-              onChange={handleTextModelChange}
-            >
-              {Array.from(models.entries()).map(([key, ]) => (
-                <MenuItem key={key} value={key}>
-                  {key}
-                </MenuItem>
-              ))}
-            </Select>
           </Box>
           <Box id="botResult">
             {tableAIProgressLoading && <LinearProgress />}
