@@ -9,7 +9,7 @@ import os
 import base64
 import json
 import requests
-
+from openai import OpenAI
 
 class SpeechLLMView(APIView):
     def post(self, request, format=None):
@@ -17,6 +17,22 @@ class SpeechLLMView(APIView):
             data = request.data
             ##prompt =  data['prompt']
             audio = data['audio']
+
+
+            client = OpenAI(api_key="cant-be-empty", base_url="http://localhost:11800/v1/")
+
+            #filename= '/home/gaganyatri/Music/test1.flac'
+            audio_bytes = audio.read()
+
+            #audio_file = open(filename, "rb")
+
+            transcript = client.audio.transcriptions.create(
+                model="Systran/faster-distil-whisper-small.en", file=audio_bytes
+            )
+
+            print(transcript.text)
+            content = transcript.text
+            '''
             url = "https://api.sarvam.ai/speech-to-text"
             api_key=os.getenv("SARVAM_API_KEY", "")
 
@@ -52,7 +68,8 @@ class SpeechLLMView(APIView):
             content = response.text
             #print(chat_response.choices[0].message.content)
             # Return the content of the response
-            
+            '''
+
             #content = 'audio recieved'
             return Response({"response": content})
         except Exception as e:

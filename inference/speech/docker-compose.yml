@@ -3,7 +3,7 @@ services:
     image: fedirz/faster-whisper-server:latest-cuda
     restart: unless-stopped
     ports:
-      - 8000:8000
+      - 11800:11800
     volumes:
       - hugging_face_cache:/root/.cache/huggingface
     deploy:
@@ -16,7 +16,7 @@ services:
     environment:
       - WHISPER__MODEL=Systran/faster-distil-whisper-small.en
       - UVICORN_HOST=0.0.0.0
-      - UVICORN_PORT=8000
+      - UVICORN_PORT=11800
 volumes:
   hugging_face_cache:
     driver: local
