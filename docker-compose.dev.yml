@@ -36,7 +36,7 @@ services:
     extra_hosts:
       host.docker.internal: host-gateway
 networks:
-  gagnyatri_net:
+  gaganyatri_net:
     driver: bridge
 volumes:
   static:
