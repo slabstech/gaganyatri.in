@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import L from 'leaflet';
 import {Box, Typography, Table, TableBody, TableCell,
   TableContainer, TableRow, Paper, Container} from '@mui/material';
@@ -10,11 +10,16 @@ import 'leaflet/dist/leaflet.css';
 const mapUrl= 'https://api.wheretheiss.at/v1/satellites/25544';
 
 const Maps = () => {
-  const [satelliteData, setSatelliteData] = useState({});
+  const [satelliteData, setSatelliteData] = useState({
+    timestamp: '',
+    altitude: '',
+  });
   const [lat, setLat] = useState(49.7929);
   const [long, setLong] = useState(9.9522);
   const zoomLevel = 4;
-  const markerRef = useRef(null);
+  // const markerRef = useRef(null);
+  const markerRef = useRef<L.Marker<any> | null>(null);
+
 
   useEffect(() => {
     const map = L.map('map-div').setView([lat, long], zoomLevel);
