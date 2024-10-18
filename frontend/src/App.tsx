@@ -5,6 +5,7 @@ import About from './components/About';
 import NoMatch from './components/NoMatch';
 import News from './components/news/News';
 import Demos from './components/Demos';
+import Maps from './components/Maps';
 import { useState } from 'react';
 //import { ToastContainer } from "react-toastify";
 import Signup from "./components/signup/Signup";
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/demos" element={<Demos />} />
           <Route path="/news" element={<News />} />
           <Route path="/about" element={<About />} />
+          <Route path="/maps" element={<Maps />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login/>} />
           <Route path="*" element={<NoMatch />} />

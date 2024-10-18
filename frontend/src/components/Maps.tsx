@@ -4,8 +4,8 @@ import {Box, Typography, Table, TableBody, TableCell,
   TableContainer, TableRow, Paper, Container} from '@mui/material';
 import 'leaflet/dist/leaflet.css';
 
-#const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
-#const mapUrl = `${API_URL}satnogs/get_satellite_info?norad_cat_id=98847`;
+// const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
+// const mapUrl = `${API_URL}satnogs/get_satellite_info?norad_cat_id=98847`;
 
 const mapUrl= 'https://api.wheretheiss.at/v1/satellites/25544';
 
@@ -38,8 +38,8 @@ const Maps = () => {
             setSatelliteData({
               timestamp: new Date(data.timestamp * 1000).toUTCString(),
               altitude: data.altitude.toFixed(2),
-              line1: data.line1,
-              line2: data.line2,
+      //        line1: data.line1,
+      //        line2: data.line2,
             });
 
             // Update marker position without causing re-renders
@@ -84,15 +84,6 @@ const Maps = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </Box>
-      <Box sx={{backgroundColor: '#2B32B2', padding: 3, color: '#fff', mt: 2,
-        borderRadius: 2, width: '800px'}}>
-        <Typography variant="body1">
-          <strong>Line 1:</strong> <span>{satelliteData.line1}</span>
-        </Typography>
-        <Typography variant="body1">
-          <strong>Line 2:</strong> <span>{satelliteData.line2}</span>
-        </Typography>
       </Box>
     </Container>
   );
