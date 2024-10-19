@@ -22,15 +22,20 @@ interface AppState {
   sourceSelectedLanguage:string;
   targetSelectedLanguage:string;
 }
+
+type TranslateProps = {
+  serverUrl: string;
+};
+
 //const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
-class TranslateDemo extends Component<{}, AppState> {
+class TranslateDemo extends Component<TranslateProps, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   //serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
-  serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
-  //serverBaseUrl = "http://localhost:8000/api/v1" ;
+  serverBaseUrl = "http://localhost:8000/api/v1" ;
   
-  constructor(props:{}) {
+  constructor(props:TranslateProps) {
     super(props);
+    this.serverBaseUrl = this.props.serverUrl;
     this.state = {
       textresponse: null,
       tableAIProgressLoading: false,

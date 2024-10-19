@@ -20,7 +20,7 @@ interface AppState {
 }
 
 type TextDemoProps = {
-  url: string;
+  serverUrl: string;
 };
 
 
@@ -32,7 +32,7 @@ class TextDemo extends Component<TextDemoProps, AppState> {
   //serverBaseUrl = this.hfBaseUrl; 
   constructor(props:TextDemoProps) {
     super(props);
-    this.serverBaseUrl = this.props.url;
+    this.serverBaseUrl = this.props.serverUrl;
     this.state = {
       textresponse: null,
       tableAIProgressLoading: false,

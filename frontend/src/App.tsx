@@ -24,8 +24,8 @@ const App = () => {
 
   const offlineUrl =  'http://localhost:8000/api/v1' ;
   const onlineUrl  = import.meta.env.VITE_HF_SPACES_URL;
-  const [url, setUrl] = useState(onlineUrl);
-  console.log(url);
+  const [serverUrl, setUrl] = useState(onlineUrl);
+  console.log(serverUrl);
   const [checked, setChecked] = useState(true);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,8 +37,8 @@ const App = () => {
     <>
       <NavBar />
         <Routes>
-          <Route path="/" element={<Home url={url} />} />
-          <Route path="/demos" element={<Demos url={url} />} />
+          <Route path="/" element={<Home serverUrl={serverUrl} />} />
+          <Route path="/demos" element={<Demos serverUrl={serverUrl} />} />
           <Route path="/news" element={<News />} />
           <Route path="/about" element={<About />} />
           <Route path="/maps" element={<Maps />} />

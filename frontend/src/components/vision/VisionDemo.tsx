@@ -10,6 +10,10 @@ import Box from '@mui/material/Box';
 import { SelectChangeEvent } from '@mui/material/Select';
 
 
+type VisionProps = {
+  serverUrl: string;
+};
+
 interface AppState {
   base64StringImage: string | null;
   tableAIProgressLoading: boolean;
@@ -21,13 +25,12 @@ interface AppState {
   imageSelectedModel: string; 
   functionEndpoint:string;
 }
-class VisionDemo extends Component<{}, AppState> {
+class VisionDemo extends Component<VisionProps, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-  //serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
-  serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
-  //serverBaseUrl = 'http://localhost:8000/api/v1' ;
-  constructor(props:{}) {
+  serverBaseUrl = 'http://localhost:8000/api/v1' ;
+  constructor(props:VisionProps) {
     super(props);
+    this.serverBaseUrl = this.props.serverUrl;
     this.state = {
       base64StringImage: null,
       tableAIProgressLoading: false,

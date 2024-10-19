@@ -9,13 +9,14 @@ import Divider from '@mui/material/Divider';
 import MicIcon from '@mui/icons-material/Mic';
 import MicOffIcon from '@mui/icons-material/MicOff';
 
+type SpeechDemoProps = {
+  serverUrl?: string;
+};
 
-const SpeechDemo = () => {
-//  const ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-//  const hfBaseUrl = import.meta.env.VITE_HF_SPACES_URL;
-//  const localInferenceUrl = import.meta.env.VITE_LOCAL_INFERENCE_URL;
-  //const serverBaseUrl = hfBaseUrl;
-  const serverBaseUrl = "http://localhost:8000/api/v1" ;
+
+const SpeechDemo = ({ serverUrl }: SpeechDemoProps) => {
+  const serverBaseUrl = serverUrl || "http://localhost:8000/api/v1" ;
+  
   const chunks = useRef<Blob[]>([]);
   const [recordedUrl, setRecordedUrl] = useState('');
   const mediaRecorder = useRef<MediaRecorder | null>(null);

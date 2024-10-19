@@ -10,7 +10,7 @@ interface AppState {
 
 
 type HomeProps = {
-  url: string;
+  serverUrl: string;
 };
 
 
@@ -20,7 +20,7 @@ class Home extends Component<HomeProps, AppState> {
 
   constructor(props:HomeProps) {
     super(props);
-    this.serverBaseUrl = this.props.url;
+    this.serverBaseUrl = this.props.serverUrl;
   }
 
   render() {
@@ -31,25 +31,25 @@ class Home extends Component<HomeProps, AppState> {
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <SpeechDemo url={this.serverBaseUrl} />
+            <SpeechDemo serverUrl={this.serverBaseUrl} />
           </Grid>
           <Grid item xs={12}>
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <VisionDemo url={this.serverBaseUrl} />
+            <VisionDemo serverUrl={this.serverBaseUrl} />
           </Grid>
           <Grid item xs={12}>
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <TranslateDemo url={this.serverBaseUrl}/>
+            <TranslateDemo serverUrl={this.serverBaseUrl}/>
           </Grid>
           <Grid item xs={12}>
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <TextDemo url={this.serverBaseUrl}/>
+            <TextDemo serverUrl={this.serverBaseUrl}/>
           </Grid>
         </Grid>
       </Container>
