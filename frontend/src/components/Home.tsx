@@ -8,12 +8,19 @@ import SpeechDemo from './speech/SpeechDemo';
 interface AppState {
 }
 
-class Home extends Component<{}, AppState> {
-  ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-  serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1";
 
-  constructor(props:{}) {
+type HomeProps = {
+  url: string;
+};
+
+
+class Home extends Component<HomeProps, AppState> {
+  ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
+  serverBaseUrl = import.meta.env.VITE_HF_SPACES_URL;
+
+  constructor(props:HomeProps) {
     super(props);
+    this.serverBaseUrl = this.props.url;
   }
 
   render() {
@@ -24,25 +31,25 @@ class Home extends Component<{}, AppState> {
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <SpeechDemo />
+            <SpeechDemo url={this.serverBaseUrl} />
           </Grid>
           <Grid item xs={12}>
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <VisionDemo />
+            <VisionDemo url={this.serverBaseUrl} />
           </Grid>
           <Grid item xs={12}>
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <TranslateDemo />
+            <TranslateDemo url={this.serverBaseUrl}/>
           </Grid>
           <Grid item xs={12}>
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <TextDemo />
+            <TextDemo url={this.serverBaseUrl}/>
           </Grid>
         </Grid>
       </Container>
