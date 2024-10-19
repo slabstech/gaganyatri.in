@@ -35,32 +35,8 @@ services:
       - ./.env.dev
     extra_hosts:
       host.docker.internal: host-gateway
-  faster-whisper-server-cuda:
-    image: fedirz/faster-whisper-server:latest-cuda
-    restart: unless-stopped
-    ports:
-      - 11800:11800
-    volumes:
-      - hugging_face_cache:/root/.cache/huggingface
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              device_ids: ['0']
-              capabilities: [gpu]
-    environment:
-      - WHISPER__MODEL=Systran/faster-distil-whisper-small.en
-      - UVICORN_HOST=0.0.0.0
-      - UVICORN_PORT=11800
 networks:
-  gagnyatri_net:
+  gaganyatri_net:
     driver: bridge
 volumes:
   static:
-  hugging_face_cache:
-    driver: local
-    driver_opts:
-      type: none
-      device: ~/.cache/huggingface
-      o: bind
