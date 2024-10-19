@@ -4,7 +4,7 @@
 ![Tech Stack](docs/architecture.jpg)
 
 
-- [Discord Server](https://discord.gg/HAXjG7sC)
+- [Discord Server](https://discord.gg/WZMCerEZ2P)
 
 - [Deployment](docs/deployment.md)
 
