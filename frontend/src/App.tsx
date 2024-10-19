@@ -16,6 +16,7 @@ import { Switch, FormControlLabel, FormGroup, Box, Typography, Link, IconButton 
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import DiscordIcon from './assets/discordIcon';
+import ChatBot from 'react-chatbotify';
 
 
 axios.defaults.baseURL = "http://127.0.0.1:8000";
@@ -46,6 +47,9 @@ const App = () => {
           <Route path="/login" element={<Login/>} />
           <Route path="*" element={<NoMatch />} />
         </Routes>
+        <div>
+            <ChatBot />
+        </div>
       <footer>
       <Box
         sx={{
