@@ -1,18 +1,19 @@
 import { useState } from 'react'
 import { generateResponseFromJson, generateFeatures } from './ollamaservice'
 import DataTable from './DataTable';
-//import IndeterminateProgressBar from './IndeterminateProgressBar';
-
 import { Button, Typography, Box, LinearProgress } from '@mui/material';
 
+type FoodGuardianProps = {
+  serverUrl: string;
+};
 
-function FoodGuardian() {
+const FoodGuardian: React.FC<FoodGuardianProps> = ({ serverUrl }) => {
   const [files, setFiles] = useState<File[]>([]);
   const [response, setResponse] = useState<string>('');
   const [errorResponse, setErrorResponse] = useState<string>('');
   const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
   const [jsonData, setJsonData] = useState([]);
-  
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setFiles(Array.from(event.target.files));
@@ -35,23 +36,18 @@ function FoodGuardian() {
       setErrorResponse(jsonStr);
       return;
     }
-    
 
     //food descriptions
     const stream = await generateResponseFromJson(jsonStr);
-    //let fullResponse = '';
     console.log(stream);
     setResponse(stream);
-    /*for await (const part of stream) {
-      fullResponse += part.response;
-      setResponse(fullResponse);
-    }*/
   };
 
   return (
     <>
     <Box>
       <Typography variant="h5">Food Guardian AI</Typography>
+      <Typography variant="body1">URL: {serverUrl}</Typography> {/* Use the URL here */}
       <Box id="fileUploadContainer">
         <Button
           variant="contained"
@@ -96,7 +92,8 @@ function FoodGuardian() {
           <Typography id="errorDescription" color="error">{errorResponse}</Typography>
         )}
       </Box>
-    </Box>    </>
+    </Box>
+    </>
   )
 }
 

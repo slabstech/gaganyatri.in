@@ -18,20 +18,21 @@ interface AppState {
   models: Map<string, any>; 
   textSelectedModel: string; 
 }
-//const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
-class TextDemo extends Component<{}, AppState> {
-  ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-  hfBaseUrl = import.meta.env.VITE_HF_SPACES_URL;
-  localInferenceUrl = import.meta.env.VITE_LOCAL_INFERENCE_URL;
-  //serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
-  //serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
-  //serverBaseUrl = "http://localhost:8000/api/v1" ;
-  
-  serverBaseUrl = this.hfBaseUrl;
 
+type TextDemoProps = {
+  serverUrl: string;
+};
+
+
+//const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
+class TextDemo extends Component<TextDemoProps, AppState> {
+  ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
+  serverBaseUrl = "http://localhost:8000/api/v1" ;
   
-  constructor(props:{}) {
+  //serverBaseUrl = this.hfBaseUrl; 
+  constructor(props:TextDemoProps) {
     super(props);
+    this.serverBaseUrl = this.props.serverUrl;
     this.state = {
       textresponse: null,
       tableAIProgressLoading: false,

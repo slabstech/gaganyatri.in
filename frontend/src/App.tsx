@@ -11,21 +11,17 @@ import { useState } from 'react';
 import Signup from "./components/signup/Signup";
 import Login from "./components/login/Login";
 //import Dashboard from "./components/dashboard/Dashboard";
-import axios from "axios";
 import { Switch, FormControlLabel, FormGroup, Box, Typography, Link, IconButton } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import DiscordIcon from './assets/discordIcon';
 
-
-axios.defaults.baseURL = "http://127.0.0.1:8000";
-
 const App = () => {
 
   const offlineUrl =  'http://localhost:8000/api/v1' ;
-  const onlineUrl  = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
-  const [url, setUrl] = useState(onlineUrl);
-  console.log(url);
+  const onlineUrl  = import.meta.env.VITE_HF_SPACES_URL;
+  const [serverUrl, setUrl] = useState(onlineUrl);
+  console.log(serverUrl);
   const [checked, setChecked] = useState(true);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,8 +33,8 @@ const App = () => {
     <>
       <NavBar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/demos" element={<Demos />} />
+          <Route path="/" element={<Home serverUrl={serverUrl} />} />
+          <Route path="/demos" element={<Demos serverUrl={serverUrl} />} />
           <Route path="/news" element={<News />} />
           <Route path="/about" element={<About />} />
           <Route path="/maps" element={<Maps />} />

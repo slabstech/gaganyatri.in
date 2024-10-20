@@ -20,6 +20,10 @@ interface RecipesState {
 
 }
 
+type RecipesProps = {
+  serverUrl: string;
+};
+
 function cleanJsonString(inputString: string) {
   const prefix = "```json";
   const suffix = "```";
@@ -34,11 +38,12 @@ function cleanJsonString(inputString: string) {
   }
 }
 
-class Recipes extends Component<{}, RecipesState> {
+class Recipes extends Component<RecipesProps, RecipesState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-  serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
-  constructor(props:{}) {
+  serverBaseUrl = "http://localhost:8000/api/v1" ;
+  constructor(props:RecipesProps) {
     super(props);
+    this.serverBaseUrl = this.props.serverUrl;
     this.state = {
       response: null,
       isLoading: false,
@@ -58,10 +63,7 @@ class Recipes extends Component<{}, RecipesState> {
   };
 
   sendDatatoServer = async () => {
-
-    //this.serverBaseUrl = 'http://localhost:8000/api/v1';
     const serverRequest = this.serverBaseUrl + '/recipes/recipe_generate/';
-    //const serverRequest = `${serverEndpoint}`;
     console.log(serverRequest);
     try {
       const response = await axios.get(serverRequest);

@@ -44,7 +44,12 @@ Before you begin, make sure you have the following:
 ### With Docker
 
 1. To deploy the application:
-   - `docker compose -f docker-compose.dev.yml up`
+  - Update Environment Variables for Docker 
+    - Copy .env.prod.sample as .env.prod
+    - If required, change the database parameters
+
+  - Start the Containers 
+   - `docker compose -f docker-compose.prod.yml up`
 2. To deploy the inference:
    - `docker compose -f inference-compose.yml up -d`
 
