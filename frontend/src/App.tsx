@@ -11,12 +11,10 @@ import { useState } from 'react';
 import Signup from "./components/signup/Signup";
 import Login from "./components/login/Login";
 //import Dashboard from "./components/dashboard/Dashboard";
-import axios from "axios";
 import { Switch, FormControlLabel, FormGroup, Box, Typography, Link, IconButton } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import DiscordIcon from './assets/discordIcon';
-//axios.defaults.baseURL = "http://127.0.0.1:8000";
 
 const App = () => {
 

@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import ChatBot from 'react-chatbotify';
 
 type ChatBotDemoProps = {
@@ -7,6 +6,9 @@ type ChatBotDemoProps = {
 
 const MyChatBot = ({ serverUrl }: ChatBotDemoProps) => {
   const helpOptions = ["Deployment", "Github", "Discord"];
+
+  const serverInfernce = serverUrl;
+  console.log(serverInfernce);
 
   const flow = {
     start: {
@@ -32,7 +34,7 @@ const MyChatBot = ({ serverUrl }: ChatBotDemoProps) => {
     process_options: {
       transition: { duration: 0 },
       chatDisabled: true,
-      path: async (params) => {
+      path: async (params:any) => {
         let link = "";
         switch (params.userInput) {
           case "Deployment":
