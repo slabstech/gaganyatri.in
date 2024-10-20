@@ -1,68 +1,76 @@
 import React, { useState } from 'react';
 import ChatBot from 'react-chatbotify';
-import axios, { AxiosError } from 'axios';
 
-const MyChatBot: React.FC = () => {
-    const serverBaseUrl = import.meta.env.VITE_HF_SPACES_URL;
+const MyChatBot = () => {
+  const [form, setForm] = useState({});
+  const formStyle = {
+    marginTop: 10,
+    marginLeft: 20,
+    border: "1px solid #491d8d",
+    padding: 10,
+    borderRadius: 5,
+    maxWidth: 300
+  };
 
+  const flow = {
+    start: {
+      message: "Hello there! What is your name?",
+      function: (params) => setForm({...form, name: params.userInput}),
+      path: "ask_age"
+    },
+    ask_age: {
+      message: (params) => `Nice to meet you ${params.userInput}, what is your age?`,
+      function: (params) => setForm({...form, age: params.userInput}),
+      path: "ask_pet"
+    },
+    ask_pet: {
+      message: "Do you own any pets?",
+      options: ["Yes", "No"],
+      chatDisabled: true,
+      function: (params) => setForm({...form, pet_ownership: params.userInput}),
+      path: "ask_choice"
+    },
+    ask_choice: {
+      message: "Select at least 2 pets that you are comfortable to work with:",
+      checkboxes: {
+        items: ["Dog", "Cat", "Rabbit", "Hamster"],
+        min: 2
+      },
+      chatDisabled: true,
+      function: (params) => setForm({...form, pet_choices: params.userInput}),
+      path: "ask_work_days"
+    },
+    ask_work_days: {
+      message: "How many days can you work per week?",
+      function: (params) => setForm({...form, num_work_days: params.userInput}),
+      path: "end"
+    },
+    end: {
+      message: "Thank you for your interest, we will get back to you shortly!",
+      component: (
+        <div style={formStyle}>
+          <p>Name: {form.name}</p>
+          <p>Age: {form.age}</p>
+          <p>Pet Ownership: {form.pet_ownership}</p>
+          <p>Pet Choices: {form.pet_choices}</p>
+          <p>Num Work Days: {form.num_work_days}</p>
+        </div>
+      ),
+      options: ["New Application"],
+      chatDisabled: true,
+      path: "start"
+    }
+  };
 
-    const sendPromptToServer = async () => {
-        //this.setState({tableAIProgressLoading:true});
-    
-        const serverEndpoint = serverBaseUrl + '/recipes/text_llm_url/';
-        console.log(serverEndpoint);
-    
-        const model = 'mistral-nemo';
-        // const model = this.state.models.get(this.state.textSelectedModel);
-            
-        const requestBody = {
-          model: model,
-          messages: [
-            {
-              role: 'user',
-              prompt:'what is the capital of kalinga?',
-            }
-          ],
-          stream: false
-        };
-        try {
-          const response = await axios.post(serverEndpoint, requestBody);
-          const messageContent = response.data.response;
-          //this.setState({tableAIProgressLoading:false});
-        
-          //this.setState({ textresponse: messageContent });
-    
-          return messageContent;
-        } catch (error) {
-          console.error('Error processing Text Prompt:', (error as AxiosError).message);
-          //this.setState({tableAIProgressLoading:false});
-          throw error;
-        }
-        
-      };
-    
-    const flow = {
-        start: {
-            message: "Welcome! Ask me anything!",
-            path: "loop",
-        },
-        loop: {
-            message: async (params: any) => {
-                //setTextPrompt(params.userInput);
-                //setTextPrompt('what is your name ?');
-                const response = await sendPromptToServer();
-                await params.injectMessage(response);
-            },
-            path: () => "loop",
-        }
-    };
-
-    return (
-        <ChatBot
-            settings={{ general: { embedded: true }, chatHistory: { storageKey: "example_llm_conversation" } }}
-            flow={flow}
-        />
-    );
+  return (
+    <ChatBot
+      settings={{
+        general: { embedded: true },
+        chatHistory: { storageKey: "example_basic_form" }
+      }}
+      flow={flow}
+    />
+  );
 };
 
 export default MyChatBot;
