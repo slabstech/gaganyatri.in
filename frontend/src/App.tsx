@@ -20,7 +20,7 @@ import MyChatBot from './components/chatbot/chatApp';
 
 
 
-axios.defaults.baseURL = "http://127.0.0.1:8000";
+//axios.defaults.baseURL = "http://127.0.0.1:8000";
 
 const App = () => {
 
