@@ -4,15 +4,14 @@ import VisionDemo from './vision/VisionDemo';
 import TextDemo from './text_llm/TextDemo';
 import TranslateDemo from './translate/TranslateDemo';
 import SpeechDemo from './speech/SpeechDemo';
+import MyChatBot from './chatbot/chatApp';
 
 interface AppState {
 }
 
-
 type HomeProps = {
   serverUrl: string;
 };
-
 
 class Home extends Component<HomeProps, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
@@ -30,6 +29,12 @@ class Home extends Component<HomeProps, AppState> {
           LLM Use Cases
         </Typography>
         <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <MyChatBot serverUrl={this.serverBaseUrl} />
+          </Grid>
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
           <Grid item xs={12} md={6}>
             <SpeechDemo serverUrl={this.serverBaseUrl} />
           </Grid>

@@ -1,64 +1,62 @@
 import React, { useState } from 'react';
 import ChatBot from 'react-chatbotify';
 
-const MyChatBot = () => {
-  const [form, setForm] = useState({});
-  const formStyle = {
-    marginTop: 10,
-    marginLeft: 20,
-    border: "1px solid #491d8d",
-    padding: 10,
-    borderRadius: 5,
-    maxWidth: 300
-  };
+type ChatBotDemoProps = {
+  serverUrl?: string;
+};
+
+const MyChatBot = ({ serverUrl }: ChatBotDemoProps) => {
+  const helpOptions = ["Deployment", "Github", "Discord"];
 
   const flow = {
     start: {
-      message: "Hello there! What is your name?",
-      function: (params) => setForm({...form, name: params.userInput}),
-      path: "ask_age"
+      message: "Hello, Thanks for using our chatbot 😊!",
+      transition: { duration: 1000 },
+      path: "show_options"
     },
-    ask_age: {
-      message: (params) => `Nice to meet you ${params.userInput}, what is your age?`,
-      function: (params) => setForm({...form, age: params.userInput}),
-      path: "ask_pet"
+    show_options: {
+      message: "Here are a few helpful things you can check out to get started:",
+      options: helpOptions,
+      path: "process_options"
     },
-    ask_pet: {
-      message: "Do you own any pets?",
-      options: ["Yes", "No"],
+    prompt_again: {
+      message: "Do you need any other help?",
+      options: helpOptions,
+      path: "process_options"
+    },
+    unknown_input: {
+      message: "Sorry, I do not understand your message 😢! If you require further assistance, you may click on the Github option and open an issue there or visit our discord.",
+      options: helpOptions,
+      path: "process_options"
+    },
+    process_options: {
+      transition: { duration: 0 },
       chatDisabled: true,
-      function: (params) => setForm({...form, pet_ownership: params.userInput}),
-      path: "ask_choice"
+      path: async (params) => {
+        let link = "";
+        switch (params.userInput) {
+          case "Deployment":
+            link = "https://github.com/slabstech/gaganyatri.in/blob/main/docs/deployment.md";
+            break;
+          case "Github":
+            link = "https://github.com/slabstech/gaganyatri.in";
+            break;
+          case "Discord":
+            link = "https://discord.gg/WZMCerEZ2P";
+            break;
+          default:
+            return "unknown_input";
+        }
+        await params.injectMessage("Sit tight! I'll send you right there!");
+        setTimeout(() => {
+          window.open(link);
+        }, 1000)
+        return "repeat";
+      }
     },
-    ask_choice: {
-      message: "Select at least 2 pets that you are comfortable to work with:",
-      checkboxes: {
-        items: ["Dog", "Cat", "Rabbit", "Hamster"],
-        min: 2
-      },
-      chatDisabled: true,
-      function: (params) => setForm({...form, pet_choices: params.userInput}),
-      path: "ask_work_days"
-    },
-    ask_work_days: {
-      message: "How many days can you work per week?",
-      function: (params) => setForm({...form, num_work_days: params.userInput}),
-      path: "end"
-    },
-    end: {
-      message: "Thank you for your interest, we will get back to you shortly!",
-      component: (
-        <div style={formStyle}>
-          <p>Name: {form.name}</p>
-          <p>Age: {form.age}</p>
-          <p>Pet Ownership: {form.pet_ownership}</p>
-          <p>Pet Choices: {form.pet_choices}</p>
-          <p>Num Work Days: {form.num_work_days}</p>
-        </div>
-      ),
-      options: ["New Application"],
-      chatDisabled: true,
-      path: "start"
+    repeat: {
+      transition: { duration: 3000 },
+      path: "prompt_again"
     }
   };
 
@@ -66,7 +64,9 @@ const MyChatBot = () => {
     <ChatBot
       settings={{
         general: { embedded: true },
-        chatHistory: { storageKey: "example_basic_form" }
+        chatHistory: { storageKey: "example_faq_bot" },
+        header: { title: 'gaganyatri.in', showAvatar: false },
+        footer: { text: 'Powered by slabstech' }
       }}
       flow={flow}
     />

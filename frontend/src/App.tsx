@@ -16,10 +16,6 @@ import { Switch, FormControlLabel, FormGroup, Box, Typography, Link, IconButton 
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import DiscordIcon from './assets/discordIcon';
-import MyChatBot from './components/chatbot/chatApp';
-
-
-
 //axios.defaults.baseURL = "http://127.0.0.1:8000";
 
 const App = () => {
@@ -48,9 +44,6 @@ const App = () => {
           <Route path="/login" element={<Login/>} />
           <Route path="*" element={<NoMatch />} />
         </Routes>
-        <div>
-            <MyChatBot />
-        </div>
       <footer>
       <Box
         sx={{
