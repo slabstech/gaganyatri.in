@@ -11,15 +11,18 @@ interface AppState {
 
 type HomeProps = {
   serverUrl: string;
+  isOnline: boolean;
 };
 
 class Home extends Component<HomeProps, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   serverBaseUrl = import.meta.env.VITE_HF_SPACES_URL;
+  isOnline = true;
 
   constructor(props:HomeProps) {
     super(props);
     this.serverBaseUrl = this.props.serverUrl;
+    this.isOnline = this.props.isOnline;
   }
 
   render() {
@@ -30,31 +33,31 @@ class Home extends Component<HomeProps, AppState> {
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <MyChatBot serverUrl={this.serverBaseUrl} />
+            <MyChatBot serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
           </Grid>
           <Grid item xs={12}>
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <SpeechDemo serverUrl={this.serverBaseUrl} />
+            <SpeechDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
           </Grid>
           <Grid item xs={12}>
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <VisionDemo serverUrl={this.serverBaseUrl} />
+            <VisionDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
           </Grid>
           <Grid item xs={12}>
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <TranslateDemo serverUrl={this.serverBaseUrl}/>
+            <TranslateDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
           </Grid>
           <Grid item xs={12}>
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <TextDemo serverUrl={this.serverBaseUrl}/>
+            <TextDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
           </Grid>
         </Grid>
       </Container>

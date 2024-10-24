@@ -12,6 +12,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 
 type VisionProps = {
   serverUrl: string;
+  isOnline: boolean;
 };
 
 interface AppState {
@@ -28,9 +29,11 @@ interface AppState {
 class VisionDemo extends Component<VisionProps, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   serverBaseUrl = 'http://localhost:8000/api/v1' ;
+  isOnline = true;
   constructor(props:VisionProps) {
     super(props);
     this.serverBaseUrl = this.props.serverUrl;
+    this.isOnline = this.props.isOnline;
     this.state = {
       base64StringImage: null,
       tableAIProgressLoading: false,

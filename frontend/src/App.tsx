@@ -33,8 +33,8 @@ const App = () => {
     <>
       <NavBar />
         <Routes>
-          <Route path="/" element={<Home serverUrl={serverUrl} />} />
-          <Route path="/demos" element={<Demos serverUrl={serverUrl} />} />
+          <Route path="/" element={<Home serverUrl={serverUrl} isOnline={checked} />} />
+          <Route path="/demos" element={<Demos serverUrl={serverUrl} isOnline={checked}/>} />
           <Route path="/news" element={<News />} />
           <Route path="/about" element={<About />} />
           <Route path="/maps" element={<Maps />} />

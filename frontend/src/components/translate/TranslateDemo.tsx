@@ -25,6 +25,7 @@ interface AppState {
 
 type TranslateProps = {
   serverUrl: string;
+  isOnline: boolean;
 };
 
 //const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
@@ -32,10 +33,12 @@ class TranslateDemo extends Component<TranslateProps, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   //serverBaseUrl = import.meta.env.VITE_BACKEND_APP_API_URL;
   serverBaseUrl = "http://localhost:8000/api/v1" ;
+  isOnline = true;
   
   constructor(props:TranslateProps) {
     super(props);
     this.serverBaseUrl = this.props.serverUrl;
+    this.isOnline = this.props.isOnline;
     this.state = {
       textresponse: null,
       tableAIProgressLoading: false,

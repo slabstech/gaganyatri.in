@@ -21,6 +21,7 @@ interface AppState {
 
 type TextDemoProps = {
   serverUrl: string;
+  isOnline: boolean;
 };
 
 
@@ -28,11 +29,13 @@ type TextDemoProps = {
 class TextDemo extends Component<TextDemoProps, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   serverBaseUrl = "http://localhost:8000/api/v1" ;
+  isOnline= true;
   
   //serverBaseUrl = this.hfBaseUrl; 
   constructor(props:TextDemoProps) {
     super(props);
     this.serverBaseUrl = this.props.serverUrl;
+    this.isOnline = this.props.isOnline;
     this.state = {
       textresponse: null,
       tableAIProgressLoading: false,
