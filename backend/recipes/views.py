@@ -115,11 +115,10 @@ class TextLLMView(APIView):
     def post(self, request, format=None):
         try:
             data = request.data
-            api_key = os.environ["MISTRAL_API_KEY"]
 
-            # Initialize the Mistral client
-            client = Mistral(api_key=api_key)
+            isOnline = data['isOnline']
 
+            print(isOnline)
             prompt =  data['messages'][0]['prompt']
             # Specify model
             #model = "pixtral-12b-2409"
@@ -137,13 +136,23 @@ class TextLLMView(APIView):
                 }
             ]
 
-            # Get the chat response
-            chat_response = client.chat.complete(
-                model=model,
-                messages=messages
-            )
+            if(isOnline): 
+                api_key = os.environ["MISTRAL_API_KEY"]
 
-            content = chat_response.choices[0].message.content
+                # Initialize the Mistral client
+                client = Mistral(api_key=api_key)
+
+
+                # Get the chat response
+                chat_response = client.chat.complete(
+                    model=model,
+                    messages=messages
+                )
+
+                content = chat_response.choices[0].message.content
+            else:
+                content = "helloWorld"
+
             #print(chat_response.choices[0].message.content)
             # Return the content of the response
             return Response({"response": content})

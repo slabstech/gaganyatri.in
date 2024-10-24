@@ -70,18 +70,6 @@ class TextDemo extends Component<TextDemoProps, AppState> {
   };
 
 
-  getOrPullModel = async (modelName:string) => {
-    try {
-      const modelExists = await this.checkModelExists(modelName);
-      if (modelExists) {
-        console.log(`Model '${modelName}' already exists.`);
-      } else {
-        console.log(`Model '${modelName}' not found. Pulling...`);
-      }
-    } catch (error) {
-      console.error('Error:', (error as AxiosError).message);
-    }
-  };
 
 
   handleTextPromptChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -110,7 +98,8 @@ class TextDemo extends Component<TextDemoProps, AppState> {
           prompt: this.state.textprompt,
         }
       ],
-      stream: false
+      stream: false,
+      isOnline: this.isOnline
     };
     try {
       const response = await axios.post(serverEndpoint, requestBody);
