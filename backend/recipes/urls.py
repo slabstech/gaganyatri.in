@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import  recipe_generate_route
-from .views import VisionLLMView, NIMVisionLLMView, TextLLMView, TranslateLLMView, SpeechLLMView
+from .views import VisionLLMView, NIMVisionLLMView, TextLLMView, TranslateLLMView, SpeechLLMView, LlamaVisionView
 
 urlpatterns = [
     path('recipe_generate/', recipe_generate_route, name='recipe_generate'),
@@ -9,4 +9,5 @@ urlpatterns = [
     path('text_llm_url/', TextLLMView.as_view()),
     path('translate_llm_url/', TranslateLLMView.as_view()),
     path('speech_llm_url/', SpeechLLMView.as_view()),
+    path('llama_vision_url/', LlamaVisionView.as_view()),
 ]

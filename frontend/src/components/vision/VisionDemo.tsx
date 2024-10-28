@@ -32,7 +32,8 @@ class VisionDemo extends Component<VisionProps, AppState> {
   isOnline = true;
   constructor(props:VisionProps) {
     super(props);
-    this.serverBaseUrl = this.props.serverUrl;
+    //TODO - remove this
+    //this.serverBaseUrl = this.props.serverUrl;
     this.isOnline = this.props.isOnline;
     this.state = {
       base64StringImage: null,
@@ -44,10 +45,11 @@ class VisionDemo extends Component<VisionProps, AppState> {
       models: new Map([
         ['pixtral', 'pixtral-12b-2409'],
         ['llama3.2-vision','meta/llama-3.2-11b-vision-instruct'],
-        ['moondream','monndream']
+        ['llama-vision','x/llama3.2-vision:latest']
       ]), 
-      imageSelectedModel: 'pixtral', 
-      functionEndpoint:'/recipes/vision_llm_url/',
+      //imageSelectedModel: 'pixtral',
+      imageSelectedModel: 'llama-vision', 
+      functionEndpoint:'/recipes/llama_vision_url/',
     };
   }
 
@@ -111,6 +113,8 @@ class VisionDemo extends Component<VisionProps, AppState> {
       if(this.state.imageSelectedModel == 'pixtral')
         this.setState({ functionEndpoint: '/recipes/vision_llm_url/' });
         //this.setS
+      else if(this.state.imageSelectedModel == 'llama-vision')
+        this.setState({ functionEndpoint: '/recipes/llama_vision_url/' });
       else
         this.setState({ functionEndpoint: '/recipes/nim_vision_llm_url/' });
     });

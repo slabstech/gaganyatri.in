@@ -178,6 +178,35 @@ def recipe_generate_route(request):
     return Response(result)
 
 
+class LlamaVisionView(APIView):
+    def post(self, request, format=None):
+        try:
+            data = request.data
+
+            image_data = (data['messages'][0]['image'][0])
+            prompt =  data['messages'][0]['prompt']
+            # Specify model
+            #model = "pixtral-12b-2409"
+            model = data['model']
+            # Define the messages for the chat
+
+            payload = {
+                "model": model,
+                "prompt": prompt,
+                "images": [image_data]
+            }
+            headers = {"Content-Type": "application/json"}
+            response = requests.post("http://localhost:11434/api/generate", data=json.dumps(payload), headers=headers)
+
+            print(response)
+            content = response
+            #print(chat_response.choices[0].message.content)
+            # Return the content of the response
+            return Response({"response": content})
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return Response({'error': 'Something went wrong'}, status=500)
+
 
 class VisionLLMView(APIView):
     def post(self, request, format=None):
