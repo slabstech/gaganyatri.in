@@ -10,6 +10,7 @@ import base64
 import json
 import requests
 from openai import OpenAI
+from ollama import Client
 
 class SpeechLLMView(APIView):
     def post(self, request, format=None):
@@ -190,16 +191,25 @@ class LlamaVisionView(APIView):
             model = data['model']
             # Define the messages for the chat
 
-            payload = {
-                "model": model,
-                "prompt": prompt,
-                "images": [image_data]
-            }
-            headers = {"Content-Type": "application/json"}
-            response = requests.post("http://localhost:11434/api/generate", data=json.dumps(payload), headers=headers)
+            # Define the messages for the chat
 
-            print(response)
-            content = response
+            client = Client(host='http://localhost:21434')
+            response = client.chat(
+            model="x/llama3.2-vision:latest",
+            messages=[{
+            "role": "user",
+            "content": prompt,
+            "images": [image_data]
+            }],
+            )
+
+            # Extract the model's response about the image
+            response_text = response['message']['content'].strip()
+
+            print(response_text)
+            content = response_text
+
+
             #print(chat_response.choices[0].message.content)
             # Return the content of the response
             return Response({"response": content})

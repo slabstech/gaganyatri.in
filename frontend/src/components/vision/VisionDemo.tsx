@@ -28,7 +28,7 @@ interface AppState {
 }
 class VisionDemo extends Component<VisionProps, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-  serverBaseUrl = 'http://localhost:8000/api/v1' ;
+  serverBaseUrl = 'http://localhost:10000/api/v1' ;
   isOnline = true;
   constructor(props:VisionProps) {
     super(props);

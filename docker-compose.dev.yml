@@ -26,7 +26,7 @@ services:
       context: frontend 
       dockerfile: Dockerfile.dev
     ports: 
-      - '1337:11080'  
+      - '11080:11080'  
     depends_on:
       - gaganyatri_backend
     networks:
