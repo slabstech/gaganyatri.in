@@ -5,7 +5,7 @@ import TextDemo from './text_llm/TextDemo';
 import TranslateDemo from './translate/TranslateDemo';
 import SpeechDemo from './speech/SpeechDemo';
 import MyChatBot from './chatbot/chatApp';
-
+import IndicDemo from './indic_llm/IndicDemo';
 interface AppState {
 }
 
@@ -33,7 +33,13 @@ class Home extends Component<HomeProps, AppState> {
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <MyChatBot serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
+            <VisionDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
+          </Grid>
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <IndicDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
           </Grid>
           <Grid item xs={12}>
             <Divider />
@@ -45,7 +51,7 @@ class Home extends Component<HomeProps, AppState> {
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <VisionDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
+            <MyChatBot serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
           </Grid>
           <Grid item xs={12}>
             <Divider />

@@ -161,6 +161,40 @@ class TextLLMView(APIView):
             print(f"An error occurred: {e}")
             return Response({'error': 'Something went wrong'}, status=500)
 
+class IndicLLMView(APIView):
+    def post(self, request, format=None):
+        try:
+            data = request.data
+
+            isOnline = data['isOnline']
+
+            print(isOnline)
+            prompt =  data['messages'][0]['prompt']
+            # Specify model
+            #model = "pixtral-12b-2409"
+            model = data['model']
+            # Define the messages for the chat
+
+            client = Client(host='http://localhost:11434')
+            response = client.chat(
+            model=model,
+            messages=[{
+            "role": "user",
+            "content": prompt,
+            }],
+            )
+
+            # Extract the model's response about the image
+            response_text = response['message']['content'].strip()
+
+            #print(chat_response.choices[0].message.content)
+            # Return the content of the response
+            return Response({"response": response_text})
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return Response({'error': 'Something went wrong'}, status=500)
+
+
 
 @api_view(['GET'])
 def recipe_generate_route(request):

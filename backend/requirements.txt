@@ -32,7 +32,7 @@ mistralai==1.1.0
 mypy-extensions==1.0.0
 numpy==1.26.4
 oauthlib==3.2.2
-ollama==0.3.0
+ollama==0.3.3
 openai==1.51.2
 packaging==24.1
 pandas==2.2.3
