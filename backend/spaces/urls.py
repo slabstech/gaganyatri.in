@@ -26,7 +26,7 @@ schema_view = get_schema_view(
         default_version='v1',
         description="API for Space Operations",
         terms_of_service="https://www.gaganyatri.in/",
-        contact=openapi.Contact(email="contact@yourapp.com"),
+        contact=openapi.Contact(email="info@slabstech.com"),
         license=openapi.License(name="MIT License"),
     ),
     public=True,
@@ -41,4 +41,5 @@ urlpatterns = [
     path('api/v1/space_walks/', include('space_walks.urls')),
     path('api/v1/recipes/', include('recipes.urls')),
     path('api/v1/accounts/', include('accounts.urls')),
+    path('games/', include('games.urls')),
 ]
