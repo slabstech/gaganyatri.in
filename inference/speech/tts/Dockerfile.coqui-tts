@@ -1,0 +1,19 @@
+# Dockerfile
+FROM ghcr.io/coqui-ai/tts:latest
+
+# Set the working directory
+WORKDIR /app
+
+RUN mkdir models
+# Copy your model files into the container (adjust the path as necessary)
+COPY ./models /app/models
+
+# Install any additional dependencies if needed
+RUN pip install --no-cache-dir TTS
+
+# Expose the port for the TTS server
+EXPOSE 5002
+
+# Command to run the TTS server
+ENTRYPOINT ["tts-server"]
+CMD ["--model_name", "tts_models/en/vctk/vits"]

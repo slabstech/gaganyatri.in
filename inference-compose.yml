@@ -36,6 +36,15 @@ services:
       - WHISPER__MODEL=Systran/faster-distil-whisper-small.en
       - UVICORN_HOST=0.0.0.0
       - UVICORN_PORT=11800
+  coqui-tts:
+    build:
+      context: inference/speech/tts
+      dockerfile: Dockerfile.coqui-tts
+    ports:
+      - "5002:5002"
+    volumes:
+      - ./models:/app/models  # Local cache for models
+    restart: unless-stopped
 networks:
   app-network:
     driver: bridge
