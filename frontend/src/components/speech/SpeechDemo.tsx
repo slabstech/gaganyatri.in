@@ -16,9 +16,10 @@ type SpeechDemoProps = {
 
 
 const SpeechDemo = ({ serverUrl, isOnline }: SpeechDemoProps) => {
-  const serverBaseUrl = serverUrl || "http://localhost:8000/api/v1" ;
+  //const serverBaseUrl = serverUrl || "http://localhost:8000/api/v1" ;
   const isOnlineAccess = isOnline;
   
+  const serverBaseUrl = "http://localhost:10000/api/v1";
   const chunks = useRef<Blob[]>([]);
   const [recordedUrl, setRecordedUrl] = useState('');
   const mediaRecorder = useRef<MediaRecorder | null>(null);

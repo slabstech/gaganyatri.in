@@ -19,7 +19,6 @@ class SpeechLLMView(APIView):
             ##prompt =  data['prompt']
             audio = data['audio']
 
-
             client = OpenAI(api_key="cant-be-empty", base_url="http://localhost:11800/v1/")
 
             #filename= '/home/gaganyatri/Music/test1.flac'
@@ -31,8 +30,28 @@ class SpeechLLMView(APIView):
                 model="Systran/faster-distil-whisper-small.en", file=audio_bytes
             )
 
-            print(transcript.text)
-            content = transcript.text
+            #print(transcript.text)
+            voice_content = transcript.text
+                        #content = 'audio recieved'
+
+            model = "mistral-nemo:latest"
+            client = Client(host='http://localhost:11434')
+            response = client.chat(
+            model=model,
+            messages=[{
+            "role": "user",
+            "content": voice_content,
+            }],
+            )
+
+            # Extract the model's response about the image
+            response_text = response['message']['content'].strip()
+
+            return Response({"response": response_text})
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return Response({'error': 'Something went wrong'}, status=500)
+        
             '''
             url = "https://api.sarvam.ai/speech-to-text"
             api_key=os.getenv("SARVAM_API_KEY", "")
@@ -71,11 +90,7 @@ class SpeechLLMView(APIView):
             # Return the content of the response
             '''
 
-            #content = 'audio recieved'
-            return Response({"response": content})
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            return Response({'error': 'Something went wrong'}, status=500)
+
 
 class TranslateLLMView(APIView):
     def post(self, request, format=None):
