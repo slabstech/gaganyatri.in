@@ -26,7 +26,7 @@ type TextDemoProps = {
 
 
 //const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
-class TextDemo extends Component<TextDemoProps, AppState> {
+class IndicDemo extends Component<TextDemoProps, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   serverBaseUrl = "http://localhost:8000/api/v1" ;
   isOnline= true;
@@ -34,7 +34,7 @@ class TextDemo extends Component<TextDemoProps, AppState> {
   //serverBaseUrl = this.hfBaseUrl; 
   constructor(props:TextDemoProps) {
     super(props);
-    this.serverBaseUrl = this.props.serverUrl;
+    //this.serverBaseUrl = this.props.serverUrl;
     this.isOnline = this.props.isOnline;
     this.state = {
       textresponse: null,
@@ -42,11 +42,10 @@ class TextDemo extends Component<TextDemoProps, AppState> {
       textprompt: '',
       isLoading: false,
       models: new Map([
-        ['mistral-nemo', 'open-mistral-nemo'],
-        ['mistral-small','mistral-small-latest'],
-        ['mistral-large','mistral-large-latest']
+        ['sarvam-1', 'hf.co/QuantFactory/sarvam-1-GGUF:sarvam-1.Q6_K.gguf'],
+        ['sarvam-2b-v0.5','mistral-small-latest'],
       ]), 
-      textSelectedModel: 'mistral-nemo',
+      textSelectedModel: 'sarvam-1',
     };
     //console.log(this.hfBaseUrl);
     //console.log(this.localInferenceUrl);
@@ -85,7 +84,7 @@ class TextDemo extends Component<TextDemoProps, AppState> {
   sendPromptToServer = async () => {
     this.setState({tableAIProgressLoading:true});
 
-    const serverEndpoint = this.serverBaseUrl + '/recipes/text_llm_url/';
+    const serverEndpoint = this.serverBaseUrl + '/recipes/indic_llm_url/';
 
 
     const model = this.state.models.get(this.state.textSelectedModel);
@@ -122,7 +121,7 @@ class TextDemo extends Component<TextDemoProps, AppState> {
     <>
       <Box className="app-container">
         <Box>
-          <h2>Text LLM Demo</h2>
+          <h2>Indic LLM</h2>
           <Divider />
           <Box className="input-container">
             <TextField
@@ -173,4 +172,4 @@ class TextDemo extends Component<TextDemoProps, AppState> {
 }
 }
 
-export default TextDemo;
+export default IndicDemo;

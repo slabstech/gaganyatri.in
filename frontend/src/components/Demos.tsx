@@ -4,6 +4,7 @@ import Recipes from './demos/Recipes';
 
 type DemosProps = {
   serverUrl: string;
+  isOnline: boolean;
 };
 
 const Demos: React.FC<DemosProps> = ({ serverUrl }) => {

@@ -10,6 +10,7 @@ import base64
 import json
 import requests
 from openai import OpenAI
+from ollama import Client
 
 class SpeechLLMView(APIView):
     def post(self, request, format=None):
@@ -115,11 +116,10 @@ class TextLLMView(APIView):
     def post(self, request, format=None):
         try:
             data = request.data
-            api_key = os.environ["MISTRAL_API_KEY"]
 
-            # Initialize the Mistral client
-            client = Mistral(api_key=api_key)
+            isOnline = data['isOnline']
 
+            print(isOnline)
             prompt =  data['messages'][0]['prompt']
             # Specify model
             #model = "pixtral-12b-2409"
@@ -137,19 +137,63 @@ class TextLLMView(APIView):
                 }
             ]
 
-            # Get the chat response
-            chat_response = client.chat.complete(
-                model=model,
-                messages=messages
-            )
+            if(isOnline): 
+                api_key = os.environ["MISTRAL_API_KEY"]
 
-            content = chat_response.choices[0].message.content
+                # Initialize the Mistral client
+                client = Mistral(api_key=api_key)
+
+
+                # Get the chat response
+                chat_response = client.chat.complete(
+                    model=model,
+                    messages=messages
+                )
+
+                content = chat_response.choices[0].message.content
+            else:
+                content = "helloWorld"
+
             #print(chat_response.choices[0].message.content)
             # Return the content of the response
             return Response({"response": content})
         except Exception as e:
             print(f"An error occurred: {e}")
             return Response({'error': 'Something went wrong'}, status=500)
+
+class IndicLLMView(APIView):
+    def post(self, request, format=None):
+        try:
+            data = request.data
+
+            isOnline = data['isOnline']
+
+            print(isOnline)
+            prompt =  data['messages'][0]['prompt']
+            # Specify model
+            #model = "pixtral-12b-2409"
+            model = data['model']
+            # Define the messages for the chat
+
+            client = Client(host='http://localhost:11434')
+            response = client.chat(
+            model=model,
+            messages=[{
+            "role": "user",
+            "content": prompt,
+            }],
+            )
+
+            # Extract the model's response about the image
+            response_text = response['message']['content'].strip()
+
+            #print(chat_response.choices[0].message.content)
+            # Return the content of the response
+            return Response({"response": response_text})
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return Response({'error': 'Something went wrong'}, status=500)
+
 
 
 @api_view(['GET'])
@@ -168,6 +212,44 @@ def recipe_generate_route(request):
         return Response({'error': 'Something went wrong'}, status=500)
     return Response(result)
 
+
+class LlamaVisionView(APIView):
+    def post(self, request, format=None):
+        try:
+            data = request.data
+
+            image_data = (data['messages'][0]['image'][0])
+            prompt =  data['messages'][0]['prompt']
+            # Specify model
+            #model = "pixtral-12b-2409"
+            model = data['model']
+            # Define the messages for the chat
+
+            # Define the messages for the chat
+
+            client = Client(host='http://localhost:21434')
+            response = client.chat(
+            model="x/llama3.2-vision:latest",
+            messages=[{
+            "role": "user",
+            "content": prompt,
+            "images": [image_data]
+            }],
+            )
+
+            # Extract the model's response about the image
+            response_text = response['message']['content'].strip()
+
+            print(response_text)
+            content = response_text
+
+
+            #print(chat_response.choices[0].message.content)
+            # Return the content of the response
+            return Response({"response": content})
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return Response({'error': 'Something went wrong'}, status=500)
 
 
 class VisionLLMView(APIView):

@@ -11,11 +11,13 @@ import MicOffIcon from '@mui/icons-material/MicOff';
 
 type SpeechDemoProps = {
   serverUrl?: string;
+  isOnline: boolean;
 };
 
 
-const SpeechDemo = ({ serverUrl }: SpeechDemoProps) => {
+const SpeechDemo = ({ serverUrl, isOnline }: SpeechDemoProps) => {
   const serverBaseUrl = serverUrl || "http://localhost:8000/api/v1" ;
+  const isOnlineAccess = isOnline;
   
   const chunks = useRef<Blob[]>([]);
   const [recordedUrl, setRecordedUrl] = useState('');
@@ -121,6 +123,7 @@ const stopRecording = () => {
       return messageContent;
     } catch (error) {
       console.error('Error processing Text Prompt:', (error as AxiosError).message);
+      console.log('isOnline:' + isOnlineAccess);
       setTableAIProgressLoading(false);
       throw error;
     }

@@ -1,0 +1,15 @@
+FROM node:20.18.0 as base
+
+WORKDIR /app
+
+ARG VITE_BACKEND_APP_API_URL
+ENV VITE_BACKEND_APP_API_URL $VITE_BACKEND_APP_API_URL
+COPY package.json .
+
+RUN npm install --legacy-peer-deps
+
+COPY . .
+
+EXPOSE 11080
+
+CMD [ "npm", "run", "dev" ]

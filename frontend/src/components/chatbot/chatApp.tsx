@@ -2,13 +2,15 @@ import ChatBot from 'react-chatbotify';
 
 type ChatBotDemoProps = {
   serverUrl?: string;
+  isOnline: boolean;
 };
 
-const MyChatBot = ({ serverUrl }: ChatBotDemoProps) => {
+const MyChatBot = ({ serverUrl, isOnline }: ChatBotDemoProps) => {
   const helpOptions = ["Deployment", "Github", "Discord"];
+  const isOnlineAccess = isOnline;
 
   const serverInfernce = serverUrl;
-  console.log(serverInfernce);
+  console.log(serverInfernce + '' + isOnlineAccess);
 
   const flow = {
     start: {
