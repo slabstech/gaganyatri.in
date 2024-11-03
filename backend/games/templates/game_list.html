@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game List</title>
+</head>
+<body>
+    <h1>Games</h1>
+    {% for game in games %}
+        <li>
+            <h2>{{ game.name }}</h2>
+            <p>{{ game.description }}</p>
+            <p>Released on: {{ game.release_date }}</p>
+        </li>
+    {% endfor %}
+</body>
+</html>

@@ -85,7 +85,7 @@ class TextDemo extends Component<TextDemoProps, AppState> {
   sendPromptToServer = async () => {
     this.setState({tableAIProgressLoading:true});
 
-    const serverEndpoint = this.serverBaseUrl + '/recipes/text_llm_url/';
+    const serverEndpoint = this.serverBaseUrl + '/inference/text_llm_url/';
 
 
     const model = this.state.models.get(this.state.textSelectedModel);

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
@@ -8,13 +9,13 @@ import Divider from '@mui/material/Divider';
 import MicIcon from '@mui/icons-material/Mic';
 import MicOffIcon from '@mui/icons-material/MicOff';
 
-type SpeechDemoProps = {
+type SpeechLLMProps = {
   serverUrl?: string;
   isOnline: boolean;
 };
 
 
-const SpeechDemo = ({ serverUrl, isOnline }: SpeechDemoProps) => {
+const SpeechLLM = ({ serverUrl, isOnline }: SpeechLLMProps) => {
   const serverBaseUrl = serverUrl || "http://localhost:8000/api/v1" ;
   const isOnlineAccess = isOnline;
   
@@ -30,8 +31,7 @@ const SpeechDemo = ({ serverUrl, isOnline }: SpeechDemoProps) => {
 
 
   const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
-  const [audioResponse, setAudioResponse] = useState<string>('');
-
+  const [textresponse, setTextResponse] = useState<any>(null);
   const [isListening, setIsListening] = useState<boolean>(false);
 
   const startRecording = async () => {
@@ -103,8 +103,7 @@ const stopRecording = () => {
       return;
     }
     setTableAIProgressLoading(true);
-    setAudioResponse('');
-    const serverEndpoint = serverBaseUrl + '/inference/speech_to_speech_url/';
+    const serverEndpoint = serverBaseUrl + '/inference/speech_llm_url/';
   
     const formData = new FormData();
     formData.append('audio', audioFile);
@@ -115,17 +114,14 @@ const stopRecording = () => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        responseType: 'blob', // This tells axios to return the data as a Blob object
       });
-      // const messageContent = response.data.response;
-      const audioUrl = window.URL.createObjectURL(new Blob([response.data]));
-      setAudioResponse(audioUrl); // Save the audio URL to state
+      const messageContent = response.data.response;
       setTableAIProgressLoading(false);
 
-      //setTextResponse(messageContent);
+      setTextResponse(messageContent);
 
-      return audioUrl;
-      //return messageContent;
+
+      return messageContent;
     } catch (error) {
       console.error('Error processing Text Prompt:', (error as AxiosError).message);
       console.log('isOnline:' + isOnlineAccess);
@@ -139,7 +135,7 @@ const stopRecording = () => {
     <>
       <Box className="app-container">
         <Box>
-          <h2>Speech Demo</h2>
+          <h2>Speech LLM - Voice based Query</h2>
           <Divider />
           <Box className="input-container">
           <Button
@@ -173,11 +169,17 @@ const stopRecording = () => {
           <Box id="botResult">
             {tableAIProgressLoading && <LinearProgress />}
           </Box>
-          {audioResponse && (
-          <audio controls>
-            <source src={audioResponse} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
+          {textresponse && (
+            <Box className="response-container">
+              <h4>Response:</h4>
+              <TextField
+                value={JSON.stringify(textresponse, null, 2)}
+                disabled
+                multiline
+                fullWidth
+                rows={4}
+              />
+            </Box>
           )}
         </Box>
         <Divider sx={{ my: 2 }} />
@@ -186,4 +188,4 @@ const stopRecording = () => {
   )
 }
 
-export default SpeechDemo;
+export default SpeechLLM;

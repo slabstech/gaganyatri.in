@@ -1,0 +1,16 @@
+services:
+  tts:
+    image: ghcr.io/coqui-ai/tts:latest
+    entrypoint: python3
+    command: TTS/server/server.py --model_name tts_models/en/ljspeech/tacotron2-DDC --use_cuda true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
+    volumes:
+      - ./tts:/root/.local/share/tts
+    ports:
+      - "5002:5002"
