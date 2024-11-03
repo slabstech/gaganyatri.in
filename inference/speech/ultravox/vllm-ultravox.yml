@@ -1,6 +1,6 @@
 services:
   vllm:
-    image: vllm/vllm-openai@sha256:e2fccad6e164335e32556f6d244f5fe06b31d23b12e94f0ee6f1499d000cfa47
+    image: vllm/vllm-openai@sha256:facbbd4a92c1754675b239a5f22a281ed3aa8bde64662db8919d85d670673aa7
     runtime: nvidia
     environment:
       - TRANSFORMERS_OFFLINE=1

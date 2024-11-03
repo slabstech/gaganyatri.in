@@ -1,4 +1,5 @@
-import { Component, ChangeEvent } from 'react';
+import React, { Component, ChangeEvent } from 'react';
+import Webcam from 'react-webcam';
 import axios from 'axios';
 import { AxiosError } from 'axios';
 import TextField from '@mui/material/TextField';
@@ -29,6 +30,7 @@ interface AppState {
 class VisionDemo extends Component<VisionProps, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
   serverBaseUrl = 'http://localhost:10000/api/v1' ;
+  webcamRef = React.createRef();
   isOnline = true;
   constructor(props:VisionProps) {
     super(props);
@@ -56,6 +58,10 @@ class VisionDemo extends Component<VisionProps, AppState> {
   componentDidMount() {
     //this.getOrPullModel(this.state.selectedModel);
   }
+  handleCapture = () => {
+    //const imageSrc = this.webcamRef.current.getScreenshot();
+    // You can now use the imageSrc for your upload or processing.
+  };
 
   checkModelExists = async (modelName:string) => {
     try {
@@ -186,6 +192,14 @@ class VisionDemo extends Component<VisionProps, AppState> {
               style={{ display: 'none' }}
             />
           </label>
+          <Webcam
+          audio={false}
+          ref={this.webcamRef as RefObject<Webcam>}
+          screenshotFormat="image/jpeg"
+          />
+          <Button variant="contained" onClick={this.handleCapture}>
+          Capture Image
+          </Button>
           <Button
             onClick={this.sendImageToServer}
             disabled={this.state.isLoading}
