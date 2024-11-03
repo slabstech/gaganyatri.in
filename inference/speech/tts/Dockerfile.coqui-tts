@@ -9,7 +9,7 @@ RUN mkdir models
 COPY ./models /app/models
 
 # Install any additional dependencies if needed
-RUN pip install --no-cache-dir TTS
+#RUN pip install --no-cache-dir TTS
 
 # Expose the port for the TTS server
 EXPOSE 5002
