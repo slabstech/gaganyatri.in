@@ -48,7 +48,7 @@ services:
               device_ids: ['0']
               capabilities: [gpu]
     volumes:
-      - ./tts:/root/.local/share/tts
+      - ./temp/tts:/root/.local/share/tts
     ports:
       - "5002:5002"
 networks:

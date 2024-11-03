@@ -11,30 +11,61 @@ import json
 import requests
 from openai import OpenAI
 from ollama import Client
+from django.http import FileResponse
+import io
 
 class TTSView(APIView):
     def post(self, request, format=None):
         # Define the API endpoint
-        url = "http://localhost:5002/api/tts"
+        # Define the URL for the TTS API
+        url = 'http://localhost:5002/api/tts'
 
-        # Prepare your request payload
-        data = {
-            "text": "Hello, this is a test of Coqui TTS!",
-            "model": "tts_models/en/ljspeech/tacotron2",
-            "speaker_idx": 0  # Optional, depending on your model
+        # Define the multiline text
+        text = "This is the first line"
+
+        # Prepare the parameters for the GET request
+        params = {
+            'text': text
         }
 
-        # Send POST request to the TTS server
-        response = requests.post(url, json=data)
+        # Make the GET request
+        response = requests.get(url, params=params)
 
         # Check if the request was successful
         if response.status_code == 200:
-            # Save the audio file
-            with open("output.wav", "wb") as f:
-                f.write(response.content)
-            print("Audio saved as output.wav")
+            # Save the audio response as a WAV file
+            # Create a file-like object with the audio data
+            audio_data = io.BytesIO(response.content)
+
+            # Return the audio file as a response
+            return FileResponse(audio_data, as_attachment=True, filename='audio_output.wav')
         else:
-            print("Error:", response.status_code, response.text)
+            return Response({"error": "Failed to synthesize speech"}, status=response.status_code)
+
+class SpeechASRView(APIView):
+    def post(self, request, format=None):
+        try: 
+            data = request.data
+            ##prompt =  data['prompt']
+            audio = data['audio']
+
+            client = OpenAI(api_key="cant-be-empty", base_url="http://localhost:11800/v1/")
+
+            #filename= '/home/gaganyatri/Music/test1.flac'
+            audio_bytes = audio.read()
+
+            #audio_file = open(filename, "rb")
+
+            transcript = client.audio.transcriptions.create(
+                model="Systran/faster-distil-whisper-small.en", file=audio_bytes
+            )
+
+            #print(transcript.text)
+            voice_content = transcript.text
+            return Response({"response": voice_content})
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return Response({'error': 'Something went wrong'}, status=500)
 
 
 class SpeechLLMView(APIView):
@@ -76,46 +107,6 @@ class SpeechLLMView(APIView):
         except Exception as e:
             print(f"An error occurred: {e}")
             return Response({'error': 'Something went wrong'}, status=500)
-        
-            '''
-            url = "https://api.sarvam.ai/speech-to-text"
-            api_key=os.getenv("SARVAM_API_KEY", "")
-
-            boundary = '----WebKitFormBoundary7MA4YWxkTrZu0gW'
-            headers = {
-                "Content-Type": f"multipart/form-data; boundary={boundary}",
-                'API-Subscription-Key': f"{api_key}"
-            }
-            
-            # Specify model
-            language_code = 'kn-IN'
- 
-            #model = data['model']
-            model = 'saarika:v1'
-
-            #payload = f"--{boundary}\r\nContent-Disposition: form-data; name=\"file\"; filename=\"{audio}\"\r\nContent-Type: audio/wav\r\n\r\n{audio}\r\n--{boundary}--\r\n"
-
-            
-            payload = f"--{boundary}\r\n"
-            payload += f"Content-Disposition: form-data; name=\"file\"\r\n\r\n"
-            payload += f"{audio}\r\n"
-            payload += f"--{boundary}\r\n"
-            payload += f"Content-Disposition: form-data; name=\"model\"\r\n\r\n"
-            payload += f"{model}\r\n"
-            payload += f"--{boundary}\r\n"
-            payload += f"Content-Disposition: form-data; name=\"language_code\"\r\n\r\n"
-            payload += f"{language_code}\r\n"
-            payload += f"--{boundary}--\r\n"
-
-
-            #payload = "-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"language_code\"\r\n\r\nhi-IN\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"model\"\r\n\r\nsaarika:v1\r\n-----011000010111000001101001--\r\n\r\n"
-            response = requests.request("POST", url, data=payload, headers=headers)
-            content = response.text
-            #print(chat_response.choices[0].message.content)
-            # Return the content of the response
-            '''
-
-
 
 class TranslateLLMView(APIView):
     def post(self, request, format=None):
