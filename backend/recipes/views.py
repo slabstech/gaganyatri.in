@@ -89,15 +89,23 @@ class SpeechToSpeechView(APIView):
             #print(transcript.text)
             voice_content = transcript.text
                         #content = 'audio recieved'
+            system_prompt = "Please summarize the following prompt into a concise and clear statement:"
+
 
             model = "mistral-nemo:latest"
             client = Client(host='http://localhost:11434')
             response = client.chat(
             model=model,
-            messages=[{
-            "role": "user",
-            "content": voice_content,
-            }],
+            messages=[
+                {
+                    "role": "system",
+                    "content": system_prompt
+                },
+                {
+                    "role": "user",
+                    "content": voice_content,
+                }
+            ],
             )
 
             # Extract the model's response about the image

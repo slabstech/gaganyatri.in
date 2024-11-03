@@ -32,6 +32,8 @@ const SpeechDemo = ({ serverUrl, isOnline }: SpeechDemoProps) => {
 
   const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
   const [textresponse, setTextResponse] = useState<any>(null);
+  const [audioResponse, setAudioResponse] = useState<string>('');
+
   const [isListening, setIsListening] = useState<boolean>(false);
 
   const startRecording = async () => {
@@ -103,6 +105,7 @@ const stopRecording = () => {
       return;
     }
     setTableAIProgressLoading(true);
+    setAudioResponse(null);
     const serverEndpoint = serverBaseUrl + '/recipes/speech_to_speech_url/';
   
     const formData = new FormData();
@@ -114,14 +117,17 @@ const stopRecording = () => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        responseType: 'blob', // This tells axios to return the data as a Blob object
       });
-      const messageContent = response.data.response;
+      // const messageContent = response.data.response;
+      const audioUrl = window.URL.createObjectURL(new Blob([response.data]));
+      setAudioResponse(audioUrl); // Save the audio URL to state
       setTableAIProgressLoading(false);
 
-      setTextResponse(messageContent);
+      //setTextResponse(messageContent);
 
-
-      return messageContent;
+      return audioUrl;
+      //return messageContent;
     } catch (error) {
       console.error('Error processing Text Prompt:', (error as AxiosError).message);
       console.log('isOnline:' + isOnlineAccess);
@@ -169,17 +175,11 @@ const stopRecording = () => {
           <Box id="botResult">
             {tableAIProgressLoading && <LinearProgress />}
           </Box>
-          {textresponse && (
-            <Box className="response-container">
-              <h4>Response:</h4>
-              <TextField
-                value={JSON.stringify(textresponse, null, 2)}
-                disabled
-                multiline
-                fullWidth
-                rows={4}
-              />
-            </Box>
+          {audioResponse && (
+          <audio controls>
+            <source src={audioResponse} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
           )}
         </Box>
         <Divider sx={{ my: 2 }} />
