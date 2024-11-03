@@ -31,12 +31,8 @@ Speech -
         - docker run --rm --gpus all -it -v ./tts:/root/.local/share/tts -v ./out:/mnt -p 5002:5002 ghcr.io/coqui-ai/tts:latest --model_name tts_models/en/ljspeech/tacotron2-DDC --text "gaganyatri is a space astronaut from hubli,india" --out_path /mnt/speech.wav 
 
     - Run with tts-server
-        - docker run --rm --gpus all -it \
-    -v ./tts:/root/.local/share/tts \
-    -v ./out:/mnt \
-    -p 5002:5002 \
-    ghcr.io/coqui-ai/tts:latest \
-    python3 TTS/server/server.py --model_name tts_models/en/ljspeech/tacotron2-DDC
+        -  docker run --rm --gpus all -it -v ./tts:/root/.local/share/tts  -p 5002:5002 --entrypoint python3  ghcr.io/coqui-ai/tts:latest TTS/server/server
+.py --model_name tts_models/en/ljspeech/tacotron2-DDC --use_cuda true
 
 
 - TODO
@@ -47,10 +43,6 @@ Speech -
     -v tts_models_volume:/root/.local/share/tts \
     -v tts_output_volume:/mnt/output \
     --gpus all ghcr.io/coqui-ai/tts
-
-    - tts --model_name tts_models/en/vctk/vits --text "Hello, this is a test." --out_path /mnt/output/output.wav
-    - docker run --rm -it -v tts_output_volume:/mnt alpine ls /mnt
-
 
     - docker compose 
 services:
