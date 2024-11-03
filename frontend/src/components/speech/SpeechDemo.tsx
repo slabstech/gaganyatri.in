@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
@@ -16,10 +15,10 @@ type SpeechDemoProps = {
 
 
 const SpeechDemo = ({ serverUrl, isOnline }: SpeechDemoProps) => {
-  //const serverBaseUrl = serverUrl || "http://localhost:8000/api/v1" ;
+  const serverBaseUrl = serverUrl || "http://localhost:8000/api/v1" ;
   const isOnlineAccess = isOnline;
   
-  const serverBaseUrl = "http://localhost:10000/api/v1";
+  //const serverBaseUrl = "http://localhost:10000/api/v1";
   const chunks = useRef<Blob[]>([]);
   const [recordedUrl, setRecordedUrl] = useState('');
   const mediaRecorder = useRef<MediaRecorder | null>(null);
@@ -31,7 +30,6 @@ const SpeechDemo = ({ serverUrl, isOnline }: SpeechDemoProps) => {
 
 
   const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
-  const [textresponse, setTextResponse] = useState<any>(null);
   const [audioResponse, setAudioResponse] = useState<string>('');
 
   const [isListening, setIsListening] = useState<boolean>(false);
@@ -105,7 +103,7 @@ const stopRecording = () => {
       return;
     }
     setTableAIProgressLoading(true);
-    setAudioResponse(null);
+    setAudioResponse('');
     const serverEndpoint = serverBaseUrl + '/recipes/speech_to_speech_url/';
   
     const formData = new FormData();
