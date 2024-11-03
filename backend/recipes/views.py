@@ -68,6 +68,69 @@ class SpeechASRView(APIView):
             return Response({'error': 'Something went wrong'}, status=500)
 
 
+class SpeechToSpeechView(APIView):
+    def post(self, request, format=None):
+        try: 
+            data = request.data
+            ##prompt =  data['prompt']
+            audio = data['audio']
+
+            client = OpenAI(api_key="cant-be-empty", base_url="http://localhost:11800/v1/")
+
+            #filename= '/home/gaganyatri/Music/test1.flac'
+            audio_bytes = audio.read()
+
+            #audio_file = open(filename, "rb")
+
+            transcript = client.audio.transcriptions.create(
+                model="Systran/faster-distil-whisper-small.en", file=audio_bytes
+            )
+
+            #print(transcript.text)
+            voice_content = transcript.text
+                        #content = 'audio recieved'
+
+            model = "mistral-nemo:latest"
+            client = Client(host='http://localhost:11434')
+            response = client.chat(
+            model=model,
+            messages=[{
+            "role": "user",
+            "content": voice_content,
+            }],
+            )
+
+            # Extract the model's response about the image
+            response_text = response['message']['content'].strip()
+
+            url = 'http://localhost:5002/api/tts'
+
+            # Define the multiline text
+            #text = "This is the first line"
+
+            # Prepare the parameters for the GET request
+            params = {
+                'text': response_text
+            }
+
+            # Make the GET request
+            response = requests.get(url, params=params)
+
+            # Check if the request was successful
+            if response.status_code == 200:
+                # Save the audio response as a WAV file
+                # Create a file-like object with the audio data
+                audio_data = io.BytesIO(response.content)
+
+                # Return the audio file as a response
+                return FileResponse(audio_data, as_attachment=True, filename='audio_output.wav')
+            else:
+                return Response({"error": "Failed to synthesize speech"}, status=response.status_code)
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return Response({'error': 'Something went wrong'}, status=500)
+
 class SpeechLLMView(APIView):
     def post(self, request, format=None):
         try: 

@@ -9,13 +9,13 @@ import Divider from '@mui/material/Divider';
 import MicIcon from '@mui/icons-material/Mic';
 import MicOffIcon from '@mui/icons-material/MicOff';
 
-type SpeechDemoProps = {
+type SpeechLLMProps = {
   serverUrl?: string;
   isOnline: boolean;
 };
 
 
-const SpeechDemo = ({ serverUrl, isOnline }: SpeechDemoProps) => {
+const SpeechLLM = ({ serverUrl, isOnline }: SpeechLLMProps) => {
   //const serverBaseUrl = serverUrl || "http://localhost:8000/api/v1" ;
   const isOnlineAccess = isOnline;
   
@@ -103,7 +103,7 @@ const stopRecording = () => {
       return;
     }
     setTableAIProgressLoading(true);
-    const serverEndpoint = serverBaseUrl + '/recipes/speech_to_speech_url/';
+    const serverEndpoint = serverBaseUrl + '/recipes/speech_llm_url/';
   
     const formData = new FormData();
     formData.append('audio', audioFile);
@@ -135,7 +135,7 @@ const stopRecording = () => {
     <>
       <Box className="app-container">
         <Box>
-          <h2>Speech Demo</h2>
+          <h2>Speech LLM - Voice based Query</h2>
           <Divider />
           <Box className="input-container">
           <Button
@@ -188,4 +188,4 @@ const stopRecording = () => {
   )
 }
 
-export default SpeechDemo;
+export default SpeechLLM;
