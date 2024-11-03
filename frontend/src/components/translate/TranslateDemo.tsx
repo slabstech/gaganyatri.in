@@ -122,7 +122,7 @@ class TranslateDemo extends Component<TranslateProps, AppState> {
   sendPromptToServer = async () => {
     this.setState({tableAIProgressLoading:true});
 
-    const serverEndpoint = this.serverBaseUrl + '/recipes/translate_llm_url/';
+    const serverEndpoint = this.serverBaseUrl + '/inference/translate_llm_url/';
 
 
     const model = this.state.models.get(this.state.textSelectedModel);

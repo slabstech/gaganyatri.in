@@ -24,7 +24,7 @@ export const generateResponse = async (prompt: string, imageFile: File) => {
       stream: false
     };
     const serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
-    const serverEndpoint = serverBaseUrl + '/recipes/vision_llm_url/';
+    const serverEndpoint = serverBaseUrl + '/inference/vision_llm_url/';
 
     const response = await axios.post(serverEndpoint, requestBody);
       //console.log("Prompt - ", this.state.prompt);
@@ -63,7 +63,7 @@ export const generateFeatures = async (imageFile: File) => {
       stream: false
     };
     const serverBaseUrl = "https://gaganyatri-django-spaces.hf.space/api/v1" ;
-    const serverEndpoint = serverBaseUrl + '/recipes/vision_llm_url/';
+    const serverEndpoint = serverBaseUrl + '/inference/vision_llm_url/';
 
     const response = await axios.post(serverEndpoint, requestBody);
       //console.log("Prompt - ", this.state.prompt);
@@ -106,7 +106,7 @@ export const generateResponseFromJson = async (jsonStr: string) => {
                 "5. Provide actionable tips for minimizing waste, such as recipes or preservation methods.\n" +
                 "JSON DATA = "+ jsonStr;
     
-    const serverEndpoint = serverBaseUrl + '/recipes/execute_prompt_get/';
+    const serverEndpoint = serverBaseUrl + '/inference/execute_prompt_get/';
 
     const serverRequest = `${serverEndpoint}?prompt="${prompt}"`;
     const response = await axios.get(serverRequest);

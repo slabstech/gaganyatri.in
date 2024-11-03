@@ -63,7 +63,7 @@ class Recipes extends Component<RecipesProps, RecipesState> {
   };
 
   sendDatatoServer = async () => {
-    const serverRequest = this.serverBaseUrl + '/recipes/recipe_generate/';
+    const serverRequest = this.serverBaseUrl + '/inference/recipe_generate/';
     console.log(serverRequest);
     try {
       const response = await axios.get(serverRequest);
