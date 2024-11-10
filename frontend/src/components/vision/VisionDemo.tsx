@@ -192,14 +192,6 @@ class VisionDemo extends Component<VisionProps, AppState> {
               style={{ display: 'none' }}
             />
           </label>
-          <Webcam
-          audio={false}
-          ref={this.webcamRef as RefObject<Webcam>}
-          screenshotFormat="image/jpeg"
-          />
-          <Button variant="contained" onClick={this.handleCapture}>
-          Capture Image
-          </Button>
           <Button
             onClick={this.sendImageToServer}
             disabled={this.state.isLoading}
