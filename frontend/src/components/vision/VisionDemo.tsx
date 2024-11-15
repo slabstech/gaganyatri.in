@@ -1,5 +1,6 @@
-import React, { Component, ChangeEvent, RefObject } from 'react';
-import Webcam from 'react-webcam';
+// import React, { Component, ChangeEvent, RefObject } from 'react';
+import React, { Component, ChangeEvent} from 'react';
+// import Webcam from 'react-webcam';
 import axios from 'axios';
 import { AxiosError } from 'axios';
 import TextField from '@mui/material/TextField';
