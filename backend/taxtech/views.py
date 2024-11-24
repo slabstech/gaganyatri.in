@@ -63,7 +63,8 @@ class TaxLLMView(APIView):
         try:
             data = request.data
 
-            isOnline = data['isOnline']
+            #isOnline = data['isOnline']
+            isOnline = True
 
             prompt =  data['messages'][0]['prompt']
             # Specify model

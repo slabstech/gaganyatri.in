@@ -7,6 +7,6 @@ router.register(r'', TaxTechAppViewSet)
 
 urlpatterns = [
     # ... other URL patterns
-    path('', include(router.urls)),
+    path('taxdata/', include(router.urls)),
     path('tax_llm_url/', TaxLLMView.as_view(), name='tax_llm_url'),
 ]
