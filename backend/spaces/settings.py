@@ -178,6 +178,8 @@ DJOSER = {
     "USER_ID_FIELD": "username"
 }
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 
 # Static Files
