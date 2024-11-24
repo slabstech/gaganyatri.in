@@ -72,6 +72,10 @@ class TaxLLMView(APIView):
             # Define the messages for the chat
             messages = [
                 {
+                    "role": "system",
+                    "content": "Please provide a concise response, limiting your answer to three lines or less."
+                },
+                {
                     "role": "user",
                     "content": [
                         {
