@@ -18,7 +18,7 @@ services:
             - driver: nvidia
               device_ids: ['0']
               capabilities: [gpu]
-  faster-whisper-server-cuda:
+  whisper-cuda:
     image: fedirz/faster-whisper-server:latest-cuda
     restart: unless-stopped
     ports:

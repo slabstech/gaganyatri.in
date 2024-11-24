@@ -34,7 +34,7 @@ class TextDemo extends Component<TextDemoProps, AppState> {
   //serverBaseUrl = this.hfBaseUrl; 
   constructor(props:TextDemoProps) {
     super(props);
-    this.serverBaseUrl = this.props.serverUrl;
+    //this.serverBaseUrl = this.props.serverUrl;
     this.isOnline = this.props.isOnline;
     this.state = {
       textresponse: null,

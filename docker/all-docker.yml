@@ -1,0 +1,67 @@
+services:
+  ollama:
+    volumes:
+      - ~/ollama/ollama:/root/.ollama
+    container_name: ollama
+    #pull_policy: always
+    tty: true
+    #restart: unless-stopped
+    image: ollama/ollama:latest
+    ports:
+      - 11434:11434
+    networks:
+      - gaganyatri_net
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
+  gaganyatri_backend:
+    container_name: gaganyatri_backend 
+    hostname: gaganyatri_backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:10000"
+    privileged: true
+    tty: true
+    env_file:
+      - ./.env.dev
+    volumes:
+      - static:/static
+      - ./backend/:/app
+    ports: 
+      - '10000:10000'
+    networks:
+      - gaganyatri_net
+    extra_hosts:
+      host.docker.internal: host-gateway
+  gaganyatri_frontend:
+    container_name: gaganyatri_frontend 
+    hostname: gaganyatri_frontend
+    build:
+      context: frontend 
+      dockerfile: Dockerfile.dev
+    ports: 
+      - '11080:11080'  
+    depends_on:
+      - gaganyatri_backend
+    networks:
+      - gaganyatri_net
+    env_file:
+      - ./.env.dev
+    extra_hosts:
+      host.docker.internal: host-gateway
+networks:
+  gaganyatri_net:
+    driver: bridge
+volumes:
+  static:
+  hugging_face_cache:
+    driver: local
+    driver_opts:
+      type: none
+      device: ~/.cache/huggingface
+      o: bind

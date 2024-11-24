@@ -43,9 +43,9 @@ class SpeechASRView(APIView):
             data = request.data
             ##prompt =  data['prompt']
             audio = data['audio']
-
-            client = OpenAI(api_key="cant-be-empty", base_url="http://localhost:11800/v1/")
-
+            print('hre1')
+            client = OpenAI(api_key="cant-be-empty", base_url="http://0.0.0.0:11800/v1/")
+            print('her2')
             #filename= '/home/gaganyatri/Music/test1.flac'
             audio_bytes = audio.read()
 
@@ -70,7 +70,7 @@ class SpeechToSpeechView(APIView):
             ##prompt =  data['prompt']
             audio = data['audio']
 
-            client = OpenAI(api_key="cant-be-empty", base_url="http://localhost:11800/v1/")
+            client = OpenAI(api_key="cant-be-empty", base_url="http://0.0.0.0:11800/v1/")
 
             #filename= '/home/gaganyatri/Music/test1.flac'
             audio_bytes = audio.read()
@@ -212,6 +212,7 @@ class TranslateLLMView(APIView):
 class TextLLMView(APIView):
     def post(self, request, format=None):
         try:
+            print("123")
             data = request.data
 
             isOnline = data['isOnline']
@@ -234,6 +235,7 @@ class TextLLMView(APIView):
                 }
             ]
 
+            print("123")
             if(isOnline): 
                 api_key = os.environ["MISTRAL_API_KEY"]
 
@@ -296,6 +298,8 @@ class LlamaVisionView(APIView):
         try:
             data = request.data
 
+            print("gere")
+
             image_data = (data['messages'][0]['image'][0])
             prompt =  data['messages'][0]['prompt']
             # Specify model
@@ -305,6 +309,7 @@ class LlamaVisionView(APIView):
 
             # Define the messages for the chat
 
+            print("gere")
             client = Client(host='http://localhost:21434')
             response = client.chat(
             model="x/llama3.2-vision:latest",
@@ -315,11 +320,13 @@ class LlamaVisionView(APIView):
             }],
             )
 
+            print("gere")
             # Extract the model's response about the image
             response_text = response['message']['content'].strip()
 
             print(response_text)
             content = response_text
+            print("gere")
 
 
             #print(chat_response.choices[0].message.content)
