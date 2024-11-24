@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 
 import { SelectChangeEvent } from '@mui/material/Select';
 import TaxDataDashboard from './TaxDataDashboard';
-import { Container, Grid, Typography, Divider, FormControlLabel, Switch, Toolbar } from '@mui/material';
+import { Grid,Divider} from '@mui/material';
 
 interface AppState {
   tableAIProgressLoading: boolean;
@@ -171,7 +171,7 @@ class TaxTechDemo extends Component<TaxTechDemoProps, AppState> {
         <Divider sx={{ my: 2 }} />
       </Box>
       <Grid item xs={12}>
-                <TaxDataDashboard />
+        <TaxDataDashboard />
       </Grid>
     </>
   )

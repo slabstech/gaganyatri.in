@@ -96,10 +96,10 @@ const TaxDataDashboard: React.FC = () => {
 
   const userId = 1;
 
-  const userAppointmentDataList = useSelector((state: RootState) =>
-    state.userAppointmentDataList.userData);
+  const taxDashboardDataList = useSelector((state: RootState) =>
+    state.taxDashboardDataList.userData);
 
-  //console.log(userAppointmentDataList);
+  //console.log(taxDashboardDataList);
 
   useEffect(() => {
     if (loading) {
@@ -117,15 +117,15 @@ const TaxDataDashboard: React.FC = () => {
 
   useEffect(() => {
     if (startDate && endDate) {
-      const filteredData = userAppointmentDataList.filter((item:any) => {
+      const filteredData = taxDashboardDataList.filter((item:any) => {
         const itemDate = dayjs(item.appointment_day);
         return itemDate.isAfter(startDate) && itemDate.isBefore(endDate);
       });
       setTimerows(filteredData);
     } else {
-      setTimerows(userAppointmentDataList);
+      setTimerows(taxDashboardDataList);
     }
-  }, [userAppointmentDataList, startDate, endDate]);
+  }, [taxDashboardDataList, startDate, endDate]);
 
   return (
     <Box sx={{height: '100%'}}>

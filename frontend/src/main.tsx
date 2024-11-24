@@ -3,12 +3,10 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import "react-toastify/dist/ReactToastify.css";
 import ErrorBoundary from './ErrorBoundary.tsx';
-
-//import Root from './reducers/Root.tsx';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { lightBlue, deepOrange } from '@mui/material/colors';
 import { Provider } from 'react-redux';
-import { store } from './reducers/store.tsx';
+import { store } from './reducers/store';
 import { BrowserRouter } from 'react-router-dom';
 
 // Create a theme instance.
