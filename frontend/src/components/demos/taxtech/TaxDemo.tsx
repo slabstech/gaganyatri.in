@@ -87,8 +87,9 @@ class TaxTechDemo extends Component<TaxTechDemoProps, AppState> {
   sendPromptToServer = async () => {
     this.setState({tableAIProgressLoading:true});
 
-    const serverEndpoint = this.serverBaseUrl + '/inference/text_llm_url/';
 
+    const serverEndpoint = "http://localhost:8000" + '/taxtech/tax_llm_url/';
+    console.log(serverEndpoint);
 
     const model = this.state.models.get(this.state.textSelectedModel);
         
@@ -124,7 +125,7 @@ class TaxTechDemo extends Component<TaxTechDemoProps, AppState> {
     <>
       <Box className="app-container">
         <Box>
-          <h2>Text LLM Demo</h2>
+          <h2>Tax Agent</h2>
           <Divider />
           <Box className="input-container">
             <TextField

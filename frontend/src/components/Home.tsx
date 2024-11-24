@@ -6,7 +6,7 @@ import TranslateDemo from './translate/TranslateDemo';
 import SpeechDemo from './speech/SpeechDemo';
 import MyChatBot from './chatbot/chatApp';
 import IndicDemo from './indic_llm/IndicDemo';
-import TaxTechDemo from './demos/TaxDemo';
+import TaxTechDemo from './demos/taxtech/TaxDemo';
 interface AppState {
 }
 

@@ -6,8 +6,8 @@ import {LocalizationProvider, DatePicker} from '@mui/x-date-pickers';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {DataGrid, GridColDef, GridToolbarContainer, useGridApiContext}
   from '@mui/x-data-grid';
-import {fetchTaxDashboardData} from '../../reducers/tax/TaxDashboardDataReducer';
-import {RootState, AppDispatch} from '../../reducers/store';
+import {fetchTaxDashboardData} from '../../../reducers/tax/TaxDashboardDataReducer';
+import {RootState, AppDispatch} from '../../../reducers/store';
 import dayjs,{ Dayjs } from 'dayjs';
 
 interface Message {

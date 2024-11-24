@@ -13,7 +13,7 @@ string[],
       'gaganyatriApp/fetchTaxDashboardData',
       async (args:any, thunkAPI:any) => {
         try {
-          let url = API_URL + 'taxdashboardapp/?page=';
+          let url = API_URL + 'taxtech/?page=';
           if (args.page) {
             url += args.page;
           }

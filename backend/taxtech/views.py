@@ -12,7 +12,19 @@ import requests
 from .models import TaxTechApp
 from .serializers import TaxTechAppSerializer
 
+from django.http import JsonResponse
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from mistralai import Mistral
+import os
+import requests
+from openai import OpenAI
+from ollama import Client
+from django.http import FileResponse
+import io
 from rest_framework.pagination import PageNumberPagination
+
+
 
 class TaxTechAppPagination(PageNumberPagination):
     page_size = 10
@@ -44,3 +56,52 @@ def recipe_generate_route(request):
         print(f"An error occurred: {e}")
         return Response({'error': 'Something went wrong'}, status=500)
     return Response(result)
+
+
+class TaxLLMView(APIView):
+    def post(self, request, format=None):
+        try:
+            data = request.data
+
+            isOnline = data['isOnline']
+
+            prompt =  data['messages'][0]['prompt']
+            # Specify model
+            #model = "pixtral-12b-2409"
+            model = data['model']
+            # Define the messages for the chat
+            messages = [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": prompt
+                        }
+                    ]
+                }
+            ]
+
+            if(isOnline): 
+                api_key = os.environ["MISTRAL_API_KEY"]
+
+                # Initialize the Mistral client
+                client = Mistral(api_key=api_key)
+
+
+                # Get the chat response
+                chat_response = client.chat.complete(
+                    model=model,
+                    messages=messages
+                )
+
+                content = chat_response.choices[0].message.content
+            else:
+                content = "helloWorld"
+
+            #print(chat_response.choices[0].message.content)
+            # Return the content of the response
+            return Response({"response": content})
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return Response({'error': 'Something went wrong'}, status=500)
