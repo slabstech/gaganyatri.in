@@ -17,7 +17,7 @@ type HomeProps = {
 
 class Home extends Component<HomeProps, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-  serverBaseUrl = import.meta.env.VITE_HF_SPACES_URL;
+  serverBaseUrl = import.meta.env.VITE_GAGANYATRI_HF_SPACES_URL;
   isOnline = true;
 
   constructor(props:HomeProps) {

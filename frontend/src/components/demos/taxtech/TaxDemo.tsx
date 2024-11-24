@@ -1,28 +1,32 @@
-import { useState, useEffect } from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import { useState, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
-import {Button, Typography} from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { Divider } from '@mui/material';
-import {LocalizationProvider, DatePicker} from '@mui/x-date-pickers';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import {DataGrid, GridColDef, GridToolbarContainer, useGridApiContext}
-  from '@mui/x-data-grid';
-import dayjs,{ Dayjs } from 'dayjs';
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import {
+  DataGrid,
+  GridColDef,
+  GridToolbarContainer,
+  useGridApiContext,
+} from '@mui/x-data-grid';
+import dayjs, { Dayjs } from 'dayjs';
 
-import {fetchTaxDashboardData} from '../../../reducers/tax/TaxDashboardDataReducer';
-import {RootState, AppDispatch} from '../../../reducers/store';
+import { fetchTaxDashboardData } from '../../../reducers/tax/TaxDashboardDataReducer';
+import { RootState, AppDispatch } from '../../../reducers/store';
+
 const models = new Map([
   ['mistral-nemo', 'open-mistral-nemo'],
   ['mistral-small', 'mistral-small-latest'],
   ['mistral-large', 'mistral-large-latest'],
 ]);
-
 
 interface Message {
   id: bigint;
@@ -31,6 +35,7 @@ interface Message {
   status: string;
   observations: string;
 }
+
 
 const columns: GridColDef<Message>[] = [
   {field: 'id', headerName: 'ID', width: 90},
@@ -59,6 +64,8 @@ const columns: GridColDef<Message>[] = [
     editable: false,
   },
 ];
+
+
 
 /** render
  * @return {return}
@@ -90,21 +97,21 @@ function CustomToolbar() {
 
 const todayDate = new Date().toISOString().slice(0, 10);
 const today = new Date();
-const nextSevenDays = new Date(today.getTime() +
-  (7 * 24 * 60 * 60 * 1000)).toISOString().slice(0, 10);
+const nextSevenDays = new Date(
+  today.getTime() + 7 * 24 * 60 * 60 * 1000
+).toISOString().slice(0, 10);
 
-
-const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serverUrl, isOnline }) => {
-
-  console.log(serverUrl);
+const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({
+  serverUrl,
+  isOnline,
+}) => {
   const [textPrompt, setTextPrompt] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [textResponse, setTextResponse] = useState<string | null>(null);
   const [textSelectedModel, setTextSelectedModel] = useState<string>('mistral-nemo');
   const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
-
   const [timerows, setTimerows] = useState<Array<Message>>([]);
-  const [loading, setLoading] = useState(true); // add loading state
+  const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch<AppDispatch>();
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
@@ -112,27 +119,27 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
 
   const userId = 1;
 
-  const taxDashboardDataList = useSelector((state: RootState) =>
-    state.taxDashboardDataList.userData);
-
+  const taxDashboardDataList = useSelector(
+    (state: RootState) => state.taxDashboardDataList.userData
+  );
 
   useEffect(() => {
     if (loading) {
-    dispatch(
-      fetchTaxDashboardData({
-        page: 1,
-        appointment_day_after: todayDate,
-        appointment_day_before: nextSevenDays,
-        user_id: userId,
-        rejectValue: 'Failed to fetch Appointment.',
-      })
-  ).then(() => setLoading(false));
-}
-}, [dispatch, todayDate, nextSevenDays, userId, loading]);
+      dispatch(
+        fetchTaxDashboardData({
+          page: 1,
+          appointment_day_after: todayDate,
+          appointment_day_before: nextSevenDays,
+          user_id: userId,
+          rejectValue: 'Failed to fetch Appointment.',
+        })
+      ).then(() => setLoading(false));
+    }
+  }, [dispatch, todayDate, nextSevenDays, userId, loading]);
 
   useEffect(() => {
     if (startDate && endDate) {
-      const filteredData = taxDashboardDataList.filter((item:any) => {
+      const filteredData = taxDashboardDataList.filter((item: any) => {
         const itemDate = dayjs(item.appointment_day);
         return itemDate.isAfter(startDate) && itemDate.isBefore(endDate);
       });
@@ -142,14 +149,10 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
     }
   }, [taxDashboardDataList, startDate, endDate]);
 
-
-
-  const sendPromptToServer = async () => {
+  const sendPromptToServer = async (selectedRows: any) => {
     setTableAIProgressLoading(true);
 
-    const serverEndpoint = "http://localhost:8000/taxtech/tax_llm_url/";
-    console.log(serverEndpoint);
-
+    const serverEndpoint = 'http://localhost:8000/taxtech/tax_llm_url/';
     const model = models.get(textSelectedModel);
 
     const requestBody = {
@@ -157,6 +160,7 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
       messages: [{ role: 'user', prompt: textPrompt }],
       stream: false,
       isOnline,
+      selectedRows,
     };
 
     try {
@@ -178,6 +182,8 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
     setTextSelectedModel(event.target.value);
   };
 
+  const gridRef = useRef(null);
+
   return (
     <>
       <Box className="app-container">
@@ -192,7 +198,14 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
               fullWidth
               sx={{ backgroundColor: 'white', color: 'black' }}
             />
-            <Button variant="contained" onClick={sendPromptToServer} disabled={isLoading}>
+            <Button
+              variant="contained"
+              onClick={() => {
+                const selectedRows = gridRef.current.getSelectedRows();
+                sendPromptToServer(selectedRows);
+              }}
+              disabled={isLoading}
+            >
               {isLoading ? 'Processing...' : 'Submit'}
             </Button>
             <Select value={textSelectedModel} onChange={handleTextModelChange}>
@@ -207,56 +220,63 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
           {textResponse && (
             <Box className="response-container">
               <h4>Response:</h4>
-              <TextField value={JSON.stringify(textResponse, null, 2)} disabled multiline fullWidth rows={4} />
+              <TextField
+                value={JSON.stringify(textResponse, null, 2)}
+                disabled
+                multiline
+                fullWidth
+                rows={4}
+              />
             </Box>
           )}
         </Box>
         <Divider sx={{ my: 2 }} />
       </Box>
-      <Box sx={{height: '100%'}}>
-      <Typography variant="h6" gutterBottom>
-        Master Tax Data
-      </Typography>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
-        label="Start Date"
-        value={startDate}
-        onChange={(newValue) => {
-          setStartDate(newValue);
-        }}
-      />
-      <DatePicker
-        label="End Date"
-        value={endDate}
-        onChange={(newValue) => {
-          setEndDate(newValue);
-        }}
-      />
-    </LocalizationProvider>
-    <DataGrid
-        rows={timerows}
-        columns={columns}
-        slots={{
-          toolbar: CustomToolbar,
-        }}
-        slotProps={{
-          toolbar: {
-            csvOptions: {allColumns: true, fileName: 'gridData'},
-          },
-        }}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 10,
-              page: 0,
+      <Box sx={{ height: '100%' }}>
+        <Typography variant="h6" gutterBottom>
+          Master Tax Data
+        </Typography>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="Start Date"
+            value={startDate}
+            onChange={(newValue) => {
+              setStartDate(newValue);
+            }}
+          />
+          <DatePicker
+            label="End Date"
+            value={endDate}
+            onChange={(newValue) => {
+              setEndDate(newValue);
+            }}
+          />
+        </LocalizationProvider>
+        <DataGrid
+          rows={timerows}
+          columns={columns}
+          slots={{
+            toolbar: CustomToolbar,
+          }}
+          slotProps={{
+            toolbar: {
+              csvOptions: { allColumns: true, fileName: 'gridData' },
             },
-          },
-        }}
-        pageSizeOptions={[10, 25, 50]}
-        checkboxSelection
-        disableRowSelectionOnClick
-      />
-    </Box>
+          }}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+                page: 0,
+              },
+            },
+          }}
+          pageSizeOptions={[10, 25, 50]}
+          checkboxSelection
+          disableRowSelectionOnClick
+          ref={gridRef}
+        />
+      </Box>
     </>
   );
 };
