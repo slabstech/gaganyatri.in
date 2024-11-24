@@ -1,14 +1,3 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App.tsx';
-import "react-toastify/dist/ReactToastify.css";
-import ErrorBoundary from './ErrorBoundary.tsx';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { lightBlue, deepOrange } from '@mui/material/colors';
-import { Provider } from 'react-redux';
-import { store } from './reducers/store';
-import { BrowserRouter } from 'react-router-dom';
-
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
@@ -23,27 +12,10 @@ import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import AppTheme from '../shared-theme/AppTheme';
 
-// Create a theme instance.
-const theme = createTheme({
-  palette: {
-    primary: lightBlue,
-    secondary: deepOrange,
-  },
-});
-/*
-const initialState = {
-
-  // Add more state properties as needed
-};
-<Root initialState={initialState}>
-*/
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <ErrorBoundary>
-
+export default function MarketingPage(props) {
+  return (
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
-
       <AppAppBar />
       <Hero />
       <div>
@@ -61,6 +33,5 @@ createRoot(document.getElementById('root')!).render(
         <Footer />
       </div>
     </AppTheme>
-    </ErrorBoundary>
-  </StrictMode>,
-);
+  );
+}
