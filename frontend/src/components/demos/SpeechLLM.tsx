@@ -16,10 +16,10 @@ type SpeechLLMProps = {
 
 
 const SpeechLLM = ({ serverUrl, isOnline }: SpeechLLMProps) => {
-  const serverBaseUrl = serverUrl || "http://localhost:8000/api/v1" ;
+  let serverBaseUrl = serverUrl || "http://localhost:8000/api/v1" ;
   const isOnlineAccess = isOnline;
   
-  //const serverBaseUrl = "http://localhost:10000/api/v1";
+  serverBaseUrl = "http://localhost:10000/api/v1";
   const chunks = useRef<Blob[]>([]);
   const [recordedUrl, setRecordedUrl] = useState('');
   const mediaRecorder = useRef<MediaRecorder | null>(null);

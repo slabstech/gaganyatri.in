@@ -1,0 +1,19 @@
+services:
+  vllm:
+    image: vllm/vllm-openai@sha256:facbbd4a92c1754675b239a5f22a281ed3aa8bde64662db8919d85d670673aa7
+    runtime: nvidia
+    environment:
+      - TRANSFORMERS_OFFLINE=1
+      - HF_DATASET_OFFLINE=1
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    ports:
+      - 8000:8000
+    command: --model fixie-ai/ultravox-v0_3-llama-3_2-1b --trust-remote-code
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
