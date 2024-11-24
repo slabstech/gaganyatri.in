@@ -12,16 +12,16 @@ import { BrowserRouter } from 'react-router-dom';
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
-import AppAppBar from './components/AppAppBar';
-import Hero from './components/Hero';
-import LogoCollection from './components/LogoCollection';
-import Highlights from './components/Highlights';
-import Pricing from './components/Pricing';
-import Features from './components/Features';
-import Testimonials from './components/Testimonials';
-import FAQ from './components/FAQ';
-import Footer from './components/Footer';
-import AppTheme from '../shared-theme/AppTheme';
+import AppAppBar from './components/theme/marketing-page/components/AppAppBar';
+import Hero from './components/theme/marketing-page/components/Hero';
+import LogoCollection from './components/theme/marketing-page/components/LogoCollection';
+import Highlights from './components/theme/marketing-page/components/Highlights';
+import Pricing from './components/theme/marketing-page/components/Pricing';
+import Features from './components/theme/marketing-page/components/Features';
+import Testimonials from './components/theme/marketing-page/components/Testimonials';
+import FAQ from './components/theme/marketing-page/components/FAQ';
+import Footer from './components/theme/marketing-page/components/Footer';
+import AppTheme from './components/theme/shared-theme/AppTheme';
 
 // Create a theme instance.
 const theme = createTheme({
@@ -41,7 +41,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
 
-    <AppTheme {...props}>
+    <AppTheme >
       <CssBaseline enableColorScheme />
 
       <AppAppBar />
