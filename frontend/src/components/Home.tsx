@@ -6,6 +6,7 @@ import TranslateDemo from './translate/TranslateDemo';
 import SpeechDemo from './speech/SpeechDemo';
 import MyChatBot from './chatbot/chatApp';
 import IndicDemo from './indic_llm/IndicDemo';
+import TaxTechDemo from './demos/TaxDemo';
 interface AppState {
 }
 
@@ -28,6 +29,17 @@ class Home extends Component<HomeProps, AppState> {
   render() {
     return (
       <Container>
+        <Typography variant="h4" gutterBottom>
+          Tax - Tech Hackathon
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <TaxTechDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
+          </Grid>
+          <Grid item xs={12}>
+        </Grid>
+        </Grid>
+        <div  style={{ display: 'none' }} >
         <Typography variant="h4" gutterBottom>
           LLM Use Cases
         </Typography>
@@ -66,6 +78,7 @@ class Home extends Component<HomeProps, AppState> {
             <TextDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
           </Grid>
         </Grid>
+        </div>
       </Container>
     );
   }
