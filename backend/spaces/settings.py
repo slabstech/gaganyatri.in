@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'accounts',
-    'games'
+    'games',
+    'taxtech',
 ]
 
 MIDDLEWARE = [
