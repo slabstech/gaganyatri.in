@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Tax-Cockpit</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <section class="hero">
+        <div class="container">
+            <h1>Your Tax-Cockpit</h1>
+            <p>Get an overview about our functions</p>
+            <a href="{% url 'dashboard' %}" class="cta-button">Show a Pillar 2 overview Map</a>
+        </div>
+      <div class="container">
+           <a href="{% url 'country_list' %}" class="cta-button">Show me our country data</a>
+      </div>
+    </section>
+
+<section class="configuration">
+    <div class="container">
+        <h1>Configuration</h1>
+        <a href="{% url 'masterData' %}" class="cta-button">Add your Master-Data</a>
+
+    </div>
+    <div class="container">
+        <a href="{% url 'connectors' %}" class="cta-button">Set up your connections</a>
+    </div>
+
+      <div class="container">
+        <a href="{% url 'userManagement' %}" class="cta-button">User-Management</a>
+    </div>
+
+      <div class="container">
+        <a href="{% url 'aiAgent' %}" class="cta-button">Ask our AI-Agent</a>
+    </div>
+
+</section>
+
+    <section id="learn-more" class="features">
+        <div class="container">
+            <h2>What We Offer</h2>
+            <div class="feature">
+              <h3>Connect your Systems</h3>
+              <h3>Keep your Data in one place</h3>
+              <h3>Modular dashboard, different use-cases can be added </h3>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 My Django Site. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

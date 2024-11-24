@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
+    <title>Country Overview</title>
+</head>
+<body>
+    <div class="hero">
+        <h1>Country Overview</h1>
+        <p>Explore financial data for each company by country</p>
+    </div>
+    <div class="features">
+        <h2>Available Countries and Companies</h2>
+        <div class="container">
+<ul>
+    {% for country in countries %}
+    <li style="list-style: none;">
+        <div class="country-card" style="background-color: #e1efff; padding: 20px; margin-bottom: 20px; border-radius: 8px;">
+            <h3 style="color: #007bb5;">{{ country.name }}</h3>
+            <h4 style="margin-top: 10px;">Companies:</h4>
+            <ul>
+                {% for company in country.companies.all %}  <!-- Correct company loop -->
+                <li style="margin: 5px 0;">
+                    <a href="{% url 'company_detail' company.id %}" class="company-link" style="color: #007bb5;">{{ company.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </li>
+    {% endfor %} <!-- Ensure only one loop ends here -->
+
+</ul>
+
+    <footer>
+        <p>&copy; 2024 Pillar 2 Dashboard</p>
+    </footer>
+</body>
+</html>

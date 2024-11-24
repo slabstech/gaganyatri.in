@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
+    <title>{{ country.name }} - {{ data.year }}</title>
+</head>
+<body>
+    <div class="hero">
+        <h1>{{ country.name }} - {{ data.year }}</h1>
+        <p>Details for {{ data.company_name }}</p>
+    </div>
+    <div class="features">
+        <h2>Financial Data</h2>
+        <div class="feature">
+            <p><strong>Balance Sheet:</strong> {{ data.balance_sheet }}</p>
+            <p><strong>Plausibility:</strong> {% if data.is_plausible %}✔️ Plausible{% else %}❌ Implausible{% endif %}</p>
+        </div>
+
+        <h3>Actions</h3>
+        <button class="cta-button" onclick="markImplausible()">Mark as Implausible</button>
+        <h3>Send Questionnaire</h3>
+        <form id="questionnaire-form">
+            <textarea name="question" placeholder="Enter your question"></textarea>
+            <button type="button" class="cta-button" onclick="sendQuestionnaire()">Send</button>
+        </form>
+    </div>
+    <h2>Balance Sheet</h2>
+<div class="feature">
+    <h3>Aktiva</h3>
+    <ul>
+        <li>Anlagevermögen:
+            <ul>
+                <li>Sachanlagen: {{ data.balance_sheet.Aktiva.Anlagevermögen.Sachanlagen }}</li>
+                <li>immaterielle Vermögensgegenstände: {{ data.balance_sheet.Aktiva.Anlagevermögen.immaterielle_Vermögensgegenstände }}</li>
+                <li>Finanzanlagen: {{ data.balance_sheet.Aktiva.Anlagevermögen.Finanzanlagen }}</li>
+            </ul>
+        </li>
+        <li>Umlaufvermögen:
+            <ul>
+                <li>Vorräte: {{ data.balance_sheet.Aktiva.Umlaufvermögen.Vorräte }}</li>
+                <li>Forderungen: {{ data.balance_sheet.Aktiva.Umlaufvermögen.Forderungen }}</li>
+                <li>Kassenbestand: {{ data.balance_sheet.Aktiva.Umlaufvermögen.Kassenbestand }}</li>
+                <li>Wertpapiere: {{ data.balance_sheet.Aktiva.Umlaufvermögen.Wertpapiere }}</li>
+            </ul>
+        </li>
+    </ul>
+    <h3>Passiva</h3>
+    <ul>
+        <li>Eigenkapital:
+            <ul>
+                <li>Gezeichnetes Kapital: {{ data.balance_sheet.Passiva.Eigenkapital.Gezeichnetes_Kapital }}</li>
+                <li>Kapitalrücklagen: {{ data.balance_sheet.Passiva.Eigenkapital.Kapitalrücklagen }}</li>
+                <li>Gewinnrücklagen: {{ data.balance_sheet.Passiva.Eigenkapital.Gewinnrücklagen }}</li>
+            </ul>
+        </li>
+        <li>Fremdkapital:
+            <ul>
+                <li>Kurzfristige Verbindlichkeiten: {{ data.balance_sheet.Passiva.Fremdkapital.Kurzfristige_Verbindlichkeiten }}</li>
+                <li>langfristige Verbindlichkeiten: {{ data.balance_sheet.Passiva.Fremdkapital.langfristige_Verbindlichkeiten }}</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+    <footer>
+        <p>&copy; 2024 Pillar 2 Dashboard</p>
+    </footer>
+    <script>
+    function markImplausible() {
+        fetch("{% url 'mark_implausible' data.id %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            }
+        }).then(response => response.json())
+          .then(data => {
+              if (data.status === "success") {
+                  alert("Marked as implausible!");
+                  location.reload();
+              }
+          });
+    }
+
+    function sendQuestionnaire() {
+        const question = document.querySelector('textarea[name="question"]').value;
+        fetch("{% url 'send_questionnaire' data.id %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ question: question })
+        }).then(response => response.json())
+          .then(data => {
+              if (data.status === "questionnaire_created") {
+                  alert("Questionnaire sent!");
+                  location.reload();
+              }
+          });
+    }
+    </script>
+</body>
+</html>

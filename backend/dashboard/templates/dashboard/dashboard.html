@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pillar 2 Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+</head>
+<body>
+    <h1>Pillar 2 Dashboard</h1>
+    <div id="map" style="height: 500px;"></div>
+    <script>
+const countries = [
+
+    {
+        name: "Australia",
+        iso_code: "AU",
+        latitude: -35.2809,  // Hauptstadt: Canberra
+        longitude: 149.1300,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Brazil",
+        iso_code: "BR",
+        latitude: -15.7801,  // Hauptstadt: Brasília
+        longitude: -47.9292,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Canada",
+        iso_code: "CA",
+        latitude: 45.4215,  // Hauptstadt: Ottawa
+        longitude: -75.6972,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Germany",
+        iso_code: "DE",
+        latitude: 52.5200,  // Hauptstadt: Berlin
+        longitude: 13.4050,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "France",
+        iso_code: "FR",
+        latitude: 48.8566,  // Hauptstadt: Paris
+        longitude: 2.3522,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "United Kingdom",
+        iso_code: "GB",
+        latitude: 51.5074,  // Hauptstadt: London
+        longitude: -0.1278,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Italy",
+        iso_code: "IT",
+        latitude: 41.9028,  // Hauptstadt: Rom
+        longitude: 12.4964,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Spain",
+        iso_code: "ES",
+        latitude: 40.4168,  // Hauptstadt: Madrid
+        longitude: -3.7038,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Japan",
+        iso_code: "JP",
+        latitude: 35.6762,  // Hauptstadt: Tokio
+        longitude: 139.6503,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "South Korea",
+        iso_code: "KR",
+        latitude: 37.5665,  // Hauptstadt: Seoul
+        longitude: 126.9780,
+        pillar2_implemented: true,
+        local_top_up_tax: false
+    },
+    {
+        name: "Netherlands",
+        iso_code: "NL",
+        latitude: 52.3676,  // Hauptstadt: Amsterdam
+        longitude: 4.9041,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Sweden",
+        iso_code: "SE",
+        latitude: 59.3293,  // Hauptstadt: Stockholm
+        longitude: 18.0686,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Poland",
+        iso_code: "PL",
+        latitude: 52.2298,  // Hauptstadt: Warschau
+        longitude: 21.0118,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "India",
+        iso_code: "IN",
+        latitude: 28.6139,  // Hauptstadt: New Delhi
+        longitude: 77.2090,
+        pillar2_implemented: false,
+        local_top_up_tax: false
+    },
+    {
+        name: "United States",
+        iso_code: "US",
+        latitude: 38.8954,  // Hauptstadt: Washington, D.C.
+        longitude: -77.0365,
+        pillar2_implemented: false,
+        local_top_up_tax: false
+    },
+    {
+        name: "Mexico",
+        iso_code: "MX",
+        latitude: 19.4326,  // Hauptstadt: Mexiko-Stadt
+        longitude: -99.1332,
+        pillar2_implemented: false,
+        local_top_up_tax: false
+    },
+    {
+        name: "China",
+        iso_code: "CN",
+        latitude: 39.9042,  // Hauptstadt: Peking
+        longitude: 116.4074,
+        pillar2_implemented: false,
+        local_top_up_tax: false
+    },
+    {
+        name: "Norway",
+        iso_code: "NO",
+        latitude: 59.9139,  // Hauptstadt: Oslo
+        longitude: 10.7522,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Finland",
+        iso_code: "FI",
+        latitude: 60.1695,  // Hauptstadt: Helsinki
+        longitude: 24.9354,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Switzerland",
+        iso_code: "CH",
+        latitude: 46.9481,  // Hauptstadt: Bern
+        longitude: 7.4474,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Austria",
+        iso_code: "AT",
+        latitude: 48.2082,  // Hauptstadt: Wien
+        longitude: 16.3738,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Ireland",
+        iso_code: "IE",
+        latitude: 53.3498,  // Hauptstadt: Dublin
+        longitude: -6.2603,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Luxembourg",
+        iso_code: "LU",
+        latitude: 49.6117,  // Hauptstadt: Luxemburg
+        longitude: 6.13,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Belgium",
+        iso_code: "BE",
+        latitude: 50.8503,  // Hauptstadt: Brüssel
+        longitude: 4.3517,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Denmark",
+        iso_code: "DK",
+        latitude: 55.6761,  // Hauptstadt: Kopenhagen
+        longitude: 12.5683,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    },
+    {
+        name: "Portugal",
+        iso_code: "PT",
+        latitude: 38.7169,  // Hauptstadt: Lissabon
+        longitude: -9.1395,
+        pillar2_implemented: true,
+        local_top_up_tax: true
+    }
+
+];
+
+// Initialize map
+const map = L.map('map').setView([20, 0], 2);
+
+// Add OpenStreetMap tiles
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19
+}).addTo(map);
+
+// Define a custom icon for the red arrow
+const redArrowIcon = L.divIcon({
+    className: 'custom-icon', // Define CSS class
+    html: `<div style="width: 0; height: 0;
+                 border-left: 3px solid transparent;
+                 border-right: 3px solid transparent;
+                 border-bottom: 6px solid red;
+                 transform: rotate(0deg);">
+          </div>`,
+    iconSize: [20, 20],
+    iconAnchor: [10, 10] // Adjust so the arrow points at the correct position
+});
+
+// Add countries to map
+countries.forEach(country => {
+    const color = country.pillar2_implemented ? 'green' : 'gray';
+
+    // Add circle marker for each country
+    L.circleMarker([country.latitude, country.longitude], {
+        color: color,
+        radius: 10
+    }).addTo(map).bindPopup(`${country.name}`);
+
+    // Add red arrow marker for Local Top-Up Tax
+    if (country.local_top_up_tax) {
+        L.marker([country.latitude, country.longitude], {
+            icon: redArrowIcon // Use the custom red arrow icon
+        }).addTo(map);
+    }
+});
+    </script>
+</body>
+</html>

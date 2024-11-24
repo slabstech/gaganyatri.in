@@ -44,4 +44,5 @@ urlpatterns = [
     path('api/v1/accounts/', include('accounts.urls')),
     path('games/', include('games.urls')),
     path('taxtech/', include('taxtech.urls')),
+    path('dashboard/', include('dashboard.urls')),  # Include dashboard app URLs
 ]
