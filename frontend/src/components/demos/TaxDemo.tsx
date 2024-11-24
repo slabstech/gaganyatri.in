@@ -7,8 +7,10 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
+
 import { SelectChangeEvent } from '@mui/material/Select';
+import TaxDataDashboard from './TaxDataDashboard';
+import { Container, Grid, Typography, Divider, FormControlLabel, Switch, Toolbar } from '@mui/material';
 
 interface AppState {
   tableAIProgressLoading: boolean;
@@ -168,6 +170,9 @@ class TaxTechDemo extends Component<TaxTechDemoProps, AppState> {
         </Box>
         <Divider sx={{ my: 2 }} />
       </Box>
+      <Grid item xs={12}>
+                <TaxDataDashboard />
+      </Grid>
     </>
   )
 }

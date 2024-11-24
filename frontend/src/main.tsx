@@ -8,7 +8,7 @@ import ErrorBoundary from './ErrorBoundary.tsx';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { lightBlue, deepOrange } from '@mui/material/colors';
 import { Provider } from 'react-redux';
-import { store } from './store.tsx';
+import { store } from './reducers/store.tsx';
 import { BrowserRouter } from 'react-router-dom';
 
 // Create a theme instance.
