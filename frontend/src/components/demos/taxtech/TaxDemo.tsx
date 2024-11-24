@@ -27,8 +27,7 @@ const models = new Map([
 interface Message {
   id: bigint;
   appointment_day: string;
-  appointment_time: string;
-  doctor_name: string;
+  company_name: string;
   status: string;
   observations: string;
 }
@@ -42,14 +41,8 @@ const columns: GridColDef<Message>[] = [
     editable: false,
   },
   {
-    field: 'appointment_time',
-    headerName: 'Time',
-    width: 150,
-    editable: false,
-  },
-  {
-    field: 'doctor_name',
-    headerName: 'Doctor',
+    field: 'company_name',
+    headerName: 'Company Name',
     width: 150,
     editable: false,
   },
@@ -222,7 +215,7 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
       </Box>
       <Box sx={{height: '100%'}}>
       <Typography variant="h6" gutterBottom>
-        Appointment
+        Master Tax Data
       </Typography>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker

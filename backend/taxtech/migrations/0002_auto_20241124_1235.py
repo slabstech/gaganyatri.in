@@ -4,9 +4,9 @@ from django.db import migrations
 
 def add_default_entries(apps, schema_editor):
     TaxTechApp = apps.get_model('taxtech', 'TaxTechApp')
-    TaxTechApp.objects.create(appointment_day='2024-11-19', appointment_time='10:00:00', patient_name='User 001', status='Pending', observations='Follow-up appointment')
-    TaxTechApp.objects.create(appointment_day='2024-11-21', appointment_time='14:30:00', patient_name='User 002', status='Confirmed', observations='Routine check-up')
-    TaxTechApp.objects.create(appointment_day='2024-12-04', appointment_time='09:00:00', patient_name='User 003', status='Cancelled', observations='Patient unavailable')
+    TaxTechApp.objects.create(appointment_day='2024-11-19', company_name='User 001', status='Pending', observations='Unverified')
+    TaxTechApp.objects.create(appointment_day='2024-11-21', company_name='User 002', status='Confirmed', observations='Unverified')
+    TaxTechApp.objects.create(appointment_day='2024-12-04', company_name='User 003', status='Cancelled', observations='Unverified')
 
 class Migration(migrations.Migration):
 

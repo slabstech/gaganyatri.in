@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const API_URL = "http://localhost:8000/";
-//import.meta.env.VITE_SANJEEVINI_BACKEND_APP_API_URL;
+//import.meta.env.VITE_BACKEND_APP_API_URL;
 
 export const fetchTaxDashboardData = createAsyncThunk<
 string[], 
@@ -35,8 +35,7 @@ string[],
           const userData = data.results.map((rawUser: any) => ({
             id: rawUser.id,
             appointment_day: rawUser.appointment_day,
-            //appointment_time: new Date(rawUser.appointment_time).toISOString().slice(11, 19),
-            doctor_name: rawUser.doctor_name,
+            company_name: rawUser.company_name,
             status: rawUser.status,
             observations: rawUser.observations
             // map other properties as needed
@@ -50,8 +49,7 @@ string[],
 interface User {
   id: bigint;
   appointment_day: string;
-  appointment_time: string;
-  doctor_name: string;
+  company_name: string;
   status: string;
   observations: string;
 }
