@@ -7,7 +7,7 @@ import SpeechDemo from './speech/SpeechDemo';
 import MyChatBot from './chatbot/chatApp';
 import IndicDemo from './indic_llm/IndicDemo';
 import TaxTechDemo from './demos/taxtech/TaxDemo';
-import TaxApp from './demos/taxtech/TaxApp';
+
 interface AppState {
 }
 
@@ -37,7 +37,7 @@ class Home extends Component<HomeProps, AppState> {
           <Grid item xs={12} md={6}>
      
           </Grid>
-          <TaxApp></TaxApp>
+          <TaxTechDemo></TaxTechDemo>
           <Grid item xs={12}>
         </Grid>
         </Grid>

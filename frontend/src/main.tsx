@@ -9,40 +9,7 @@ import { Provider } from 'react-redux';
 import { store } from './reducers/store';
 import { BrowserRouter } from 'react-router-dom';
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import AppAppBar from './components/theme/marketing-page/components/AppAppBar';
-import Hero from './components/theme/marketing-page/components/Hero';
-import LogoCollection from './components/theme/marketing-page/components/LogoCollection';
-import Highlights from './components/theme/marketing-page/components/Highlights';
-import Pricing from './components/theme/marketing-page/components/Pricing';
-import Features from './components/theme/marketing-page/components/Features';
-import Testimonials from './components/theme/marketing-page/components/Testimonials';
-import FAQ from './components/theme/marketing-page/components/FAQ';
-import Footer from './components/theme/marketing-page/components/Footer';
-import AppTheme from './components/theme/shared-theme/AppTheme';
-import AppNavbar from './components/theme/dashboard/components/AppNavbar';
-import Header from './components/theme/dashboard/components/Header';
-import MainGrid from './components/theme/dashboard/components/MainGrid';
-import SideMenu from './components/theme/dashboard/components/SideMenu';
-
-import {
-  chartsCustomizations,
-  dataGridCustomizations,
-  datePickersCustomizations,
-  treeViewCustomizations,
-} from './components/theme/dashboard/theme/customizations';
-
-const xThemeComponents = {
-  ...chartsCustomizations,
-  ...dataGridCustomizations,
-  ...datePickersCustomizations,
-  ...treeViewCustomizations,
-};
 
 /*
 const initialState = {
@@ -52,58 +19,28 @@ const initialState = {
 <Root initialState={initialState}>
 */
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <ErrorBoundary>
+const theme = createTheme({
+  palette: {
+    primary: lightBlue,
+    secondary: deepOrange,
+  },
+});
 
-    <AppTheme themeComponents={xThemeComponents} >
-      <CssBaseline enableColorScheme />
-      <div  style={{ display: 'none' }} >
-
-      <AppAppBar />
-</div>      
-      <Box sx={{ display: 'flex' }}>
-      <SideMenu />
-        <AppNavbar />
-        <Box
-          component="main"
-          sx={(theme) => ({
-            flexGrow: 1,
-            backgroundColor: theme.palette.background.default,
-            overflow: 'auto'
-          })}
-        >
-          <Stack
-            spacing={2}
-            sx={{
-              alignItems: 'center',
-              mx: 3,
-              pb: 5,
-              mt: { xs: 8, md: 0 },
-            }}
-          >
-            <Header />
-            <MainGrid />
-          </Stack>
-        </Box>
-      </Box>
-      <div  style={{ display: 'none' }}>
-        <Hero />
-      
-        <LogoCollection />
-        <Features />
-        <Divider />
-        <Testimonials />
-        <Divider />
-        <Highlights />
-        <Divider />
-        <Pricing />
-        <Divider />
-        <FAQ />
-        <Divider />
-        <Footer />
-      </div>
-    </AppTheme>
-    </ErrorBoundary>
-  </StrictMode>,
-);
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  createRoot(rootElement).render(
+    <StrictMode>
+      <ErrorBoundary>
+        <Provider store={store}>
+          <BrowserRouter>
+            <ThemeProvider theme={theme}>
+                <App />
+            </ThemeProvider>
+          </BrowserRouter>
+        </Provider>
+      </ErrorBoundary>
+    </StrictMode>,
+  );
+} else {
+  console.error("Root element not found");
+}

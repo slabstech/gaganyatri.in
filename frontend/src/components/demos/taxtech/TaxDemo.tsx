@@ -102,28 +102,17 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [dispatch]);
 
-useEffect(() => {
-    if (startDate && endDate) {
-      const filteredData = taxDashboardDataList.filter((item) => {
-        const itemDate = dayjs(item.appointment_day);
-        return itemDate.isAfter(startDate) && itemDate.isBefore(endDate);
-      });
-      setTimerows(filteredData);
-    } else {
-      setTimerows(taxDashboardDataList);
-    }
-}, [taxDashboardDataList, startDate, endDate]);
 
-const sendPromptToServer = async (selectedRows) => {
+const sendPromptToServer = async () => {
     setTableAIProgressLoading(true);
 
+    serverUrl = 'https://localhost:8000/api/v1';
     try {
-      const response = await axios.post(`${serverUrl}/taxtech/tax_llm_url/`, {
+      const response = await axios.post('http://localhost:8000/taxtech/tax_llm_url/', {
         model: models.get(textSelectedModel),
         messages: [{ role: 'user', prompt: textPrompt }],
         stream: false,
         isOnline,
-        selectedRows,
       });
       
       setTextResponse(response.data.response);
@@ -145,10 +134,8 @@ const handleTextModelChange = (event) => {
 };
 
 const handleSubmit = () => {
-    if (gridRef.current) {
-      const selectedRows = Array.from(gridRef.current.getSelectedRows());
-      sendPromptToServer(selectedRows);
-    }
+  sendPromptToServer();
+
 };
 
 const gridRef = useRef(null);
@@ -202,18 +189,6 @@ return (
         <Typography variant="h6" gutterBottom>
           Master Tax Data
         </Typography>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="Start Date"
-            value={startDate}
-            onChange={(newValue) => setStartDate(newValue)}
-          />
-          <DatePicker
-            label="End Date"
-            value={endDate}
-            onChange={(newValue) => setEndDate(newValue)}
-          />
-        </LocalizationProvider>
         <DataGrid
           rows={timerows}
           columns={columns}
