@@ -178,7 +178,7 @@ return (
                 disabled
                 multiline
                 fullWidth
-                rows={4}
+                rows={10}
               />
             </Box>
           )}

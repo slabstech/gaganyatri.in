@@ -85,12 +85,25 @@ def recipe_generate_route(request):
 class TaxLLMView(APIView):
     def post(self, request, format=None):
         try:
+
+            response = requests.get('http://localhost:8000/taxtech/taxdata/company/')
+
+                # Check if the request was successful
+            if response.status_code == 200:
+                # The API response data is a JSON object
+                api_data = response.json()
+                #print(api_data)
+
             data = request.data
 
             #isOnline = data['isOnline']
             isOnline = True
 
-            prompt =  data['messages'][0]['prompt']
+            # Include the api_data in the prompt
+            prompt = f"Hier sind weitere Daten: {api_data}. Bitte beantworten Sie die folgende Frage: {data['messages'][0]['prompt']}"
+
+
+            #prompt =  data['messages'][0]['prompt']
             # Specify model
             #model = "pixtral-12b-2409"
             model = data['model']
@@ -98,7 +111,7 @@ class TaxLLMView(APIView):
             messages = [
                 {
                     "role": "system",
-                    "content": "Please provide a concise response, limiting your answer to three lines or less."
+                    "content": "Bitte geben Sie eine prägnante Antwort auf Deutsch, beschränken Sie Ihre Antwort auf sieben Zeilen oder weniger. Geben Sie die Ausgabe in deutscher Sprache als strukturierte JSON-Daten aus."
                 },
                 {
                     "role": "user",
@@ -127,6 +140,8 @@ class TaxLLMView(APIView):
                 content = chat_response.choices[0].message.content
             else:
                 content = "helloWorld"
+            
+            print(content)
 
             #print(chat_response.choices[0].message.content)
             # Return the content of the response
