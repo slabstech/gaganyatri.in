@@ -58,6 +58,10 @@ createRoot(document.getElementById('root')!).render(
 
     <AppTheme themeComponents={xThemeComponents} >
       <CssBaseline enableColorScheme />
+      <div  style={{ display: 'none' }} >
+
+      <AppAppBar />
+</div>      
       <Box sx={{ display: 'flex' }}>
       <SideMenu />
         <AppNavbar />
@@ -65,10 +69,8 @@ createRoot(document.getElementById('root')!).render(
           component="main"
           sx={(theme) => ({
             flexGrow: 1,
-            backgroundColor: theme.vars
-              ? `rgba(${theme.vars.palette.background.defaultChannel} / 1)`
-              : alpha(theme.palette.background.default, 1),
-            overflow: 'auto',
+            backgroundColor: theme.palette.background.default,
+            overflow: 'auto'
           })}
         >
           <Stack
@@ -84,10 +86,10 @@ createRoot(document.getElementById('root')!).render(
             <MainGrid />
           </Stack>
         </Box>
-
-      <AppAppBar />
-      <Hero />
-      <div>
+      </Box>
+      <div  style={{ display: 'none' }}>
+        <Hero />
+      
         <LogoCollection />
         <Features />
         <Divider />
@@ -101,7 +103,6 @@ createRoot(document.getElementById('root')!).render(
         <Divider />
         <Footer />
       </div>
-      </Box>
     </AppTheme>
     </ErrorBoundary>
   </StrictMode>,

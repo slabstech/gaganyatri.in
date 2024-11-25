@@ -45,6 +45,15 @@ const TaxApp: React.FC = () => {
       <Typography variant="h4" gutterBottom>
         Material-UI DataGrid Example
       </Typography>
+      <Button variant="contained" onClick={handleSubmit}>
+        Submit Selected Rows
+      </Button>
+    </Container>
+  );
+};
+
+/*
+TODO - fix issue with datagrid - data not selected
       <div style={{ height: 400, width: '100%', marginBottom: '20px' }}>
         <DataGrid
           rows={rows}
@@ -60,11 +69,7 @@ const TaxApp: React.FC = () => {
           keepNonExistentRowsSelected
         />
       </div>
-      <Button variant="contained" onClick={handleSubmit}>
-        Submit Selected Rows
-      </Button>
-    </Container>
-  );
-};
+
+*/
 
 export default TaxApp;
