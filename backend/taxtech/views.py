@@ -9,8 +9,8 @@ from django.utils import timezone
 from datetime import datetime, timedelta
 import requests
 
-from .models import TaxTechApp
-from .serializers import TaxTechAppSerializer
+from .models import TaxTechApp, TaxData, Company
+from .serializers import TaxTechAppSerializer, CompanySerializer, TaxDataSerializer
 
 from django.http import JsonResponse
 from rest_framework.response import Response
@@ -35,6 +35,30 @@ class TaxTechAppViewSet(viewsets.ModelViewSet):
     queryset = TaxTechApp.objects.all().order_by('id')
     serializer_class = TaxTechAppSerializer
     pagination_class = TaxTechAppPagination
+
+
+
+class TaxDataPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+class TaxDataViewSet(viewsets.ModelViewSet):
+    queryset = TaxData.objects.all().order_by('id')
+    serializer_class = TaxDataSerializer
+    pagination_class = TaxDataPagination
+
+ 
+class CompanyPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+class CompanyViewSet(viewsets.ModelViewSet):
+    queryset = Company.objects.all().order_by('id')
+    serializer_class = CompanySerializer
+    pagination_class = CompanyPagination   
+
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response

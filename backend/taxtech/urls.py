@@ -1,9 +1,13 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import TaxTechAppViewSet, TaxLLMView
+from .views import TaxTechAppViewSet, TaxLLMView, TaxDataViewSet, CompanyViewSet
 
 router = DefaultRouter()
-router.register(r'', TaxTechAppViewSet)
+router.register(r'taxtechapp', TaxTechAppViewSet)
+router.register(r'taxdata', TaxDataViewSet)
+router.register(r'company', CompanyViewSet)
+
+
 
 urlpatterns = [
     # ... other URL patterns
