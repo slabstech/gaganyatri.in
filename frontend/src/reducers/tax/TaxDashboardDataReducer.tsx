@@ -14,7 +14,7 @@ string[],
       'gaganyatriApp/fetchTaxDashboardData',
       async (args:any, thunkAPI:any) => {
         try {
-          let url = API_URL + 'taxtech/taxdata/taxtechapp/?page=';
+          let url = API_URL + 'taxtech/taxdata/company/?page=';
           if (args.page) {
             url += args.page;
           }
@@ -34,10 +34,14 @@ string[],
           const data = await response.json();
           const userData = data.results.map((rawUser: any) => ({
             id: rawUser.id,
-            appointment_day: rawUser.appointment_day,
-            company_name: rawUser.company_name,
-            status: rawUser.status,
-            observations: rawUser.observations
+            name: rawUser.name,
+            country: rawUser.country,
+            currency: rawUser.currency,
+            ebt: rawUser.ebt,
+            taxes: rawUser.taxes,
+            revenues: rawUser.revenues,
+            wages: rawUser.wages,
+            fixed_assets: rawUser.fixed_assets,
             // map other properties as needed
           }));
           return userData;
@@ -48,10 +52,14 @@ string[],
   );
 interface User {
   id: bigint;
-  appointment_day: string;
-  company_name: string;
-  status: string;
-  observations: string;
+  name: string;
+  country: string;
+  currency: string;
+  ebt: string;
+  taxes: string;
+  revenues: string;
+  wages: string;
+  fixed_assets: string;
 }
 interface UserState {
   userData: User[];

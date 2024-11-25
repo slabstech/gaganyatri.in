@@ -35,26 +35,50 @@ interface Message {
 const columns: GridColDef<Message>[] = [
   {field: 'id', headerName: 'ID', width: 90},
   {
-    field: 'appointment_day',
-    headerName: 'Day',
-    width: 150,
-    editable: false,
-  },
-  {
-    field: 'company_name',
+    field: 'name',
     headerName: 'Company Name',
     width: 150,
     editable: false,
   },
   {
-    field: 'status',
+    field: 'country',
     width: 150,
-    headerName: 'Status',
+    headerName: 'Country',
     editable: false,
   },
   {
-    field: 'observations',
-    headerName: 'Observations',
+    field: 'currency',
+    headerName: 'Currency',
+    width: 150,
+    editable: false,
+  },
+  {
+    field: 'ebt',
+    headerName: 'EBT',
+    width: 150,
+    editable: false,
+  },
+  {
+    field: 'taxes',
+    headerName: 'Taxes',
+    width: 150,
+    editable: false,
+  },
+  {
+    field: 'revenues',
+    headerName: 'Revenues',
+    width: 150,
+    editable: false,
+  },
+  {
+    field: 'wages',
+    headerName: 'Wages',
+    width: 150,
+    editable: false,
+  },
+  {
+    field: 'fixed_assets',
+    headerName: 'fixed_assets',
     width: 150,
     editable: false,
   },
@@ -115,7 +139,6 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
   const taxDashboardDataList = useSelector((state: RootState) =>
     state.taxDashboardDataList.userData);
 
-  console.log(taxDashboardDataList);
 
   useEffect(() => {
     if (loading) {
@@ -183,7 +206,7 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
     <>
       <Box className="app-container">
         <Box>
-          <h2>Tax Agent</h2>
+          <h2>TAXSPHAERA</h2>
           <Divider />
           <Box className="input-container">
             <TextField
@@ -220,6 +243,7 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
       <Typography variant="h6" gutterBottom>
         Master Tax Data
       </Typography>
+      <div  style={{ display: 'none' }} >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
         label="Start Date"
@@ -236,6 +260,7 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
         }}
       />
     </LocalizationProvider>
+    </div>
     <DataGrid
         rows={timerows}
         columns={columns}
