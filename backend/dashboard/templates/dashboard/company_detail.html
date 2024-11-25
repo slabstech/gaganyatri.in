@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
+    <title>{{ company.name }} - Details</title>
+</head>
+<body>
+    <div class="hero">
+        <h1>{{ company.name }}</h1>
+        <p>Details for {{ company.name }} in {{ company.country.name }}</p>
+    </div>
+    <div class="features">
+        <h2>Financial Data</h2>
+        <div class="container">
+            <h3>Aktiva</h3>
+            <ul>
+                <li>Anlagevermögen: {{ company.balance_sheet.Aktiva.Anlagevermögen }}</li>
+                <li>Umlaufvermögen: {{ company.balance_sheet.Aktiva.Umlaufvermögen }}</li>
+            </ul>
+            <h3>Passiva</h3>
+            <ul>
+                <li>Eigenkapital: {{ company.balance_sheet.Passiva.Eigenkapital }}</li>
+                <li>Fremdkapital: {{ company.balance_sheet.Passiva.Fremdkapital }}</li>
+            </ul>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Pillar 2 Dashboard</p>
+    </footer>
+</body>
+</html>

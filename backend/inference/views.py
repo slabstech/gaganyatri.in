@@ -212,12 +212,10 @@ class TranslateLLMView(APIView):
 class TextLLMView(APIView):
     def post(self, request, format=None):
         try:
-            print("123")
             data = request.data
 
             isOnline = data['isOnline']
 
-            print(isOnline)
             prompt =  data['messages'][0]['prompt']
             # Specify model
             #model = "pixtral-12b-2409"
@@ -235,7 +233,6 @@ class TextLLMView(APIView):
                 }
             ]
 
-            print("123")
             if(isOnline): 
                 api_key = os.environ["MISTRAL_API_KEY"]
 

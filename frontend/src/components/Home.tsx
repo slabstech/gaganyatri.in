@@ -6,6 +6,8 @@ import TranslateDemo from './translate/TranslateDemo';
 import SpeechDemo from './speech/SpeechDemo';
 import MyChatBot from './chatbot/chatApp';
 import IndicDemo from './indic_llm/IndicDemo';
+import TaxTechDemo from './demos/taxtech/TaxDemo';
+
 interface AppState {
 }
 
@@ -16,7 +18,7 @@ type HomeProps = {
 
 class Home extends Component<HomeProps, AppState> {
   ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-  serverBaseUrl = import.meta.env.VITE_HF_SPACES_URL;
+  serverBaseUrl = import.meta.env.VITE_GAGANYATRI_HF_SPACES_URL;
   isOnline = true;
 
   constructor(props:HomeProps) {
@@ -28,6 +30,10 @@ class Home extends Component<HomeProps, AppState> {
   render() {
     return (
       <Container>
+        <Grid container spacing={2}>
+          <TaxTechDemo/>
+        </Grid>
+        <div  style={{ display: 'none' }} >
         <Typography variant="h4" gutterBottom>
           LLM Use Cases
         </Typography>
@@ -66,6 +72,7 @@ class Home extends Component<HomeProps, AppState> {
             <TextDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
           </Grid>
         </Grid>
+        </div>
       </Container>
     );
   }
