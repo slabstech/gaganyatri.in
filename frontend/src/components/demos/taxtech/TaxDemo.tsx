@@ -144,16 +144,29 @@ return (
     <>
       <Box className="app-container">
         <Box>
-          <Typography variant="h4">Tax Agent</Typography>
+          <Typography variant="h4">Tax Sphere</Typography>
           <Divider />
           <Box className="input-container">
-            <TextField
-              value={textPrompt}
-              onChange={handleTextPromptChange}
-              placeholder="Enter your prompt here..."
-              fullWidth
-              sx={{ backgroundColor: 'white' }}
-            />
+          <TextField
+  value={textPrompt}
+  onChange={handleTextPromptChange}
+  placeholder="Enter your prompt here..."
+  fullWidth
+  multiline
+  rows={20}
+  sx={{
+    backgroundColor: 'white',
+    '& .MuiOutlinedInput-root': {
+      '& > fieldset': {
+        borderColor: 'text.primary',
+      },
+    },
+    '& .MuiOutlinedInput-input': {
+      padding: 3,
+      fontSize: 18,
+    },
+  }}
+/>
             <Button
               variant="contained"
               onClick={handleSubmit}
@@ -178,7 +191,7 @@ return (
                 disabled
                 multiline
                 fullWidth
-                rows={10}
+                rows={50}
               />
             </Box>
           )}

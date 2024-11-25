@@ -30,16 +30,8 @@ class Home extends Component<HomeProps, AppState> {
   render() {
     return (
       <Container>
-        <Typography variant="h4" gutterBottom>
-          Tax Sphere
-        </Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-     
-          </Grid>
-          <TaxTechDemo></TaxTechDemo>
-          <Grid item xs={12}>
-        </Grid>
+          <TaxTechDemo/>
         </Grid>
         <div  style={{ display: 'none' }} >
         <Typography variant="h4" gutterBottom>

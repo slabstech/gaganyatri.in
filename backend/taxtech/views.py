@@ -107,11 +107,12 @@ class TaxLLMView(APIView):
             # Specify model
             #model = "pixtral-12b-2409"
             model = data['model']
+            print(model)
             # Define the messages for the chat
             messages = [
                 {
                     "role": "system",
-                    "content": "Bitte geben Sie eine prägnante Antwort auf Deutsch, beschränken Sie Ihre Antwort auf sieben Zeilen oder weniger. Geben Sie die Ausgabe in deutscher Sprache als strukturierte JSON-Daten aus."
+                    "content": "Bitte geben Sie eine prägnante Antwort auf Deutsch. Geben Sie die Ausgabe in deutscher Sprache in menschlich gut verstaendlichen weise aus (mit Absaetzen etc.)."
                 },
                 {
                     "role": "user",
