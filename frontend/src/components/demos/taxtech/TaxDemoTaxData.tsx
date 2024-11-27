@@ -26,24 +26,22 @@ const models = new Map([
 
 interface Message {
   id: bigint;
-  name: string;
   country: string;
   currency: string;
   ebt: string;
   taxes: string;
+  quote: string;
+  check_data : string;
+  pot_mehrsteuer : string;
+  de_minimis: string;
+  five_percent_check : string;
   revenues: string;
-  wages: string;
-  fixed_assets: string;
+  salaries: string;
+  net_loss: string;
 }
 
 const columns: GridColDef<Message>[] = [
   {field: 'id', headerName: 'ID', width: 90},
-  {
-    field: 'name',
-    headerName: 'Company Name',
-    width: 150,
-    editable: false,
-  },
   {
     field: 'country',
     width: 150,
@@ -69,20 +67,50 @@ const columns: GridColDef<Message>[] = [
     editable: false,
   },
   {
+    field: 'quote',
+    headerName: 'Quote',
+    width: 150,
+    editable: false,
+  },
+  {
+    field: 'check_data',
+    headerName: 'Check',
+    width: 150,
+    editable: false,
+  },
+  {
+    field: 'pot_mehrsteuer',
+    headerName: 'pot_mehrsteuer',
+    width: 150,
+    editable: false,
+  },
+  {
+    field: 'de_minimis',
+    headerName: 'de_minimis',
+    width: 150,
+    editable: false,
+  },
+  {
+    field: 'five_percent_check',
+    headerName: 'five_percent_check',
+    width: 150,
+    editable: false,
+  },
+  {
     field: 'revenues',
     headerName: 'Revenues',
     width: 150,
     editable: false,
   },
   {
-    field: 'wages',
-    headerName: 'Wages',
+    field: 'salaries',
+    headerName: 'Salaries',
     width: 150,
     editable: false,
   },
   {
-    field: 'fixed_assets',
-    headerName: 'fixed_assets',
+    field: 'net_loss',
+    headerName: 'Net Loss',
     width: 150,
     editable: false,
   },
@@ -141,7 +169,7 @@ const TaxTechTaxDataDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = (
   const userId = 1;
 
   const taxDashboardDataTaxDataList = useSelector((state: RootState) =>
-    state.taxDashboardDataTaxDataList.userData);
+    state.taxDashboardDataTaxDataList.userDataTax);
 
 
   useEffect(() => {
@@ -175,9 +203,9 @@ const TaxTechTaxDataDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = (
   const sendPromptToServer = async () => {
     setTableAIProgressLoading(true);
 
-    const serverEndpoint = "http://localhost:8000/taxtech/tax_llm_tax_add_url";
-    //const serverEndpoint = "http://gaganyatri-django-spaces.hf.space/taxtech/tax_llm_tax_add_url/";
-    console.log(serverEndpoint);
+    //const serverEndpoint = "http://localhost:8000/taxtech/tax_llm_tax_add_url";
+    const serverEndpoint = "http://gaganyatri-django-spaces.hf.space/taxtech/tax_llm_tax_add_url/";
+    //console.log(serverEndpoint);
 
     const model = models.get(textSelectedModel);
 
@@ -211,7 +239,6 @@ const TaxTechTaxDataDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = (
     <>
       <Box className="app-container">
         <Box>
-          <h2>TAXSPHAERA</h2>
           <Divider />
           <Box className="input-container">
             <TextField
@@ -246,7 +273,7 @@ const TaxTechTaxDataDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = (
       </Box>
       <Box sx={{height: '100%'}}>
       <Typography variant="h6" gutterBottom>
-        Master Tax Data
+        Master Tax Country Data
       </Typography>
       <div  style={{ display: 'none' }} >
       <LocalizationProvider dateAdapter={AdapterDayjs}>

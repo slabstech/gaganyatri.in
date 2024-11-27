@@ -246,7 +246,7 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
       </Box>
       <Box sx={{height: '100%'}}>
       <Typography variant="h6" gutterBottom>
-        Master Tax Data
+        Master Tax Company Data
       </Typography>
       <div  style={{ display: 'none' }} >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
