@@ -31,7 +31,7 @@ class Home extends Component<HomeProps, AppState> {
     return (
       <Container>
         <Grid container spacing={2}>
-          <TaxTechDemo/>
+          <TaxTechDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline}/>
         </Grid>
         <div  style={{ display: 'none' }} >
         <Typography variant="h4" gutterBottom>

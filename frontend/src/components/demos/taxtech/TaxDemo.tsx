@@ -26,10 +26,14 @@ const models = new Map([
 
 interface Message {
   id: bigint;
-  appointment_day: string;
-  company_name: string;
-  status: string;
-  observations: string;
+  name: string;
+  country: string;
+  currency: string;
+  ebt: string;
+  taxes: string;
+  revenues: string;
+  wages: string;
+  fixed_assets: string;
 }
 
 const columns: GridColDef<Message>[] = [
@@ -160,7 +164,7 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
         const itemDate = dayjs(item.appointment_day);
         return itemDate.isAfter(startDate) && itemDate.isBefore(endDate);
       });
-      setTimerows(filteredData);
+      //setTimerows(filteredData);
     } else {
       setTimerows(taxDashboardDataList);
     }
