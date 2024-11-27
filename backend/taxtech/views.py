@@ -85,8 +85,8 @@ def recipe_generate_route(request):
 class TaxLLMView(APIView):
     def post(self, request, format=None):
         try:
-
-            response = requests.get('http://localhost:8000/taxtech/taxdata/company/')
+            # TODO - fix this path
+            response = requests.get('http://gaganyatri-django-spaces.hf.space/taxtech/taxdata/company/')
 
                 # Check if the request was successful
             if response.status_code == 200:
