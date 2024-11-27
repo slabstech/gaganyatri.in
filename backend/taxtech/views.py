@@ -150,3 +150,72 @@ class TaxLLMView(APIView):
         except Exception as e:
             print(f"An error occurred: {e}")
             return Response({'error': 'Something went wrong'}, status=500)
+
+class TaxLLMTaxAddView(APIView):
+    def post(self, request, format=None):
+        try:
+            # TODO - fix this path
+            response = requests.get('http://gaganyatri-django-spaces.hf.space/taxtech/taxdata/taxdata/')
+
+                # Check if the request was successful
+            if response.status_code == 200:
+                # The API response data is a JSON object
+                api_data = response.json()
+                #print(api_data)
+
+            data = request.data
+
+            #isOnline = data['isOnline']
+            isOnline = True
+
+            # Include the api_data in the prompt
+            prompt = f"Hier sind weitere Daten: {api_data}. Bitte beantworten Sie die folgende Frage: {data['messages'][0]['prompt']}"
+
+
+            #prompt =  data['messages'][0]['prompt']
+            # Specify model
+            #model = "pixtral-12b-2409"
+            model = data['model']
+            print(model)
+            # Define the messages for the chat
+            messages = [
+                {
+                    "role": "system",
+                    "content": "Bitte geben Sie eine prägnante Antwort auf Deutsch. Geben Sie die Ausgabe in deutscher Sprache in menschlich gut verstaendlichen weise aus (mit Absaetzen etc.)."
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": prompt
+                        }
+                    ]
+                }
+            ]
+
+            if(isOnline): 
+                api_key = os.environ["MISTRAL_API_KEY"]
+
+                # Initialize the Mistral client
+                client = Mistral(api_key=api_key)
+
+
+                # Get the chat response
+                chat_response = client.chat.complete(
+                    model=model,
+                    messages=messages
+                )
+
+                content = chat_response.choices[0].message.content
+            else:
+                content = "helloWorld"
+            
+            print(content)
+
+            #print(chat_response.choices[0].message.content)
+            # Return the content of the response
+            return Response({"response": content})
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return Response({'error': 'Something went wrong'}, status=500)

@@ -7,7 +7,7 @@ import SpeechDemo from './speech/SpeechDemo';
 import MyChatBot from './chatbot/chatApp';
 import IndicDemo from './indic_llm/IndicDemo';
 import TaxTechDemo from './demos/taxtech/TaxDemo';
-
+import TaxTechTaxDataDemo from './demos/taxtech/TaxDemoTaxData';
 interface AppState {
 }
 
@@ -33,6 +33,13 @@ class Home extends Component<HomeProps, AppState> {
         <Grid container spacing={2}>
           <TaxTechDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline}/>
         </Grid>
+        <Grid item xs={12}>
+            <Divider />
+        </Grid>
+        <Grid container spacing={2}>
+          <TaxTechTaxDataDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline}/>
+        </Grid>
+        
         <div  style={{ display: 'none' }} >
         <Typography variant="h4" gutterBottom>
           LLM Use Cases
