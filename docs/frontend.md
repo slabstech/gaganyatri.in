@@ -1,6 +1,9 @@
 Frontend
 
+- Install Node via package manageer
+  - https://nodejs.org/en/download/package-manager
 
+  
 Matraial UI - templates
 https://mui.com/material-ui/getting-started/templates/
 

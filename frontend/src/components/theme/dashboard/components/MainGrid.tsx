@@ -12,6 +12,12 @@ import PageViewsBarChart from './PageViewsBarChart';
 import SessionsChart from './SessionsChart';
 import StatCard, { StatCardProps } from './StatCard';
 
+import FacebookIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import TwitterIcon from '@mui/icons-material/X';
+
+import IconButton from '@mui/material/IconButton';
+
 const data: StatCardProps[] = [
   {
     title: 'Users',
@@ -87,7 +93,41 @@ export default function MainGrid() {
           </Stack>
         </Grid>
       </Grid>
-      <Copyright sx={{ my: 4 }} />
+      <Stack
+          direction="row"
+          spacing={1}
+          useFlexGap
+          sx={{ justifyContent: 'left', color: 'text.secondary' }}
+        >
+          <Copyright sx={{ my: 4 }} />
+          <IconButton
+            color="inherit"
+            size="small"
+            href="https://github.com/slabstech"
+            aria-label="GitHub"
+            sx={{ alignSelf: 'center' }}
+          >
+            <FacebookIcon />
+          </IconButton>
+          <IconButton
+            color="inherit"
+            size="small"
+            href="https://x.com/try_sanjeevini"
+            aria-label="X"
+            sx={{ alignSelf: 'center' }}
+          >
+            <TwitterIcon />
+          </IconButton>
+          <IconButton
+            color="inherit"
+            size="small"
+            href="https://in.linkedin.com/company/slabstech"
+            aria-label="LinkedIn"
+            sx={{ alignSelf: 'center' }}
+          >
+            <LinkedInIcon />
+          </IconButton>
+        </Stack>
     </Box>
   );
 }
