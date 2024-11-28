@@ -50,8 +50,8 @@ class VisionDemo extends Component<VisionProps, AppState> {
         ['llama3.2-vision','meta/llama-3.2-11b-vision-instruct'],
         ['llama-vision','x/llama3.2-vision:latest']
       ]), 
-      //imageSelectedModel: 'pixtral',
-      imageSelectedModel: 'llama-vision', 
+      imageSelectedModel: 'pixtral',
+      //imageSelectedModel: 'llama-vision', 
       functionEndpoint:'/inference/llama_vision_url/',
     };
   }

@@ -30,20 +30,15 @@ class Home extends Component<HomeProps, AppState> {
   render() {
     return (
       <Container>
+        <Typography variant="h4" gutterBottom>
+          LLM Use Cases
+        </Typography>
         <Grid container spacing={2}>
           <TaxTechDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline}/>
         </Grid>
         <Grid item xs={12}>
             <Divider />
         </Grid>
-        <Grid container spacing={2}>
-          <TaxTechTaxDataDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline}/>
-        </Grid>
-        
-        <div  style={{ display: 'none' }} >
-        <Typography variant="h4" gutterBottom>
-          LLM Use Cases
-        </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <VisionDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
@@ -79,7 +74,6 @@ class Home extends Component<HomeProps, AppState> {
             <TextDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
           </Grid>
         </Grid>
-        </div>
       </Container>
     );
   }

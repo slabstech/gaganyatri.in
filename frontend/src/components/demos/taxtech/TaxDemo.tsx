@@ -220,7 +220,7 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
               placeholder="Enter your prompt here..."
               fullWidth
               sx={{ backgroundColor: 'white', color: 'black' }}
-              rows={20}
+              rows={10}
               multiline
             />
             <Button variant="contained" onClick={sendPromptToServer} disabled={isLoading}>
@@ -238,7 +238,7 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
           {textResponse && (
             <Box className="response-container">
               <h4>Response:</h4>
-              <TextField value={JSON.stringify(textResponse, null, 2)} disabled multiline fullWidth rows={50} />
+              <TextField value={JSON.stringify(textResponse, null, 2)} disabled multiline fullWidth rows={20} />
             </Box>
           )}
         </Box>
