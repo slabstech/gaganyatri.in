@@ -77,16 +77,14 @@ def recipe_generate_route(request):
 class TaxLLMView(APIView):
     def post(self, request, format=None):
         try:
-            response = requests.get('http://gaganyatri-django-spaces.hf.space/taxtech/taxdata/company/')
-            if response.status_code == 200:
-                api_data = response.json()
-
             data = request.data
+
+            api_data = data['selectedRows']
+            
             isOnline = True
             prompt = f"Hier sind weitere Daten: {api_data}. Bitte beantworten Sie die folgende Frage: {data['messages'][0]['prompt']}"
             model = data['model']
-            print(model)
-
+            
             messages = [
                 {
                     "role": "system",
@@ -111,7 +109,7 @@ class TaxLLMView(APIView):
             else:
                 content = "helloWorld"
 
-            print(content)
+            #print(content)
             return Response({"response": content})
         except Exception as e:
             print(f"An error occurred: {e}")
@@ -120,15 +118,15 @@ class TaxLLMView(APIView):
 class TaxLLMTaxAddView(APIView):
     def post(self, request, format=None):
         try:
-            response = requests.get('http://gaganyatri-django-spaces.hf.space/taxtech/taxdata/taxdata/')
-            if response.status_code == 200:
-                api_data = response.json()
+            data = request.data
 
+            api_data = data['selectedRows']
+            
             data = request.data
             isOnline = True
             prompt = f"Hier sind weitere Daten: {api_data}. Bitte beantworten Sie die folgende Frage: {data['messages'][0]['prompt']}"
             model = data['model']
-            print(model)
+#            print(model)
 
             messages = [
                 {
@@ -154,7 +152,7 @@ class TaxLLMTaxAddView(APIView):
             else:
                 content = "helloWorld"
 
-            print(content)
+#            print(content)
             return Response({"response": content})
         except Exception as e:
             print(f"An error occurred: {e}")
