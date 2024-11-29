@@ -133,6 +133,13 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
   const [loading, setLoading] = useState(true); // add loading state
   const [selectedRows, setSelectedRows] = useState<Array<Message>>([]); // add selected rows state
 
+  const [promptOptions, setPromptOptions] = useState<Array<string>>([
+    'What is the tax rate for this company?',
+    'How much revenue did this company generate last year?',
+    'What are the wages for this company?'
+  ]);
+  const [selectedPromptOption, setSelectedPromptOption] = useState<string>('');
+
   const dispatch = useDispatch<AppDispatch>();
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
@@ -171,11 +178,10 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
   const sendPromptToServer = async () => {
     setTableAIProgressLoading(true);
 
-    //const serverEndpoint = "http://gaganyatri-django-spaces.hf.space/taxtech/tax_llm_url/";
+//    const serverEndpoint = "http://gaganyatri-django-spaces.hf.space/taxtech/tax_llm_url/";
     const serverEndpoint = "http://localhost:8000/taxtech/tax_llm_url/";
     const model = models.get(textSelectedModel);
 
-    console.log(selectedRows);
     const requestBody = {
       model,
       messages: [{ role: 'user', prompt: textPrompt }],
@@ -207,6 +213,12 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
     setSelectedRows(newSelectedRows);
   };
 
+  const handlePromptOptionChange = (event: SelectChangeEvent<string>) => {
+    const selectedOption = event.target.value;
+    setSelectedPromptOption(selectedOption);
+    setTextPrompt(selectedOption);
+  };
+
   return (
     <>
       <Box className="app-container">
@@ -223,6 +235,21 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
               rows={10}
               multiline
             />
+            <Select
+              value={selectedPromptOption}
+              onChange={handlePromptOptionChange}
+              displayEmpty
+              sx={{ marginLeft: 2 }}
+            >
+              <MenuItem value="" disabled>
+                Select a prompt
+              </MenuItem>
+              {promptOptions.map((option, index) => (
+                <MenuItem key={index} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </Select>
             <Button variant="contained" onClick={sendPromptToServer} disabled={isLoading}>
               {isLoading ? 'Processing...' : 'Submit'}
             </Button>
@@ -288,10 +315,11 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
           pageSizeOptions={[10, 25, 50]}
           checkboxSelection
           disableRowSelectionOnClick
+          getRowId={(row) => row.id.toString()} // Ensure bigint IDs are handled correctly
           onRowSelectionModelChange={(newSelection) => {
             const selectedIDs = new Set(newSelection);
             const selectedRows = timerows.filter((row) =>
-              selectedIDs.has(row.id) // Convert bigint to string
+              selectedIDs.has(row.id.toString()) // Convert bigint to string
             );
             handleRowSelection(selectedRows);
           }}
