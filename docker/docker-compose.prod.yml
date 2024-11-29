@@ -24,7 +24,7 @@ services:
     hostname: gaganyatri_frontend
     build:
       context: frontend 
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.prod
     ports: 
       - '1337:11080'  
     depends_on:
