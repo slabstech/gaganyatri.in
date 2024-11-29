@@ -2,9 +2,7 @@ services:
   gaganyatri_backend:
     container_name: gaganyatri_backend 
     hostname: gaganyatri_backend
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: slabstech/gaganyatri-backend:latest
     command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:10000"
     privileged: true
     tty: true
@@ -22,9 +20,7 @@ services:
   gaganyatri_frontend:
     container_name: gaganyatri_frontend 
     hostname: gaganyatri_frontend
-    build:
-      context: frontend 
-      dockerfile: Dockerfile.prod
+    image: slabstech/gaganyatri-frontend:latest
     ports: 
       - '1337:11080'  
     depends_on:

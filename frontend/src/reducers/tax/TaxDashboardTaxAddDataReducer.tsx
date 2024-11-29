@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 const API_URL = "http://gaganyatri-django-spaces.hf.space/";
 //import.meta.env.VITE_BACKEND_APP_API_URL;
 
-export const fetchTaxDashboardData = createAsyncThunk<
+export const fetchTaxDashboardTaxAddData = createAsyncThunk<
 string[], 
   {
     page?: number;
@@ -12,10 +12,10 @@ string[],
     appointment_day_before?: string;
     user_id?: number;
   } & { rejectValue: string }, { rejectValue: string }>(
-      'gaganyatriApp/fetchTaxDashboardData',
+      'gaganyatriApp/fetchTaxDashboardTaxAddData',
       async (args:any, thunkAPI:any) => {
         try {
-          let url = API_URL + 'taxtech/taxdata/company/?page=';
+          let url = API_URL + 'taxtech/taxdata/taxdata/?page=';
           if (args.page) {
             url += args.page;
           }
@@ -33,19 +33,23 @@ string[],
             throw new Error(`HTTP error! status: ${response.status}`);
           }
           const data = await response.json();
-          const userData = data.results.map((rawUser: any) => ({
+          const userDataTax = data.results.map((rawUser: any) => ({
             id: rawUser.id,
-            name: rawUser.name,
             country: rawUser.country,
             currency: rawUser.currency,
             ebt: rawUser.ebt,
             taxes: rawUser.taxes,
+            quote: rawUser.quote,
+            check_data: rawUser.check_data,
+            pot_mehrsteuer : rawUser.pot_mehrsteuer,
+            de_minimis: rawUser.de_minimis,
+            five_percent_check :rawUser.five_percent_check,
             revenues: rawUser.revenues,
-            wages: rawUser.wages,
-            fixed_assets: rawUser.fixed_assets,
+            salaries: rawUser.salaries,
+            net_loss: rawUser.net_loss,
             // map other properties as needed
           }));
-          return userData;
+          return userDataTax;
         } catch (error) {
           return thunkAPI.rejectWithValue('Failed to fetch user.');
         }
@@ -53,24 +57,28 @@ string[],
   );
 interface User {
   id: bigint;
-  name: string;
   country: string;
   currency: string;
   ebt: string;
   taxes: string;
+  quote: string;
+  check_data : string;
+  pot_mehrsteuer : string;
+  de_minimis: string;
+  five_percent_check : string;
   revenues: string;
-  wages: string;
-  fixed_assets: string;
+  salaries: string;
+  net_loss: string;
 }
 interface UserState {
-  userData: User[];
+  userDataTax: User[];
   loading: boolean;
   error: string | null;
   page: number;
   totalPages: number;
 }
 const initialState: UserState = {
-  userData: [],
+  userDataTax: [],
   loading: false,
   error: null,
   page: 1,
@@ -82,16 +90,16 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder:any) => {
     builder
-        .addCase(fetchTaxDashboardData.pending, (state:any) => {
+        .addCase(fetchTaxDashboardTaxAddData.pending, (state:any) => {
           state.loading = true;
           state.error = null;
         })
-        .addCase(fetchTaxDashboardData.fulfilled, (state:any, action:any) => {
+        .addCase(fetchTaxDashboardTaxAddData.fulfilled, (state:any, action:any) => {
           state.loading = false;
-          state.userData.push(...action.payload);
+          state.userDataTax.push(...action.payload);
           state.totalPages = action.meta.arg.total_pages;
         })
-        .addCase(fetchTaxDashboardData.rejected, (state:any, action:any) => {
+        .addCase(fetchTaxDashboardTaxAddData.rejected, (state:any, action:any) => {
           state.loading = false;
           state.error = action.error.message || 'Something went wrong';
         });

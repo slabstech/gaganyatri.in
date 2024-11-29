@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-X_FRAME_OPTIONS = 'ALLOW-FROM https://huggingface.co/'
+#X_FRAME_OPTIONS = 'ALLOW-FROM https://huggingface.co/'
 # Application definition
 
 INSTALLED_APPS = [
@@ -64,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'csp.middleware.CSPMiddleware',
+    'spaces.middleware.XFrameOptionsMiddleware',
 ]
 
 CSP_IMG_SRC = ("'self'", "data:", "https://gaganyatri.in")

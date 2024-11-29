@@ -7,7 +7,7 @@ import SpeechDemo from './speech/SpeechDemo';
 import MyChatBot from './chatbot/chatApp';
 import IndicDemo from './indic_llm/IndicDemo';
 import TaxTechDemo from './demos/taxtech/TaxDemo';
-
+import TaxTechTaxDataDemo from './demos/taxtech/TaxDemoTaxData';
 interface AppState {
 }
 
@@ -30,13 +30,15 @@ class Home extends Component<HomeProps, AppState> {
   render() {
     return (
       <Container>
-        <Grid container spacing={2}>
-          <TaxTechDemo/>
-        </Grid>
-        <div  style={{ display: 'none' }} >
         <Typography variant="h4" gutterBottom>
           LLM Use Cases
         </Typography>
+        <Grid container spacing={2}>
+          <TaxTechDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline}/>
+        </Grid>
+        <Grid item xs={12}>
+            <Divider />
+        </Grid>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <VisionDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
@@ -72,7 +74,6 @@ class Home extends Component<HomeProps, AppState> {
             <TextDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
           </Grid>
         </Grid>
-        </div>
       </Container>
     );
   }
