@@ -16,6 +16,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { lightBlue, deepOrange } from '@mui/material/colors';
 import App from './App.tsx';
+import SignIn from './components/theme/sign-in/SignIn';
+import SignUp from './components/theme/sign-up/SignUp';
+import Checkout from './components/theme/checkout/Checkout';
+
 import {
   chartsCustomizations,
   dataGridCustomizations,
@@ -73,6 +77,9 @@ createRoot(document.getElementById('root')!).render(
           </BrowserRouter>
         </Provider>
         <MainGrid />
+        
+        <SignIn/>
+        <Checkout/>
           </Stack>
         </Box>
       </Box>

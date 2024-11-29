@@ -203,8 +203,8 @@ const TaxTechTaxDataDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = (
   const sendPromptToServer = async () => {
     setTableAIProgressLoading(true);
 
-    //const serverEndpoint = "http://localhost:8000/taxtech/tax_llm_tax_add_url";
-    const serverEndpoint = "http://gaganyatri-django-spaces.hf.space/taxtech/tax_llm_tax_add_url/";
+    //const serverEndpoint = "https://localhost:8000/taxtech/tax_llm_tax_add_url";
+    const serverEndpoint = "https://gaganyatri-django-spaces.hf.space/taxtech/tax_llm_tax_add_url/";
     //console.log(serverEndpoint);
 
     const model = models.get(textSelectedModel);
