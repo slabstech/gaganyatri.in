@@ -1,0 +1,30 @@
+services:
+  ollama:
+    volumes:
+      - ~/ollama/ollama:/root/.ollama
+    container_name: ollama
+    #pull_policy: always
+    tty: true
+    #restart: unless-stopped
+    image: ollama/ollama:latest
+    ports:
+      - 11434:11434
+    networks:
+      - app-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  hugging_face_cache:
+    driver: local
+    driver_opts:
+      type: none
+      device: ~/.cache/huggingface
+      o: bind

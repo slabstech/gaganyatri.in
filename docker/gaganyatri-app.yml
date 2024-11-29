@@ -1,0 +1,38 @@
+services:
+  gaganyatri_backend:
+    container_name: gaganyatri_backend 
+    hostname: gaganyatri_backend
+    image: slabstech/gaganyatri-backend:latest
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:10000"
+    privileged: true
+    tty: true
+    env_file:
+      - ./.env.dev
+    volumes:
+      - static:/static
+      - ./backend/:/app
+    ports: 
+      - '10000:10000'
+    networks:
+      - gaganyatri_net
+    extra_hosts:
+      host.docker.internal: host-gateway
+  gaganyatri_frontend:
+    container_name: gaganyatri_frontend 
+    hostname: gaganyatri_frontend
+    image: slabstech/gaganyatri-frontend:latest
+    ports: 
+      - '1337:11080'  
+    depends_on:
+      - gaganyatri_backend
+    networks:
+      - gaganyatri_net
+    env_file:
+      - ./.env.prod
+    extra_hosts:
+      host.docker.internal: host-gateway
+networks:
+  gaganyatri_net:
+    driver: bridge
+volumes:
+  static:
