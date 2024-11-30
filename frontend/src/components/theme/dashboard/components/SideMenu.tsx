@@ -46,7 +46,9 @@ export default function SideMenu() {
       </Box>
       <Divider />
       <MenuContent />
+      <div style={{ display: 'none' }}>
       <CardAlert />
+      </div>
       <Stack
         direction="row"
         sx={{

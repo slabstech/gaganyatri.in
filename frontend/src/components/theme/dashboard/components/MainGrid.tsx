@@ -17,7 +17,11 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/X';
 
 import IconButton from '@mui/material/IconButton';
+import Home from '../../../Home';
+import Demos from '../../../Demos';
 
+
+const serverUrl  = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
 const data: StatCardProps[] = [
   {
     title: 'Users',
@@ -58,6 +62,8 @@ export default function MainGrid() {
       <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
         Overview
       </Typography>
+      <Home serverUrl={serverUrl}  />
+      <Demos serverUrl={serverUrl} />
       <Grid
         container
         spacing={2}
