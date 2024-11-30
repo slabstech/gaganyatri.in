@@ -19,6 +19,7 @@ import App from './App.tsx';
 import SignIn from './components/theme/sign-in/SignIn';
 import SignUp from './components/theme/sign-up/SignUp';
 import Checkout from './components/theme/checkout/Checkout';
+import Blog from './components/theme/blog/Blog';
 
 import {
   chartsCustomizations,
@@ -77,9 +78,11 @@ createRoot(document.getElementById('root')!).render(
           </BrowserRouter>
         </Provider>
         <MainGrid />
-        
+        <div style={{ display: 'none' }}>
         <SignIn/>
+        <Blog/>
         <Checkout/>
+        </div>
           </Stack>
         </Box>
       </Box>

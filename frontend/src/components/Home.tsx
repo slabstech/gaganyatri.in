@@ -13,18 +13,16 @@ interface AppState {
 
 type HomeProps = {
   serverUrl: string;
-  isOnline: boolean;
 };
 
 class Home extends Component<HomeProps, AppState> {
-  ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-  serverBaseUrl = import.meta.env.VITE_GAGANYATRI_HF_SPACES_URL;
+
+  serverBaseUrl = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
   isOnline = true;
 
   constructor(props:HomeProps) {
     super(props);
     this.serverBaseUrl = this.props.serverUrl;
-    this.isOnline = this.props.isOnline;
   }
 
   render() {
