@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import { Button, Typography } from '@mui/material';
 import Select from '@mui/material/Select';
@@ -13,8 +12,8 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DataGrid, GridColDef, GridToolbarContainer, useGridApiContext } from '@mui/x-data-grid';
 import dayjs, { Dayjs } from 'dayjs';
-
 import { fetchTaxDashboardData } from '../../../reducers/tax/TaxDashboardDataReducer';
+import { sendPromptToServer } from '../../../reducers/tax/TaxDashboardActions';
 import { RootState, AppDispatch } from '../../../reducers/store';
 
 const models = new Map([
@@ -124,13 +123,9 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
 
   console.log(serverUrl);
   const [textPrompt, setTextPrompt] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [textResponse, setTextResponse] = useState<string | null>(null);
   const [textSelectedModel, setTextSelectedModel] = useState<string>('mistral-nemo');
-  const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
 
   const [timerows, setTimerows] = useState<Array<Message>>([]);
-  const [loading, setLoading] = useState(true); // add loading state
   const [selectedRows, setSelectedRows] = useState<Array<Message>>([]); // add selected rows state
 
   const [promptOptions, setPromptOptions] = useState<Array<string>>([
@@ -148,20 +143,22 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
 
   const taxDashboardDataList = useSelector((state: RootState) =>
     state.taxDashboardDataList.userData);
+  const tableAIProgressLoading = useSelector((state: RootState) =>
+    state.taxDashboardDataList.tableAIProgressLoading);
+  const textResponse = useSelector((state: RootState) =>
+    state.taxDashboardDataList.textResponse);
 
   useEffect(() => {
-    if (loading) {
-      dispatch(
-        fetchTaxDashboardData({
-          page: 1,
-          appointment_day_after: todayDate,
-          appointment_day_before: nextSevenDays,
-          user_id: userId,
-          rejectValue: 'Failed to fetch Appointment.',
-        })
-      ).then(() => setLoading(false));
-    }
-  }, [dispatch, todayDate, nextSevenDays, userId, loading]);
+    dispatch(
+      fetchTaxDashboardData({
+        page: 1,
+        appointment_day_after: todayDate,
+        appointment_day_before: nextSevenDays,
+        user_id: userId,
+        rejectValue: 'Failed to fetch Appointment.',
+      })
+    );
+  }, [dispatch, todayDate, nextSevenDays, userId]);
 
   useEffect(() => {
     if (startDate && endDate) {
@@ -174,32 +171,6 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
       setTimerows(taxDashboardDataList);
     }
   }, [taxDashboardDataList, startDate, endDate]);
-
-  const sendPromptToServer = async () => {
-    setTableAIProgressLoading(true);
-
-    const serverEndpoint = "https://gaganyatri-django-spaces.hf.space/taxtech/tax_llm_url/";
-    //const serverEndpoint = "https://localhost:8000/taxtech/tax_llm_url/";
-    const model = models.get(textSelectedModel);
-
-    const requestBody = {
-      model,
-      messages: [{ role: 'user', prompt: textPrompt }],
-      stream: false,
-      isOnline,
-      selectedRows, // include selected rows in the request body
-    };
-
-    try {
-      const response = await axios.post(serverEndpoint, requestBody);
-      const messageContent = response.data.response;
-      setTableAIProgressLoading(false);
-      setTextResponse(messageContent);
-    } catch (error) {
-      console.error('Error processing Text Prompt:', error);
-      setTableAIProgressLoading(false);
-    }
-  };
 
   const handleTextPromptChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextPrompt(event.target.value);
@@ -217,6 +188,10 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
     const selectedOption = event.target.value;
     setSelectedPromptOption(selectedOption);
     setTextPrompt(selectedOption);
+  };
+
+  const handleSendPrompt = () => {
+    dispatch(sendPromptToServer({ textPrompt, textSelectedModel, isOnline, selectedRows }));
   };
 
   return (
@@ -250,8 +225,8 @@ const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serve
                 </MenuItem>
               ))}
             </Select>
-            <Button variant="contained" onClick={sendPromptToServer} disabled={isLoading}>
-              {isLoading ? 'Processing...' : 'Submit'}
+            <Button variant="contained" onClick={handleSendPrompt} disabled={tableAIProgressLoading}>
+              {tableAIProgressLoading ? 'Processing...' : 'Submit'}
             </Button>
             <Select value={textSelectedModel} onChange={handleTextModelChange}>
               {Array.from(models.entries()).map(([key]) => (
