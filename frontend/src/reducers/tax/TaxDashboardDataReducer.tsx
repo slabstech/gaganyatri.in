@@ -36,10 +36,8 @@ const initialState: TaxDashboardDataState = {
   totalPages: 0,
 };
 
-// TODO - fix hardcoded value
-const API_URL = "https://gaganyatri-django-spaces.hf.space/";
-//import.meta.env.VITE_BACKEND_APP_API_URL;
-
+const API_URL  = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
+    
 export const fetchTaxDashboardData = createAsyncThunk<
 string[], 
   {

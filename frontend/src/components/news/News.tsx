@@ -12,9 +12,12 @@ interface SpaceWalks {
 const News: React.FC = () => {
   const [newsData, setNewsData] = useState<SpaceWalks[]>([]);
 
+  const onlineUrl  = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
+  const spaceUrl = onlineUrl + 'space_walks/api/space_walks/';
+
   useEffect(() => {
     const fetchNewsData = async () => {
-      const result = await axios.get<SpaceWalks[]>('https://gaganyatri-django-spaces.hf.space/api/v1/space_walks/api/space_walks/');
+      const result = await axios.get<SpaceWalks[]>(spaceUrl);
       setNewsData(result.data);
     };
 

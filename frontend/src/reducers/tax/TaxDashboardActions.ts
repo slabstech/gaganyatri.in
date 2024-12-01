@@ -12,7 +12,8 @@ const models = new Map([
 export const sendPromptToServer = createAsyncThunk(
   'tax/sendPromptToServer',
   async ({ textPrompt, textSelectedModel, isOnline, selectedRows }: any, { rejectWithValue }) => {
-    const serverEndpoint = "https://gaganyatri-django-spaces.hf.space/taxtech/tax_llm_url/";
+    const onlineUrl  = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
+    const serverEndpoint = onlineUrl + "taxtech/tax_llm_url/";
     const model = models.get(textSelectedModel);
 
     const requestBody = {

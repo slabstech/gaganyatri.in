@@ -29,8 +29,8 @@ interface AppState {
   functionEndpoint:string;
 }
 class VisionDemo extends Component<VisionProps, AppState> {
-  ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-  serverBaseUrl = 'http://localhost:10000/api/v1' ;
+  serverBaseUrl  = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
+  
   webcamRef = React.createRef();
   isOnline = true;
   constructor(props:VisionProps) {
@@ -64,9 +64,10 @@ class VisionDemo extends Component<VisionProps, AppState> {
     // You can now use the imageSrc for your upload or processing.
   };
 
+  // TODO - Write a function to automate this step in single reducer
   checkModelExists = async (modelName:string) => {
     try {
-      await axios.post(`${this.ollamaBaseUrl}/show`, { name: modelName });
+      await axios.post(`${this.serverBaseUrl}/show`, { name: modelName });
       return true; // Model exists
     } catch (error) {
       if (error instanceof AxiosError && error.response && error.response.status === 404) {

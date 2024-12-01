@@ -39,8 +39,8 @@ function cleanJsonString(inputString: string) {
 }
 
 class Recipes extends Component<RecipesProps, RecipesState> {
-  ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-  serverBaseUrl = "http://localhost:8000/api/v1" ;
+  serverBaseUrl  = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
+    
   constructor(props:RecipesProps) {
     super(props);
     this.serverBaseUrl = this.props.serverUrl;

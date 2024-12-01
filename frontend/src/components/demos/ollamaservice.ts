@@ -1,6 +1,5 @@
 //import { Ollama } from 'ollama/browser';
 
-//const ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
 //const ollama = new Ollama({ host: ollamaBaseUrl });
 //const MODEL_NAME = "llava:latest"
 import axios from 'axios';

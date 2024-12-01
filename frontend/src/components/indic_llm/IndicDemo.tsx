@@ -27,8 +27,8 @@ type TextDemoProps = {
 
 //const [tableAIProgressLoading, setTableAIProgressLoading] = useState<boolean>(false);
 class IndicDemo extends Component<TextDemoProps, AppState> {
-  ollamaBaseUrl = import.meta.env.VITE_OLLAMA_BASE_URL;
-  serverBaseUrl = "http://localhost:8000/api/v1" ;
+  serverBaseUrl  = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
+  
   isOnline= true;
   
   //serverBaseUrl = this.hfBaseUrl; 
@@ -56,9 +56,10 @@ class IndicDemo extends Component<TextDemoProps, AppState> {
     //this.getOrPullModel(this.state.selectedModel);
   }
 
+  // TODO - Write a function to automate this step in single reducer
   checkModelExists = async (modelName:string) => {
     try {
-      await axios.post(`${this.ollamaBaseUrl}/show`, { name: modelName });
+      await axios.post(`${this.serverBaseUrl}/show`, { name: modelName });
       return true; // Model exists
     } catch (error) {
       if (error instanceof AxiosError && error.response && error.response.status === 404) {
