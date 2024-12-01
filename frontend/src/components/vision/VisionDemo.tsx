@@ -52,7 +52,8 @@ class VisionDemo extends Component<VisionProps, AppState> {
       ]), 
       imageSelectedModel: 'pixtral',
       //imageSelectedModel: 'llama-vision', 
-      functionEndpoint:'/inference/llama_vision_url/',
+      functionEndpoint:'inference/vision_llm_url/',
+      //functionEndpoint:'inference/llama_vision_url/',
     };
   }
 
@@ -119,12 +120,12 @@ class VisionDemo extends Component<VisionProps, AppState> {
     this.setState({ imageSelectedModel: event.target.value }, () => {
       //this.getOrPullModel(this.state.selectedModel);
       if(this.state.imageSelectedModel == 'pixtral')
-        this.setState({ functionEndpoint: '/inference/vision_llm_url/' });
+        this.setState({ functionEndpoint: 'inference/vision_llm_url/' });
         //this.setS
       else if(this.state.imageSelectedModel == 'llama-vision')
-        this.setState({ functionEndpoint: '/inference/llama_vision_url/' });
+        this.setState({ functionEndpoint: 'inference/llama_vision_url/' });
       else
-        this.setState({ functionEndpoint: '/inference/nim_vision_llm_url/' });
+        this.setState({ functionEndpoint: 'inference/nim_vision_llm_url/' });
     });
 
   };
