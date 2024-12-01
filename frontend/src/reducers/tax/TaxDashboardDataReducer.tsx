@@ -6,18 +6,14 @@ import { sendPromptToServer } from './TaxDashboardActions';
 
 interface TaxUser {
   id: bigint;
+  name: string;
   country: string;
   currency: string;
   ebt: string;
   taxes: string;
-  quote: string;
-  check_data : string;
-  pot_mehrsteuer : string;
-  de_minimis: string;
-  five_percent_check : string;
   revenues: string;
-  salaries: string;
-  net_loss: string;
+  wages: string;
+  fixed_assets: string;
 }
 
 interface TaxDashboardDataState {
