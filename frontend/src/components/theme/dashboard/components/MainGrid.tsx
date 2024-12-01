@@ -62,8 +62,12 @@ export default function MainGrid() {
       <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
         Overview
       </Typography>
-      <Home serverUrl={serverUrl}  />
-      <Demos serverUrl={serverUrl} />
+      <Grid container spacing={2} columns={12}>
+        <Home serverUrl={serverUrl}  />
+      </Grid>
+      <Grid container spacing={2} columns={12}>
+          <Demos serverUrl={serverUrl} />
+      </Grid>
       <Grid
         container
         spacing={2}
