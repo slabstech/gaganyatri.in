@@ -31,6 +31,5 @@ jobs:
           npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VITE_BACKEND_APP_API_URL: ${{ secrets.VITE_BACKEND_APP_API_URL }}
-          VITE_HF_SPACES_URL: ${{ secrets.VITE_HF_SPACES_URL }}
-          VITE_LOCAL_INFERENCE_URL: ${{ secrets.VITE_LOCAL_INFERENCE_URL }}
+          VITE_GAGANYATRI_BACKEND_APP_API_URL: ${{ secrets.VITE_GAGANYATRI_BACKEND_APP_API_URL }}
+  

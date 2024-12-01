@@ -31,7 +31,7 @@ Before you begin, make sure you have the following:
 ### Frontend
 
 1. In your GitHub repository, add a repository secret for Huggingface Spaces:
-   - `VITE_HF_SPACES_URL=https://Your-Spaces-URL/api/v1`
+   - `VITE_GAGANYATRI_BACKEND_APP_API_URL=https://Your-Spaces-URL/api/v1`
 2. Navigate to the `frontend` directory:
    - `cd frontend`
 3. Build the frontend:

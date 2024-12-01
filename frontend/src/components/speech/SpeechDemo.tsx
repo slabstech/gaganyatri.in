@@ -104,7 +104,7 @@ const stopRecording = () => {
     }
     setTableAIProgressLoading(true);
     setAudioResponse('');
-    const serverEndpoint = serverBaseUrl + '/inference/speech_to_speech_url/';
+    const serverEndpoint = serverBaseUrl + 'inference/speech_to_speech_url/';
   
     const formData = new FormData();
     formData.append('audio', audioFile);

@@ -6,7 +6,6 @@ import SpeechLLM from './demos/SpeechLLM';
 
 type DemosProps = {
   serverUrl: string;
-  isOnline: boolean;
 };
 
 const Demos: React.FC<DemosProps> = ({ serverUrl }) => {

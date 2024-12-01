@@ -1,9 +1,43 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+// frontend/src/reducers/tax/TaxDashboardDataReducer.ts
 
-// TODO - fix hardcoded value
-const API_URL = "http://gaganyatri-django-spaces.hf.space/";
-//import.meta.env.VITE_BACKEND_APP_API_URL;
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { sendPromptToServer } from './TaxDashboardActions';
 
+interface TaxUser {
+  id: bigint;
+  name: string;
+  country: string;
+  currency: string;
+  ebt: string;
+  taxes: string;
+  revenues: string;
+  wages: string;
+  fixed_assets: string;
+}
+
+interface TaxDashboardDataState {
+  userData: TaxUser[];
+  loading: boolean;
+  error: string | null;
+  textResponse: string | null;
+  tableAIProgressLoading: boolean;
+  page: number;
+  totalPages: number;
+}
+
+const initialState: TaxDashboardDataState = {
+  userData: [],
+  loading: false,
+  error: null,
+  textResponse: null,
+  tableAIProgressLoading: false,
+  page: 1,
+  totalPages: 0,
+};
+
+const API_URL  = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
+    
 export const fetchTaxDashboardData = createAsyncThunk<
 string[], 
   {
@@ -51,50 +85,37 @@ string[],
         }
       }
   );
-interface User {
-  id: bigint;
-  name: string;
-  country: string;
-  currency: string;
-  ebt: string;
-  taxes: string;
-  revenues: string;
-  wages: string;
-  fixed_assets: string;
-}
-interface UserState {
-  userData: User[];
-  loading: boolean;
-  error: string | null;
-  page: number;
-  totalPages: number;
-}
-const initialState: UserState = {
-  userData: [],
-  loading: false,
-  error: null,
-  page: 1,
-  totalPages: 0,
-};
-export const userSlice = createSlice({
-  name: 'user',
+const taxDashboardDataSlice = createSlice({
+  name: 'taxDashboardData',
   initialState,
   reducers: {},
-  extraReducers: (builder:any) => {
+  extraReducers: (builder) => {
     builder
-        .addCase(fetchTaxDashboardData.pending, (state:any) => {
-          state.loading = true;
-          state.error = null;
-        })
-        .addCase(fetchTaxDashboardData.fulfilled, (state:any, action:any) => {
-          state.loading = false;
-          state.userData.push(...action.payload);
-          state.totalPages = action.meta.arg.total_pages;
-        })
-        .addCase(fetchTaxDashboardData.rejected, (state:any, action:any) => {
-          state.loading = false;
-          state.error = action.error.message || 'Something went wrong';
-        });
+      .addCase(fetchTaxDashboardData.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchTaxDashboardData.fulfilled, (state, action:any) => {
+        state.loading = false;
+        state.userData.push(...action.payload);
+        state.totalPages = action.meta.arg.total_pages;
+      })
+      .addCase(fetchTaxDashboardData.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Failed to fetch data';
+      })
+      .addCase(sendPromptToServer.pending, (state) => {
+        state.tableAIProgressLoading = true;
+      })
+      .addCase(sendPromptToServer.fulfilled, (state, action) => {
+        state.tableAIProgressLoading = false;
+        state.textResponse = action.payload;
+      })
+      .addCase(sendPromptToServer.rejected, (state, action) => {
+        state.tableAIProgressLoading = false;
+        state.error = action.error.message || 'Failed to send prompt';
+      });
   },
 });
-export default userSlice.reducer;
+
+export default taxDashboardDataSlice.reducer;

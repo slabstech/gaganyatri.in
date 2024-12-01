@@ -13,9 +13,13 @@ import Stack from '@mui/material/Stack';
 import { Provider } from 'react-redux';
 import { store } from './reducers/store';
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 import { lightBlue, deepOrange } from '@mui/material/colors';
-import App from './App.tsx';
+import SignIn from './components/theme/sign-in/SignIn';
+import SignUp from './components/theme/sign-up/SignUp';
+import Checkout from './components/theme/checkout/Checkout';
+import Blog from './components/theme/blog/Blog';
+
 import {
   chartsCustomizations,
   dataGridCustomizations,
@@ -30,16 +34,12 @@ const xThemeComponents = {
   ...treeViewCustomizations,
 };
 
-const theme = createTheme({
-  palette: {
-    primary: lightBlue,
-    secondary: deepOrange,
-  },
-});
-
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
+    <Provider store={store}>
+          <BrowserRouter>
+
     <AppTheme themeComponents={xThemeComponents}>
       <CssBaseline enableColorScheme />
       <Box sx={{ display: 'flex' }}>
@@ -64,20 +64,19 @@ createRoot(document.getElementById('root')!).render(
             }}
           >
             <Header />
-            
-            <Provider store={store}>
-          <BrowserRouter>
-            <ThemeProvider theme={theme}>
-                <App />
-            </ThemeProvider>
-          </BrowserRouter>
-        </Provider>
         <MainGrid />
+        <div style={{ display: 'none' }}>
+        <SignIn/>
+        <Blog/>
+        <Checkout/>
+        </div>
           </Stack>
         </Box>
       </Box>
     </AppTheme>
 
+    </BrowserRouter>
+        </Provider>
     </ErrorBoundary>
   </StrictMode>,
 );

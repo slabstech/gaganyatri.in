@@ -1,9 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-// TODO - fix hardcoded value
-const API_URL = "http://gaganyatri-django-spaces.hf.space/";
-//import.meta.env.VITE_BACKEND_APP_API_URL;
-
+const API_URL  = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
+  
 export const fetchTaxDashboardTaxAddData = createAsyncThunk<
 string[], 
   {

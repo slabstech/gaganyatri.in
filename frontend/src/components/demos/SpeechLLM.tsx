@@ -103,7 +103,7 @@ const stopRecording = () => {
       return;
     }
     setTableAIProgressLoading(true);
-    const serverEndpoint = serverBaseUrl + '/inference/speech_llm_url/';
+    const serverEndpoint = serverBaseUrl + 'inference/speech_llm_url/';
   
     const formData = new FormData();
     formData.append('audio', audioFile);
