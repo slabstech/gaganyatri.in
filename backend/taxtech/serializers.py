@@ -1,23 +1,19 @@
+from rest_framework import serializers
 from .models import TaxTechApp, TaxData, Company
 
+class TaxTechAppSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaxTechApp
+        fields = '__all__'
 
-class TaxTechAppSerializer:
-    def to_representation(self, instance):
-        return TaxTechApp(**instance).dict()
 
-    def to_internal_value(self, data):
-        return TaxTechApp(**data).dict()
+class TaxDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaxData
+        fields = '__all__'
 
-class TaxDataSerializer:
-    def to_representation(self, instance):
-        return TaxData(**instance).dict()
 
-    def to_internal_value(self, data):
-        return TaxData(**data).dict()
-
-class CompanySerializer:
-    def to_representation(self, instance):
-        return Company(**instance).dict()
-
-    def to_internal_value(self, data):
-        return Company(**data).dict()
+class CompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = '__all__'
