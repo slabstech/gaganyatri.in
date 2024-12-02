@@ -47,8 +47,8 @@ class IndicDemo extends Component<TextDemoProps, AppState> {
       ]), 
       textSelectedModel: 'sarvam-1',
     };
-    //console.log(this.hfBaseUrl);
-    //console.log(this.localInferenceUrl);
+    ////console.log(this.hfBaseUrl);
+    ////console.log(this.localInferenceUrl);
 
   }
 

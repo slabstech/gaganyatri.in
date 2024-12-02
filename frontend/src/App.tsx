@@ -9,7 +9,7 @@ const App = () => {
 
   const onlineUrl  = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
   const [serverUrl, setUrl] = useState(onlineUrl);
-  console.log(serverUrl);
+  ////console.log(serverUrl);
 
   return (
     <>

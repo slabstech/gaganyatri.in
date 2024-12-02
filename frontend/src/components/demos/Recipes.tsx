@@ -64,15 +64,15 @@ class Recipes extends Component<RecipesProps, RecipesState> {
 
   sendDatatoServer = async () => {
     const serverRequest = this.serverBaseUrl + 'inference/recipe_generate/';
-    console.log(serverRequest);
+    //console.log(serverRequest);
     try {
       const response = await axios.get(serverRequest);
 
-      //console.log("Prompt - ", this.state.prompt);
-      //console.log(response.data);
+      ////console.log("Prompt - ", this.state.prompt);
+      ////console.log(response.data);
   
       const messageContent = response.data[5][1][0][1][1][0][1];
-      //console.log(messageContent);
+      ////console.log(messageContent);
 
       const respone_data = cleanJsonString(messageContent);
       this.setState({ response: respone_data });

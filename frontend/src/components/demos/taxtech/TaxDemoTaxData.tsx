@@ -152,7 +152,7 @@ const nextSevenDays = new Date(today.getTime() +
 
 const TaxTechTaxDataDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serverUrl, isOnline }) => {
 
-  console.log(serverUrl);
+  ////console.log(serverUrl);
   const [textPrompt, setTextPrompt] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [textResponse, setTextResponse] = useState<string | null>(null);
@@ -205,7 +205,7 @@ const TaxTechTaxDataDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = (
 
     const onlineUrl  = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
     const serverEndpoint = onlineUrl + "taxtech/tax_llm_tax_add_url/";
-    //console.log(serverEndpoint);
+    ////console.log(serverEndpoint);
 
     const model = models.get(textSelectedModel);
 

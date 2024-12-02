@@ -27,7 +27,7 @@ const secondaryListItems = [
 ];
 
 interface MenuContentProps {
-  toggleDrawer: (newOpen: boolean) => () => void;
+  toggleDrawer?: (newOpen: boolean) => () => void;
 }
 
 export default function MenuContent({ toggleDrawer }: MenuContentProps) {
@@ -35,7 +35,9 @@ export default function MenuContent({ toggleDrawer }: MenuContentProps) {
 
   const handleClick = (path) => {
     navigate(path);
-    toggleDrawer(false)();
+    if (toggleDrawer) {
+      toggleDrawer(false)();
+    }
   };
 
   return (

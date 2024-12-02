@@ -22,24 +22,24 @@ const FoodGuardian: React.FC<FoodGuardianProps> = ({ serverUrl }) => {
 
   const handleImage = async () => {
     const image = files[0];
-    console.log('handling image files', image);
+    //console.log('handling image files', image);
     setErrorResponse("");
     setTableAIProgressLoading(true);
     //Extract features from the image
     const jsonStr = await generateFeatures(image);
-    console.log(jsonStr);
+    //console.log(jsonStr);
     setTableAIProgressLoading(false);
     try{
       setJsonData(JSON.parse(jsonStr).food_items)
     }catch(err){
-      console.log(err);
+      //console.log(err);
       setErrorResponse(jsonStr);
       return;
     }
 
     //food descriptions
     const stream = await generateResponseFromJson(jsonStr);
-    console.log(stream);
+    //console.log(stream);
     setResponse(stream);
   };
 

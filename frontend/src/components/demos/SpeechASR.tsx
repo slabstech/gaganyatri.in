@@ -89,10 +89,10 @@ const stopRecording = () => {
   const toggleVoiceInput = () => {
     if (isListening) {
       startRecording();
-      //console.log('isListinening');
+      ////console.log('isListinening');
     } else {
       stopRecording();
-     //console.log('not listnen');
+     ////console.log('not listnen');
     }
     //setIsListening(!isListening);
     setIsListening(!isListening);
@@ -125,7 +125,7 @@ const stopRecording = () => {
       return messageContent;
     } catch (error) {
       console.error('Error processing Text Prompt:', (error as AxiosError).message);
-      console.log('isOnline:' + isOnlineAccess);
+      //console.log('isOnline:' + isOnlineAccess);
       setTableAIProgressLoading(false);
       throw error;
     }

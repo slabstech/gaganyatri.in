@@ -90,9 +90,9 @@ class VisionDemo extends Component<VisionProps, AppState> {
     try {
       const modelExists = await this.checkModelExists(modelName);
       if (modelExists) {
-        console.log(`Model '${modelName}' already exists.`);
+        //console.log(`Model '${modelName}' already exists.`);
       } else {
-        console.log(`Model '${modelName}' not found. Pulling...`);
+        //console.log(`Model '${modelName}' not found. Pulling...`);
       }
     } catch (error) {
       console.error('Error:', (error as AxiosError).message);
@@ -150,17 +150,17 @@ class VisionDemo extends Component<VisionProps, AppState> {
       stream: false
     };
 
-    console.log(requestBody);
+    //console.log(requestBody);
     //const ollamaEndpoint = this.ollamaBaseUrl + '/chat';
     const serverEndpoint = this.serverBaseUrl + this.state.functionEndpoint;
-//    console.log(serverEndpoint);
+//    //console.log(serverEndpoint);
 
     try {
       const response = await axios.post(serverEndpoint, requestBody);
-      //console.log("Prompt - ", this.state.prompt);
+      ////console.log("Prompt - ", this.state.prompt);
       const messageContent = response.data.response;
       this.setState({tableAIProgressLoading:false});
-      //console.log('Image processing result:', messageContent);
+      ////console.log('Image processing result:', messageContent);
       this.setState({ imageresponse: messageContent });
       return messageContent;
     } catch (error) {

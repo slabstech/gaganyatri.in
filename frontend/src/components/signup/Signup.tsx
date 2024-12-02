@@ -22,7 +22,7 @@ const Signup = ({ signupNewUser }:any) => {
       username,
       password
     };
-    console.log("Sign up " + userData.username + " " + userData.password);
+    //console.log("Sign up " + userData.username + " " + userData.password);
     signupNewUser(userData);
     navigate("/login");
   };

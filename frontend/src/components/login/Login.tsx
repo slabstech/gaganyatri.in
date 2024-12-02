@@ -42,7 +42,7 @@ const Login = ({ login, auth }:any) => {
       username: username,
       password: password
     };
-    console.log("Login " + userData.username + " " + userData.password);
+    //console.log("Login " + userData.username + " " + userData.password);
     login(userData, () => navigate("/dashboard"));
   };
 
