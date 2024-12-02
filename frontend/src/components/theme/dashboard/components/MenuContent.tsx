@@ -24,14 +24,18 @@ const mainListItems = [
 const secondaryListItems = [
   { text: 'Settings', icon: <SettingsRoundedIcon />, path: '/settings' },
   { text: 'About', icon: <InfoRoundedIcon />, path: '/about' },
-  { text: 'Feedback', icon: <HelpRoundedIcon />, path: '/feedback' },
 ];
 
-export default function MenuContent() {
+interface MenuContentProps {
+  toggleDrawer: (newOpen: boolean) => () => void;
+}
+
+export default function MenuContent({ toggleDrawer }: MenuContentProps) {
   const navigate = useNavigate();
 
   const handleClick = (path) => {
     navigate(path);
+    toggleDrawer(false)();
   };
 
   return (

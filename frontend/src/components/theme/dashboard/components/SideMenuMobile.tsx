@@ -58,15 +58,22 @@ export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobilePro
         </Stack>
         <Divider />
         <Stack sx={{ flexGrow: 1 }}>
-          <MenuContent />
+          <MenuContent toggleDrawer={toggleDrawer} />
           <Divider />
         </Stack>
-        <CardAlert />
+        <div style={{ display: 'none' }}>
+          <CardAlert />
+        </div>
+        <div style={{ display: 'none' }}>
+        
         <Stack sx={{ p: 2 }}>
           <Button variant="outlined" fullWidth startIcon={<LogoutRoundedIcon />}>
             Logout
+            # TODO - remove the hidden option, after logout is implemented
           </Button>
         </Stack>
+        </div>
+        
       </Stack>
     </Drawer>
   );
