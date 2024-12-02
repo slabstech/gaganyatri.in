@@ -42,7 +42,7 @@ export const setCurrentUser = (user:any, redirectTo:any) => (dispatch:any) => {
     payload: user
   });
 
-  console.log("set user" + redirectTo);
+  //console.log("set user" + redirectTo);
   if (redirectTo !== "") {
     dispatch(push(redirectTo));
   }
@@ -70,7 +70,7 @@ export const logout = () => (dispatch:any) => {
   axios
     .post("/api/v1/token/logout/")
     .then(response => {
-      console.log(response);
+      //console.log(response);
       dispatch(unsetCurrentUser());
       dispatch(push("/"));
       toast.success("Logout successful.");

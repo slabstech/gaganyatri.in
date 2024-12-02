@@ -10,7 +10,7 @@ const MyChatBot = ({ serverUrl, isOnline }: ChatBotDemoProps) => {
   const isOnlineAccess = isOnline;
 
   const serverInfernce = serverUrl;
-  console.log(serverInfernce + '' + isOnlineAccess);
+  //console.log(serverInfernce + '' + isOnlineAccess);
 
   const flow = {
     start: {

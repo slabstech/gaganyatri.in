@@ -2,14 +2,14 @@ import { Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import NoMatch from './components/NoMatch';
-import Demos from './components/Demos';
+import Demos from './components/HackathonDemos';
 import { useState } from 'react';
 
 const App = () => {
 
   const onlineUrl  = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
   const [serverUrl, setUrl] = useState(onlineUrl);
-  console.log(serverUrl);
+  ////console.log(serverUrl);
 
   return (
     <>

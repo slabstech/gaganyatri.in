@@ -12,7 +12,7 @@ export const signupNewUser = (userData:any) => (dispatch:any) => {
   axios
     .post("/api/v1/accounts/api/users", userData)
     .then(response => {
-      console.log(response.data);
+      //console.log(response.data);
       toast.success(
         "Account for " +
           userData.username +

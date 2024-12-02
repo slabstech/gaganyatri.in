@@ -47,7 +47,7 @@ export default function SideMenu() {
       <Divider />
       <MenuContent />
       <div style={{ display: 'none' }}>
-      <CardAlert />
+        <CardAlert />
       </div>
       <Stack
         direction="row"

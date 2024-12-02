@@ -17,11 +17,12 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/X';
 
 import IconButton from '@mui/material/IconButton';
-import Home from '../../../Home';
+import TaxHome from '../../../TaxHome';
+
 
 const serverUrl  = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
 
-export default function MainGrid() {
+export default function TaxTechDemoApp() {
   return (
     <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1700px' } }}>
       {/* cards */}
@@ -29,43 +30,8 @@ export default function MainGrid() {
         Overview
       </Typography>
       <Grid container spacing={2} columns={12}>
-        <Home serverUrl={serverUrl}  />
+        <TaxHome serverUrl={serverUrl}  />
       </Grid>
-      <Stack
-          direction="row"
-          spacing={1}
-          useFlexGap
-          sx={{ justifyContent: 'left', color: 'text.secondary' }}
-        >
-          <Copyright sx={{ my: 4 }} />
-          <IconButton
-            color="inherit"
-            size="small"
-            href="https://github.com/slabstech"
-            aria-label="GitHub"
-            sx={{ alignSelf: 'center' }}
-          >
-            <FacebookIcon />
-          </IconButton>
-          <IconButton
-            color="inherit"
-            size="small"
-            href="https://x.com/try_sanjeevini"
-            aria-label="X"
-            sx={{ alignSelf: 'center' }}
-          >
-            <TwitterIcon />
-          </IconButton>
-          <IconButton
-            color="inherit"
-            size="small"
-            href="https://in.linkedin.com/company/slabstech"
-            aria-label="LinkedIn"
-            sx={{ alignSelf: 'center' }}
-          >
-            <LinkedInIcon />
-          </IconButton>
-        </Stack>
     </Box>
   );
 }

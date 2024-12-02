@@ -26,9 +26,9 @@ export const generateResponse = async (prompt: string, imageFile: File) => {
     const serverEndpoint = serverBaseUrl + 'inference/vision_llm_url/';
 
     const response = await axios.post(serverEndpoint, requestBody);
-      //console.log("Prompt - ", this.state.prompt);
+      ////console.log("Prompt - ", this.state.prompt);
      const messageContent = response.data.response;
-      //console.log('Image processing result:', messageContent);
+      ////console.log('Image processing result:', messageContent);
       //this.setState({ imageresponse: messageContent });
     return messageContent;
 
@@ -65,9 +65,9 @@ export const generateFeatures = async (imageFile: File) => {
     const serverEndpoint = serverBaseUrl + 'inference/vision_llm_url/';
 
     const response = await axios.post(serverEndpoint, requestBody);
-      //console.log("Prompt - ", this.state.prompt);
+      ////console.log("Prompt - ", this.state.prompt);
     const messageContent = response.data.response;
-      //console.log('Image processing result:', messageContent);
+      ////console.log('Image processing result:', messageContent);
       //this.setState({ imageresponse: messageContent });
     //return messageContent;
     const data = messageContent.trim();
@@ -110,11 +110,11 @@ export const generateResponseFromJson = async (jsonStr: string) => {
     const serverRequest = `${serverEndpoint}?prompt="${prompt}"`;
     const response = await axios.get(serverRequest);
 
-    //console.log("Prompt - ", this.state.prompt);
-    //console.log(response.data);
+    ////console.log("Prompt - ", this.state.prompt);
+    ////console.log(response.data);
 
     const messageContent = response.data[5][1][0][1][1][0][1];
-    //console.log(messageContent);
+    ////console.log(messageContent);
 
    
     return messageContent;

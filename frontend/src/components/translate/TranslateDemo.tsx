@@ -88,9 +88,9 @@ class TranslateDemo extends Component<TranslateProps, AppState> {
     try {
       const modelExists = await this.checkModelExists(modelName);
       if (modelExists) {
-        console.log(`Model '${modelName}' already exists.`);
+        //console.log(`Model '${modelName}' already exists.`);
       } else {
-        console.log(`Model '${modelName}' not found. Pulling...`);
+        //console.log(`Model '${modelName}' not found. Pulling...`);
       }
     } catch (error) {
       console.error('Error:', (error as AxiosError).message);

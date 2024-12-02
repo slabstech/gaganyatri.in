@@ -112,7 +112,7 @@ const today = new Date();
 const nextSevenDays = new Date(today.getTime() + (7 * 24 * 60 * 60 * 1000)).toISOString().slice(0, 10);
 
 const TaxTechDemo: React.FC<{ serverUrl: string; isOnline: boolean }> = ({ serverUrl, isOnline }) => {
-  console.log(serverUrl);
+  ////console.log(serverUrl);
   const [textPrompt, setTextPrompt] = useState<string>('');
   const [textSelectedModel, setTextSelectedModel] = useState<string>('mistral-nemo');
   const [timerows, setTimerows] = useState<Array<Message>>([]);

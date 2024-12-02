@@ -27,6 +27,7 @@ interface AppState {
   models: Map<string, any>; 
   imageSelectedModel: string; 
   functionEndpoint:string;
+  modelEndpoints: Map<string, any>; 
 }
 class VisionDemo extends Component<VisionProps, AppState> {
   serverBaseUrl  = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
@@ -47,9 +48,16 @@ class VisionDemo extends Component<VisionProps, AppState> {
       isLoading: false,
       models: new Map([
         ['pixtral', 'pixtral-12b-2409'],
+        ['pixtral-large', 'pixtral-large-latest'],
         ['llama3.2-vision','meta/llama-3.2-11b-vision-instruct'],
         ['llama-vision','x/llama3.2-vision:latest']
       ]), 
+      modelEndpoints : new Map([
+        ['pixtral', 'inference/vision_llm_url/'],
+        ['pixtral-large', 'inference/vision_llm_url/'],
+        ['llama-vision', 'inference/llama_vision_url/'],
+        ['llama3.2-vision', 'inference/nim_vision_llm_url/']
+      ]),
       imageSelectedModel: 'pixtral',
       //imageSelectedModel: 'llama-vision', 
       functionEndpoint:'inference/vision_llm_url/',
@@ -82,9 +90,9 @@ class VisionDemo extends Component<VisionProps, AppState> {
     try {
       const modelExists = await this.checkModelExists(modelName);
       if (modelExists) {
-        console.log(`Model '${modelName}' already exists.`);
+        //console.log(`Model '${modelName}' already exists.`);
       } else {
-        console.log(`Model '${modelName}' not found. Pulling...`);
+        //console.log(`Model '${modelName}' not found. Pulling...`);
       }
     } catch (error) {
       console.error('Error:', (error as AxiosError).message);
@@ -111,23 +119,16 @@ class VisionDemo extends Component<VisionProps, AppState> {
     }
   };
 
-
   handleImagePromptChange = (event: ChangeEvent<HTMLInputElement>) => {
     this.setState({ imageprompt: event.target.value });
   };
 
   handleImageModelChange = (event: SelectChangeEvent<string>) => {
     this.setState({ imageSelectedModel: event.target.value }, () => {
-      //this.getOrPullModel(this.state.selectedModel);
-      if(this.state.imageSelectedModel == 'pixtral')
-        this.setState({ functionEndpoint: 'inference/vision_llm_url/' });
-        //this.setS
-      else if(this.state.imageSelectedModel == 'llama-vision')
-        this.setState({ functionEndpoint: 'inference/llama_vision_url/' });
-      else
-        this.setState({ functionEndpoint: 'inference/nim_vision_llm_url/' });
-    });
-
+      //this.getOrPullModel(this.state.selectedModel); 
+      const endpoint = this.state.modelEndpoints.get(this.state.imageSelectedModel);
+      this.setState({ functionEndpoint: endpoint });
+    })
   };
 
   sendImageToServer = async () => {
@@ -149,17 +150,17 @@ class VisionDemo extends Component<VisionProps, AppState> {
       stream: false
     };
 
-    console.log(requestBody);
+    //console.log(requestBody);
     //const ollamaEndpoint = this.ollamaBaseUrl + '/chat';
     const serverEndpoint = this.serverBaseUrl + this.state.functionEndpoint;
-//    console.log(serverEndpoint);
+//    //console.log(serverEndpoint);
 
     try {
       const response = await axios.post(serverEndpoint, requestBody);
-      //console.log("Prompt - ", this.state.prompt);
+      ////console.log("Prompt - ", this.state.prompt);
       const messageContent = response.data.response;
       this.setState({tableAIProgressLoading:false});
-      //console.log('Image processing result:', messageContent);
+      ////console.log('Image processing result:', messageContent);
       this.setState({ imageresponse: messageContent });
       return messageContent;
     } catch (error) {
