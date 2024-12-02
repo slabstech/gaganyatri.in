@@ -8,7 +8,7 @@ type DemosProps = {
   serverUrl: string;
 };
 
-const Demos: React.FC<DemosProps> = ({ serverUrl }) => {
+const HackathonDemos: React.FC<DemosProps> = ({ serverUrl }) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
@@ -40,4 +40,4 @@ const Demos: React.FC<DemosProps> = ({ serverUrl }) => {
   );
 };
 
-export default Demos;
+export default HackathonDemos;

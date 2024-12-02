@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import NoMatch from './components/NoMatch';
-import Demos from './components/Demos';
+import Demos from './components/HackathonDemos';
 import { useState } from 'react';
 
 const App = () => {
