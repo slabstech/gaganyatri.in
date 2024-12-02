@@ -1,37 +1,39 @@
-from django.db import models
+# backend/taxtech/schemas.py
 
-class TaxTechApp(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    appointment_day = models.DateField()
-    company_name = models.CharField(max_length=255)
-    status = models.CharField(max_length=255)
-    observations = models.TextField()
+from pydantic import BaseModel, Field
+from typing import Optional
+from datetime import date
 
-class TaxData(models.Model):
-    country = models.CharField(max_length=255)
-    currency = models.CharField(max_length=10)
-    ebt = models.IntegerField()
-    taxes = models.IntegerField()
-    quote = models.FloatField()
-    check_data = models.CharField(max_length=255)
-    pot_mehrsteuer = models.IntegerField()
-    de_minimis = models.CharField(max_length=10)
-    five_percent_check = models.IntegerField()
-    revenues = models.IntegerField(null=True, blank=True)
-    salaries = models.IntegerField()
-    net_loss = models.IntegerField()
+class TaxTechApp(BaseModel):
+    id: int
+    appointment_day: date
+    company_name: str
+    status: str
+    observations: str
 
-# backend/taxtech/models.py
+class TaxData(BaseModel):
+    country: str
+    currency: str
+    ebt: int
+    taxes: int
+    quote: float
+    check_data: str
+    pot_mehrsteuer: int
+    de_minimis: str
+    five_percent_check: int
+    revenues: Optional[int] = None
+    salaries: int
+    net_loss: int
 
-class Company(models.Model):
-    name = models.CharField(max_length=255)
-    country = models.CharField(max_length=255)
-    currency = models.CharField(max_length=10)
-    ebt = models.IntegerField()
-    taxes = models.IntegerField()
-    revenues = models.IntegerField()
-    wages = models.IntegerField()
-    fixed_assets = models.IntegerField()
+class Company(BaseModel):
+    name: str
+    country: str
+    currency: str
+    ebt: int
+    taxes: int
+    revenues: int
+    wages: int
+    fixed_assets: int
 
-    def __str__(self):
-        return self.name
+    class Config:
+        orm_mode = True

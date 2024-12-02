@@ -23,6 +23,7 @@ from ollama import Client
 from django.http import FileResponse
 import io
 from rest_framework.pagination import PageNumberPagination
+from pydantic import BaseModel, ValidationError
 
 class TaxTechAppPagination(PageNumberPagination):
     page_size = 10
@@ -74,17 +75,21 @@ def recipe_generate_route(request):
         return Response({'error': 'Something went wrong'}, status=500)
     return Response(result)
 
+class TaxLLMRequest(BaseModel):
+    selectedRows: list
+    messages: list
+    model: str
+
 class TaxLLMView(APIView):
     def post(self, request, format=None):
         try:
             data = request.data
+            tax_llm_request = TaxLLMRequest(**data)
 
-            api_data = data['selectedRows']
-            
-            isOnline = True
-            prompt = f"Hier sind weitere Daten: {api_data}. Bitte beantworten Sie die folgende Frage: {data['messages'][0]['prompt']}"
-            model = data['model']
-            
+            api_data = tax_llm_request.selectedRows
+            prompt = f"Hier sind weitere Daten: {api_data}. Bitte beantworten Sie die folgende Frage: {tax_llm_request.messages[0].prompt}"
+            model = tax_llm_request.model
+
             messages = [
                 {
                     "role": "system",
@@ -101,6 +106,7 @@ class TaxLLMView(APIView):
                 }
             ]
 
+            isOnline = True
             if isOnline:
                 api_key = os.environ["MISTRAL_API_KEY"]
                 client = Mistral(api_key=api_key)
@@ -109,8 +115,9 @@ class TaxLLMView(APIView):
             else:
                 content = "helloWorld"
 
-            #print(content)
             return Response({"response": content})
+        except ValidationError as e:
+            return Response({'error': str(e)}, status=400)
         except Exception as e:
             print(f"An error occurred: {e}")
             return Response({'error': 'Something went wrong'}, status=500)
@@ -119,14 +126,11 @@ class TaxLLMTaxAddView(APIView):
     def post(self, request, format=None):
         try:
             data = request.data
+            tax_llm_request = TaxLLMRequest(**data)
 
-            api_data = data['selectedRows']
-            
-            data = request.data
-            isOnline = True
-            prompt = f"Hier sind weitere Daten: {api_data}. Bitte beantworten Sie die folgende Frage: {data['messages'][0]['prompt']}"
-            model = data['model']
-#            print(model)
+            api_data = tax_llm_request.selectedRows
+            prompt = f"Hier sind weitere Daten: {api_data}. Bitte beantworten Sie die folgende Frage: {tax_llm_request.messages[0].prompt}"
+            model = tax_llm_request.model
 
             messages = [
                 {
@@ -144,6 +148,7 @@ class TaxLLMTaxAddView(APIView):
                 }
             ]
 
+            isOnline = True
             if isOnline:
                 api_key = os.environ["MISTRAL_API_KEY"]
                 client = Mistral(api_key=api_key)
@@ -152,8 +157,9 @@ class TaxLLMTaxAddView(APIView):
             else:
                 content = "helloWorld"
 
-#            print(content)
             return Response({"response": content})
+        except ValidationError as e:
+            return Response({'error': str(e)}, status=400)
         except Exception as e:
             print(f"An error occurred: {e}")
             return Response({'error': 'Something went wrong'}, status=500)
