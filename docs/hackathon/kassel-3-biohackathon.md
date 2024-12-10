@@ -42,3 +42,15 @@ Ontogpt
     - poetry build
     - poetry install -E web
     - poetry run web-ontogpt
+
+
+
+- Different Quantization
+    - https://huggingface.co/bartowski/Ministral-8B-Instruct-2410-GGUF
+
+- TO use Ministral from Hugginface
+
+    - ollama pull hf.co/bartowski/Ministral-8B-Instruct-2410-GGUF:Q4_K_L
+
+- To use Qwen2.5 
+    - ollama pull qwen2.5
