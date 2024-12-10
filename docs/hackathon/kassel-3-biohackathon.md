@@ -51,6 +51,14 @@ Ontogpt
 - TO use Ministral from Hugginface
 
     - ollama pull hf.co/bartowski/Ministral-8B-Instruct-2410-GGUF:Q4_K_L
+    - ollama cp hf.co/bartowski/Ministral-8B-Instruct-2410-GGUF:Q4_K_L ministral
+
+
+-  ontogpt extract -i example.txt -t drug --model ollama/ministral
 
 - To use Qwen2.5 
     - ollama pull qwen2.5
+
+ - 
+-  ontogpt extract -i example.txt -t drug --model ollama/qwen2.5
+   
