@@ -24,14 +24,14 @@ class Home extends Component<HomeProps, AppState> {
     return (
       <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1700px' } }}>
         <Grid container spacing={2} columns={12}>
-        
+        <div style={{ display: 'none' }}>
         <Grid size={{ xs: 12 }}>
             <OntogptDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
           </Grid>
         <Grid size={{ xs: 12 }}>
             <Divider />
           </Grid>
-          <div style={{ display: 'none' }}>
+          </div>
           <Grid size={{ xs: 12 }}>
             <SpeechDemo serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
           </Grid>
@@ -41,7 +41,6 @@ class Home extends Component<HomeProps, AppState> {
           <Grid size={{ xs: 12 }}>
             <Divider />
           </Grid>
-          </div>
         </Grid>
       </Box>
     );
