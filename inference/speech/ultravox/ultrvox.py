@@ -21,7 +21,7 @@ question_per_audio_count = {
 
 # Ultravox 0.3
 def run_ultravox(question: str, audio_count: int):
-    model_name = "fixie-ai/ultravox-v0_3"
+    model_name = "fixie-ai/ultravox-v0_3-llama-3_2-1b"
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     messages = [{
@@ -39,29 +39,7 @@ def run_ultravox(question: str, audio_count: int):
     return llm, prompt, stop_token_ids
 
 
-# Qwen2-Audio
-def run_qwen2_audio(question: str, audio_count: int):
-    model_name = "Qwen/Qwen2-Audio-7B-Instruct"
-
-    llm = LLM(model=model_name,
-              max_model_len=4096,
-              max_num_seqs=5,
-              limit_mm_per_prompt={"audio": audio_count})
-
-    audio_in_prompt = "".join([
-        f"Audio {idx+1}: "
-        f"<|audio_bos|><|AUDIO|><|audio_eos|>\n" for idx in range(audio_count)
-    ])
-
-    prompt = ("<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n"
-              "<|im_start|>user\n"
-              f"{audio_in_prompt}{question}<|im_end|>\n"
-              "<|im_start|>assistant\n")
-    stop_token_ids = None
-    return llm, prompt, stop_token_ids
-
-
-model_example_map = {"ultravox": run_ultravox, "qwen2_audio": run_qwen2_audio}
+model_example_map = {"ultravox": run_ultravox}
 
 
 def main(args):
@@ -120,6 +98,11 @@ if __name__ == "__main__":
                         default=1,
                         choices=[0, 1, 2],
                         help="Number of audio items per prompt.")
+    parser.add_argument('--dtype',
+                        type=str,
+                        default="half",
+                        choices=["float", "half"],
+                        help='Data type for inference.')
 
     args = parser.parse_args()
     main(args)
