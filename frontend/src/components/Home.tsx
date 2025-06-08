@@ -9,6 +9,7 @@ import './Home.css';
 
 interface AppState {
   issPosition: { latitude: number; longitude: number; altitude: number } | null;
+  issPath: { latitude: number; longitude: number; altitude: number }[];
   loading: boolean;
   globeError: boolean;
   globeInitialized: boolean;
@@ -23,19 +24,29 @@ class Home extends Component<HomeProps, AppState> {
   isOnline = true;
   private readonly launchDate = new Date('2025-06-10T17:52:00+05:30');
   private readonly issApiUrl = 'https://api.wheretheiss.at/v1/satellites/25544';
+  private readonly maxPathPoints = 100; // Limit the number of points in the orbital path
+  private readonly tubeRadius = 0.005; // Thickness of the orbital path tube
+  private readonly cameraDistance = 2.5; // Distance from ISS position for camera
   private intervalId: NodeJS.Timeout | null = null;
   private scene: THREE.Scene | null = null;
   private camera: THREE.PerspectiveCamera | null = null;
   private renderer: THREE.WebGLRenderer | null = null;
   private controls: any = null;
   private issMesh: THREE.Mesh | null = null;
+  private issPathMesh: THREE.Mesh | null = null;
   private animationFrameId: number | null = null;
   private globeRef = React.createRef<HTMLDivElement>();
 
   constructor(props: HomeProps) {
     super(props);
     this.serverBaseUrl = this.props.serverUrl;
-    this.state = { issPosition: null, loading: true, globeError: false, globeInitialized: false };
+    this.state = {
+      issPosition: null,
+      issPath: [],
+      loading: true,
+      globeError: false,
+      globeInitialized: false,
+    };
   }
 
   componentDidMount() {
@@ -58,16 +69,21 @@ class Home extends Component<HomeProps, AppState> {
       const response = await fetch(this.issApiUrl);
       if (!response.ok) throw new Error('API request failed');
       const data = await response.json();
+      const newPosition = {
+        latitude: data.latitude,
+        longitude: data.longitude,
+        altitude: data.altitude,
+      };
       this.setState(
-        {
-          issPosition: {
-            latitude: data.latitude,
-            longitude: data.longitude,
-            altitude: data.altitude,
-          },
+        (prevState) => ({
+          issPosition: newPosition,
+          issPath: [...prevState.issPath, newPosition].slice(-this.maxPathPoints),
           loading: false,
-        },
-        () => this.updateIssPosition()
+        }),
+        () => {
+          this.updateIssPosition();
+          this.updateIssPath();
+        }
       );
     } catch (error) {
       console.error('Error fetching ISS position:', error);
@@ -129,6 +145,11 @@ class Home extends Component<HomeProps, AppState> {
       this.issMesh = new THREE.Mesh(issGeometry, issMaterial);
       this.scene?.add(this.issMesh);
 
+      const pathMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+      const pathGeometry = new THREE.BufferGeometry();
+      this.issPathMesh = new THREE.Mesh(pathGeometry, pathMaterial);
+      this.scene?.add(this.issPathMesh);
+
       this.scene.add(new THREE.AmbientLight(0xffffff, 0.6));
       const pointLight = new THREE.PointLight(0xffffff, 1.2, 100);
       pointLight.position.set(10, 10, 10);
@@ -177,13 +198,38 @@ class Home extends Component<HomeProps, AppState> {
     const x = -radius * Math.sin(phi) * Math.cos(theta);
     const z = radius * Math.sin(phi) * Math.sin(theta);
     const y = radius * Math.cos(phi);
-    return [x, y, z] as [number, number, number];
+    return new THREE.Vector3(x, y, z);
   };
 
   private updateIssPosition = () => {
-    if (this.issMesh && this.state.issPosition && this.state.globeInitialized) {
+    if (this.issMesh && this.camera && this.controls && this.state.issPosition && this.state.globeInitialized) {
       const { latitude, longitude, altitude } = this.state.issPosition;
-      this.issMesh.position.set(...this.getIss3DPosition(latitude, longitude, altitude));
+      const issPosition = this.getIss3DPosition(latitude, longitude, altitude);
+      
+      // Update ISS mesh position
+      this.issMesh.position.copy(issPosition);
+
+      // Position the camera to focus on the ISS
+      const cameraOffset = issPosition.clone().normalize().multiplyScalar(this.cameraDistance);
+      this.camera.position.copy(issPosition.clone().add(cameraOffset));
+      this.camera.lookAt(issPosition);
+      this.controls.target.copy(issPosition); // Update OrbitControls target
+      this.controls.update();
+    }
+  };
+
+  private updateIssPath = () => {
+    if (this.issPathMesh && this.state.issPath.length > 1 && this.state.globeInitialized) {
+      const points = this.state.issPath.map(({ latitude, longitude, altitude }) =>
+        this.getIss3DPosition(latitude, longitude, altitude)
+      );
+      const curve = new THREE.CatmullRomCurve3(points, false, 'centripetal', 0.5);
+      const tubeGeometry = new THREE.TubeGeometry(curve, 64, this.tubeRadius, 8, false);
+      this.issPathMesh.geometry.dispose();
+      this.issPathMesh.geometry = tubeGeometry;
+    } else if (this.issPathMesh && this.state.issPath.length <= 1) {
+      this.issPathMesh.geometry.dispose();
+      this.issPathMesh.geometry = new THREE.BufferGeometry();
     }
   };
 
@@ -240,7 +286,7 @@ class Home extends Component<HomeProps, AppState> {
     return (
       <div className="content-wrapper">
         <Grid container spacing={3} justifyContent="center">
-          <Grid >
+          <Grid>
             <div className="section">
               <Typography variant="h4" sx={{ textAlign: 'center', mb: 2 }}>
                 Welcome to Axiom Mission 4 Tracker
@@ -258,8 +304,8 @@ class Home extends Component<HomeProps, AppState> {
           </Grid>
         </Grid>
         <div style={{ display: 'none' }}>
-            <MyChatBot serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
-            </div>
+          <MyChatBot serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
+        </div>
       </div>
     );
   }
