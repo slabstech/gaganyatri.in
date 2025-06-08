@@ -257,7 +257,9 @@ class Home extends Component<HomeProps, AppState> {
             </div>
           </Grid>
         </Grid>
+        <div style={{ display: 'none' }}>
             <MyChatBot serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
+            </div>
       </div>
     );
   }

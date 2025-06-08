@@ -16,8 +16,8 @@ export default function Copyright(props: any) {
       ]}
     >
       {'Copyright © '}
-      <Link color="inherit" href="https://sanjeevini.me/">
-        Sanjeevini
+      <Link color="inherit" href="https://dwani.ai/">
+        dwani.ai
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
