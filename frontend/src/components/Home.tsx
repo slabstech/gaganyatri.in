@@ -1,11 +1,11 @@
-import React, { Component } from 'react'; // Added explicit React import
+import React, { Component } from 'react';
 import { Typography, Divider, Box, CircularProgress } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import Countdown from 'react-countdown';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import * as THREE from 'three';
 import MyChatBot from './chatbot/chatApp';
-import './Home.css'; // CSS for animations
+import './Home.css';
 
 interface AppState {
   issPosition: { latitude: number; longitude: number; altitude: number } | null;
@@ -30,7 +30,7 @@ class Home extends Component<HomeProps, AppState> {
   private controls: any = null;
   private issMesh: THREE.Mesh | null = null;
   private animationFrameId: number | null = null;
-  private globeRef = React.createRef<HTMLDivElement>(); // Now valid with React import
+  private globeRef = React.createRef<HTMLDivElement>();
 
   constructor(props: HomeProps) {
     super(props);
@@ -40,7 +40,7 @@ class Home extends Component<HomeProps, AppState> {
 
   componentDidMount() {
     this.fetchIssPosition();
-    this.intervalId = setInterval(this.fetchIssPosition, 10000); // 10s interval
+    this.intervalId = setInterval(this.fetchIssPosition, 10000);
     this.initThreeJs();
   }
 
@@ -48,7 +48,7 @@ class Home extends Component<HomeProps, AppState> {
     if (this.intervalId) clearInterval(this.intervalId);
     if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
     if (this.renderer) {
-      this.renderer.dispose(); // Dispose renderer resources
+      this.renderer.dispose();
     }
     window.removeEventListener('resize', this.handleResize);
   }
@@ -82,7 +82,6 @@ class Home extends Component<HomeProps, AppState> {
       return;
     }
 
-    // Only initialize if not already done
     if (this.state.globeInitialized) return;
 
     import('three/examples/jsm/controls/OrbitControls').then(({ OrbitControls }) => {
@@ -91,10 +90,9 @@ class Home extends Component<HomeProps, AppState> {
       this.camera.position.set(0, 0, 3);
       this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       this.renderer.setPixelRatio(window.devicePixelRatio);
-      this.globeRef.current.appendChild(this.renderer.domElement);
+      this.globeRef.current!.appendChild(this.renderer.domElement);
       this.handleResize();
 
-      // Add Earth with retry logic
       const geometry = new THREE.SphereGeometry(1, 32, 32);
       const textureLoader = new THREE.TextureLoader();
       let textureLoadAttempts = 0;
@@ -116,7 +114,7 @@ class Home extends Component<HomeProps, AppState> {
             textureLoadAttempts++;
             if (textureLoadAttempts < maxAttempts) {
               console.log(`Retrying texture load (attempt ${textureLoadAttempts + 1}/${maxAttempts})`);
-              setTimeout(loadTexture, 1000); // Retry after 1s
+              setTimeout(loadTexture, 1000);
             } else {
               this.setState({ globeError: true, globeInitialized: false });
             }
@@ -126,19 +124,16 @@ class Home extends Component<HomeProps, AppState> {
 
       loadTexture();
 
-      // Add ISS marker
       const issGeometry = new THREE.SphereGeometry(0.02, 16, 16);
       const issMaterial = new THREE.MeshStandardMaterial({ color: 'red', emissive: 'red', emissiveIntensity: 0.5 });
       this.issMesh = new THREE.Mesh(issGeometry, issMaterial);
       this.scene?.add(this.issMesh);
 
-      // Lighting
       this.scene.add(new THREE.AmbientLight(0xffffff, 0.6));
       const pointLight = new THREE.PointLight(0xffffff, 1.2, 100);
       pointLight.position.set(10, 10, 10);
       this.scene.add(pointLight);
 
-      // OrbitControls
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
       this.controls.enablePan = false;
       this.controls.enableZoom = true;
@@ -147,12 +142,15 @@ class Home extends Component<HomeProps, AppState> {
       this.controls.enableDamping = true;
       this.controls.dampingFactor = 0.05;
 
-      // Animation loop
       const animate = () => {
         this.animationFrameId = requestAnimationFrame(animate);
         if (this.scene && this.camera && this.renderer && this.issMesh) {
           this.controls.update();
-          this.issMesh.scale.set(0.5 + 0.2 * Math.sin(Date.now() * 0.002), 0.5 + 0.2 * Math.sin(Date.now() * 0.002), 0.5 + 0.2 * Math.sin(Date.now() * 0.002));
+          this.issMesh.scale.set(
+            0.5 + 0.2 * Math.sin(Date.now() * 0.002),
+            0.5 + 0.2 * Math.sin(Date.now() * 0.002),
+            0.5 + 0.2 * Math.sin(Date.now() * 0.002)
+          );
           this.renderer.render(this.scene, this.camera);
         }
       };
@@ -173,7 +171,7 @@ class Home extends Component<HomeProps, AppState> {
   };
 
   private getIss3DPosition = (latitude: number, longitude: number, altitude: number) => {
-    const radius = 1 + altitude / 6371; // Earth radius = 6371 km
+    const radius = 1 + altitude / 6371;
     const phi = (90 - latitude) * (Math.PI / 180);
     const theta = (longitude + 180) * (Math.PI / 180);
     const x = -radius * Math.sin(phi) * Math.cos(theta);
@@ -240,32 +238,27 @@ class Home extends Component<HomeProps, AppState> {
 
   render() {
     return (
-      <>
-        <div className="content-wrapper">
-          <Grid container spacing={3} justifyContent="center">
-            <Grid item xs={12} md={6} lg={5}>
-              <div className="section">
-                <Typography variant="h4" sx={{ textAlign: 'center', mb: 2 }}>
-                  Welcome to Axiom Mission 4 Tracker
-                </Typography>
-                <Divider sx={{ mb: 2 }} />
-                <Box sx={{ minHeight: 500 }}>
-                  {!this.state.globeInitialized && !this.state.globeError && (
-                    <CircularProgress sx={{ position: 'absolute', top: '50%', left: '50%' }} />
-                  )}
-                  {this.state.globeError && <Typography color="error">There was an error loading the globe.</Typography>}
-                  <div ref={this.globeRef} style={{ height: '100%' }} />
-                </Box>
-                <Countdown
-                  date={this.launchDate}
-                  renderer={this.countdownRenderer}
-                />
-              </div>
-            </Grid>
+      <div className="content-wrapper">
+        <Grid container spacing={3} justifyContent="center">
+          <Grid >
+            <div className="section">
+              <Typography variant="h4" sx={{ textAlign: 'center', mb: 2 }}>
+                Welcome to Axiom Mission 4 Tracker
+              </Typography>
+              <Divider sx={{ mb: 2 }} />
+              <Box sx={{ minHeight: 500 }}>
+                {!this.state.globeInitialized && !this.state.globeError && (
+                  <CircularProgress sx={{ position: 'absolute', top: '50%', left: '50%' }} />
+                )}
+                {this.state.globeError && <Typography color="error">There was an error loading the globe.</Typography>}
+                <div ref={this.globeRef} style={{ height: '100%' }} />
+              </Box>
+              <Countdown date={this.launchDate} renderer={this.countdownRenderer} />
+            </div>
           </Grid>
+        </Grid>
             <MyChatBot serverUrl={this.serverBaseUrl} isOnline={this.isOnline} />
-        </div>
-      </>
+      </div>
     );
   }
 }
