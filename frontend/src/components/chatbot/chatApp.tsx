@@ -39,14 +39,8 @@ const MyChatBot = ({ serverUrl, isOnline }: ChatBotDemoProps) => {
       path: async (params:any) => {
         let link = "";
         switch (params.userInput) {
-          case "Deployment":
-            link = "https://github.com/slabstech/gaganyatri.in/blob/main/docs/deployment.md";
-            break;
           case "Github":
             link = "https://github.com/slabstech/gaganyatri.in";
-            break;
-          case "Discord":
-            link = "https://discord.gg/WZMCerEZ2P";
             break;
           default:
             return "unknown_input";
@@ -70,7 +64,7 @@ const MyChatBot = ({ serverUrl, isOnline }: ChatBotDemoProps) => {
         general: { embedded: true },
         chatHistory: { storageKey: "example_faq_bot" },
         header: { title: 'gaganyatri.in', showAvatar: false },
-        footer: { text: 'Powered by slabstech' }
+        footer: { text: 'Powered by dwani.ai' }
       }}
       flow={flow}
     />
