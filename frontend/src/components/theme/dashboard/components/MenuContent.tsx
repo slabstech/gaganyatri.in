@@ -14,8 +14,8 @@ import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
 const mainListItems = [
   { text: 'Home', icon: <HomeRoundedIcon />, path: '/' },
-  { text: 'ISS', icon: <AnalyticsRoundedIcon />, path: '/llmtechdemo' },
-  { text: 'AX4', icon: <PeopleRoundedIcon />, path: '/taxtechdemo' },
+  { text: 'ISS', icon: <AnalyticsRoundedIcon />, path: '/iss' },
+  { text: 'AX4', icon: <PeopleRoundedIcon />, path: '/ax4' },
 ];
 
 const secondaryListItems = [

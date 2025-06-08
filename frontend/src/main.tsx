@@ -19,6 +19,8 @@ import {
   datePickersCustomizations,
   treeViewCustomizations,
 } from './components/theme/dashboard/theme/customizations';
+import ISSApp from './components/theme/dashboard/components/ISSApp.tsx';
+import AX4App from './components/theme/dashboard/components/AX4App.tsx';
 
 const xThemeComponents = {
   ...chartsCustomizations,
@@ -57,6 +59,9 @@ createRoot(document.getElementById('root')!).render(
                   <Header />
                   <Routes>
                     <Route path="/" element={<MainGrid />} />
+                    <Route path="/iss" element={<ISSApp />} />
+                    <Route path="/ax4" element={<AX4App />} />
+                    
                   </Routes>
                 </Stack>
               </Box>
