@@ -21,19 +21,13 @@ interface Message {
   id: bigint;
   name: string;
   country: string;
-  currency: string;
-  ebt: string;
-  taxes: string;
-  revenues: string;
-  wages: string;
-  fixed_assets: string;
 }
 
 const columns: GridColDef<Message>[] = [
   { field: 'id', headerName: 'ID', width: 90 },
   {
     field: 'name',
-    headerName: 'Company Name',
+    headerName: 'Astronaut',
     width: 150,
     editable: false,
   },
