@@ -7,9 +7,16 @@ import * as THREE from 'three';
 import MyChatBot from './chatbot/chatApp';
 import './Home.css';
 
+interface IssPosition {
+  latitude: number;
+  longitude: number;
+  altitude: number;
+  timestamp: number;
+}
+
 interface AppState {
-  issPosition: { latitude: number; longitude: number; altitude: number } | null;
-  issPath: { latitude: number; longitude: number; altitude: number }[];
+  issPosition: IssPosition | null;
+  issPath: IssPosition[];
   loading: boolean;
   globeError: boolean;
   globeInitialized: boolean;
@@ -24,16 +31,19 @@ class Home extends Component<HomeProps, AppState> {
   isOnline = true;
   private readonly launchDate = new Date('2025-06-10T17:52:00+05:30');
   private readonly issApiUrl = 'https://api.wheretheiss.at/v1/satellites/25544';
-  private readonly maxPathPoints = 100; // Limit the number of points in the orbital path
-  private readonly tubeRadius = 0.005; // Thickness of the orbital path tube
-  private readonly cameraDistance = 2.5; // Distance from ISS position for camera
+  private readonly maxPathPoints = 100; // Limit total path points
+  private readonly tubeRadius = 0.005; // Thickness of orbital path tubes
+  private readonly cameraDistance = 2.5; // Distance from ISS for camera
+  private readonly orbitDuration = 90 * 60 * 1000; // 90 minutes in milliseconds
   private intervalId: NodeJS.Timeout | null = null;
   private scene: THREE.Scene | null = null;
   private camera: THREE.PerspectiveCamera | null = null;
   private renderer: THREE.WebGLRenderer | null = null;
   private controls: any = null;
   private issMesh: THREE.Mesh | null = null;
-  private issPathMesh: THREE.Mesh | null = null;
+  private issPathMesh: THREE.Mesh | null = null; // Blue tube for older orbits
+  private issLastOrbitMesh: THREE.Mesh | null = null; // Green tube for last completed orbit
+  private issCurrentOrbitMesh: THREE.Mesh | null = null; // Yellow tube for current orbit
   private animationFrameId: number | null = null;
   private globeRef = React.createRef<HTMLDivElement>();
 
@@ -69,10 +79,11 @@ class Home extends Component<HomeProps, AppState> {
       const response = await fetch(this.issApiUrl);
       if (!response.ok) throw new Error('API request failed');
       const data = await response.json();
-      const newPosition = {
+      const newPosition: IssPosition = {
         latitude: data.latitude,
         longitude: data.longitude,
         altitude: data.altitude,
+        timestamp: Date.now(),
       };
       this.setState(
         (prevState) => ({
@@ -145,10 +156,23 @@ class Home extends Component<HomeProps, AppState> {
       this.issMesh = new THREE.Mesh(issGeometry, issMaterial);
       this.scene?.add(this.issMesh);
 
-      const pathMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+      // Initialize blue tube for older orbits
+      const pathMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff }); // Blue
       const pathGeometry = new THREE.BufferGeometry();
       this.issPathMesh = new THREE.Mesh(pathGeometry, pathMaterial);
       this.scene?.add(this.issPathMesh);
+
+      // Initialize green tube for last completed orbit
+      const lastOrbitMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Green
+      const lastOrbitGeometry = new THREE.BufferGeometry();
+      this.issLastOrbitMesh = new THREE.Mesh(lastOrbitGeometry, lastOrbitMaterial);
+      this.scene?.add(this.issLastOrbitMesh);
+
+      // Initialize yellow tube for current orbit
+      const currentOrbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 }); // Yellow
+      const currentOrbitGeometry = new THREE.BufferGeometry();
+      this.issCurrentOrbitMesh = new THREE.Mesh(currentOrbitGeometry, currentOrbitMaterial);
+      this.scene?.add(this.issCurrentOrbitMesh);
 
       this.scene.add(new THREE.AmbientLight(0xffffff, 0.6));
       const pointLight = new THREE.PointLight(0xffffff, 1.2, 100);
@@ -213,21 +237,70 @@ class Home extends Component<HomeProps, AppState> {
       const cameraOffset = issPosition.clone().normalize().multiplyScalar(this.cameraDistance);
       this.camera.position.copy(issPosition.clone().add(cameraOffset));
       this.camera.lookAt(issPosition);
-      this.controls.target.copy(issPosition); // Update OrbitControls target
+      this.controls.target.copy(issPosition);
       this.controls.update();
     }
   };
 
   private updateIssPath = () => {
-    if (this.issPathMesh && this.state.issPath.length > 1 && this.state.globeInitialized) {
-      const points = this.state.issPath.map(({ latitude, longitude, altitude }) =>
+    if (!this.issPathMesh || !this.issLastOrbitMesh || !this.issCurrentOrbitMesh || !this.state.globeInitialized) return;
+
+    const now = Date.now();
+    const orbitDuration = this.orbitDuration;
+
+    // Filter points for current orbit (last 90 minutes)
+    const currentOrbitPoints = this.state.issPath.filter(
+      (point) => now - point.timestamp <= orbitDuration
+    );
+
+    // Filter points for last completed orbit (90 to 180 minutes ago)
+    const lastOrbitPoints = this.state.issPath.filter(
+      (point) => now - point.timestamp > orbitDuration && now - point.timestamp <= 2 * orbitDuration
+    );
+
+    // Filter points for older orbits (older than 180 minutes)
+    const olderPoints = this.state.issPath.filter(
+      (point) => now - point.timestamp > 2 * orbitDuration
+    );
+
+    // Update current orbit (yellow)
+    if (currentOrbitPoints.length > 1) {
+      const points = currentOrbitPoints.map(({ latitude, longitude, altitude }) =>
+        this.getIss3DPosition(latitude, longitude, altitude)
+      );
+      const curve = new THREE.CatmullRomCurve3(points, false, 'centripetal', 0.5);
+      const tubeGeometry = new THREE.TubeGeometry(curve, 64, this.tubeRadius, 8, false);
+      this.issCurrentOrbitMesh.geometry.dispose();
+      this.issCurrentOrbitMesh.geometry = tubeGeometry;
+    } else {
+      this.issCurrentOrbitMesh.geometry.dispose();
+      this.issCurrentOrbitMesh.geometry = new THREE.BufferGeometry();
+    }
+
+    // Update last completed orbit (green)
+    if (lastOrbitPoints.length > 1) {
+      const points = lastOrbitPoints.map(({ latitude, longitude, altitude }) =>
+        this.getIss3DPosition(latitude, longitude, altitude)
+      );
+      const curve = new THREE.CatmullRomCurve3(points, false, 'centripetal', 0.5);
+      const tubeGeometry = new THREE.TubeGeometry(curve, 64, this.tubeRadius, 8, false);
+      this.issLastOrbitMesh.geometry.dispose();
+      this.issLastOrbitMesh.geometry = tubeGeometry;
+    } else {
+      this.issLastOrbitMesh.geometry.dispose();
+      this.issLastOrbitMesh.geometry = new THREE.BufferGeometry();
+    }
+
+    // Update older orbits (blue)
+    if (olderPoints.length > 1) {
+      const points = olderPoints.map(({ latitude, longitude, altitude }) =>
         this.getIss3DPosition(latitude, longitude, altitude)
       );
       const curve = new THREE.CatmullRomCurve3(points, false, 'centripetal', 0.5);
       const tubeGeometry = new THREE.TubeGeometry(curve, 64, this.tubeRadius, 8, false);
       this.issPathMesh.geometry.dispose();
       this.issPathMesh.geometry = tubeGeometry;
-    } else if (this.issPathMesh && this.state.issPath.length <= 1) {
+    } else {
       this.issPathMesh.geometry.dispose();
       this.issPathMesh.geometry = new THREE.BufferGeometry();
     }
