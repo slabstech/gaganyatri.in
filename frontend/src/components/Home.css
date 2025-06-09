@@ -1,29 +1,187 @@
-.flip-card {
-  animation: flip 0.5s ease-in-out;
+/* Home.css */
+
+/* Base styles for the content wrapper */
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure full viewport height */
+  width: 100%;
+  max-width: 1200px; /* Max width for larger screens */
+  margin: 0 auto; /* Center content */
+  padding: 1rem; /* Padding for breathing room */
+  box-sizing: border-box; /* Include padding in width calculations */
 }
 
-@keyframes flip {
-  0% {
-    transform: perspective(400px) rotateX(90deg);
-    opacity: 0.5;
-  }
-  100% {
-    transform: perspective(400px) rotateX(0deg);
-    opacity: 1;
+/* Chatbot container */
+.chatbot-container {
+  width: 100%;
+  margin-bottom: 1rem; /* Space between components */
+}
+
+/* Tracker container */
+.tracker-container {
+  width: 100%;
+  flex-grow: 1; /* Allow TrackerHome to take remaining space */
+}
+
+/* Hide chatbot on mobile if needed (replacing display: none) */
+@media (max-width: 768px) {
+  .chatbot-container {
+    display: none; /* Hide by default on mobile, adjust as needed */
   }
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
+/* Ensure components are touch-friendly and readable on mobile */
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 0.5rem; /* Reduced padding on smaller screens */
   }
-  50% {
-    transform: scale(1.2);
-    opacity: 0.8;
+
+  /* Ensure font sizes are readable */
+  body {
+    font-size: 16px; /* Base font size for accessibility */
   }
-  100% {
-    transform: scale(1);
-    opacity: 1;
+
+  /* Make buttons and interactive elements touch-friendly */
+  button,
+  a,
+  input,
+  textarea {
+    min-height: 44px; /* Minimum touch target size per accessibility guidelines */
+    min-width: 44px;
+    font-size: 1rem; /* Readable text */
   }
+}
+
+/* Styles for larger screens (optional side-by-side layout) */
+@media (min-width: 769px) {
+  .content-wrapper {
+    flex-direction: row; /* Side-by-side layout for larger screens */
+    gap: 1rem; /* Space between chatbot and tracker */
+  }
+
+  .chatbot-container {
+    display: block; /* Ensure chatbot is visible on larger screens */
+    width: 30%; /* Adjust width as needed */
+    min-width: 250px; /* Minimum width for chatbot */
+  }
+
+  .tracker-container {
+    width: 70%; /* Adjust width as needed */
+  }
+}
+
+/* Accessibility and general styles */
+:focus {
+  outline: 2px solid #007bff; /* Visible focus for accessibility */
+  outline-offset: 2px;
+}
+
+/* Prevent horizontal scrolling */
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Ensure images and mediaGreetings, I'm here to help! I'm not sure what you mean by "images," so I'll assume you're referring to visual elements like those in `MyChatBot` or `TrackerHome`. If you have specific images or other visual elements, please provide more details, and I can tailor the response further.
+
+Based on the provided code, I'll focus on ensuring that any visual elements (like buttons, icons, or images within `MyChatBot` or `TrackerHome`) are responsive and mobile-friendly. Here's how the CSS handles images and other visual elements:
+
+### Updated `Home.css` (with Image Handling)
+
+```css
+/* Home.css */
+
+/* Base styles for the content wrapper */
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Chatbot container */
+.chatbot-container {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* Tracker container */
+.tracker-container {
+  width: 100%;
+  flex-grow: 1;
+}
+
+/* Responsive images */
+img {
+  max-width: 100%; /* Ensure images scale within their container */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Prevent inline spacing issues */
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 0.5rem;
+  }
+
+  .chatbot-container {
+    display: none; /* Hide chatbot on mobile, adjust as needed */
+  }
+
+  body {
+    font-size: 16px;
+  }
+
+  /* Touch-friendly buttons and interactive elements */
+  button,
+  a,
+  input,
+  textarea {
+    min-height: 44px;
+    min-width: 44px;
+    font-size: 1rem;
+  }
+
+  /* Adjust images for smaller screens */
+  img {
+    max-width: 90vw; /* Slightly smaller than viewport width */
+    margin: 0 auto; /* Center images */
+  }
+}
+
+/* Desktop-specific styles */
+@media (min-width: 769px) {
+  .content-wrapper {
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .chatbot-container {
+    display: block;
+    width: 30%;
+    min-width: 250px;
+  }
+
+  .tracker-container {
+    width: 70%;
+  }
+}
+
+/* Accessibility */
+:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* Prevent horizontal scrolling */
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
 }

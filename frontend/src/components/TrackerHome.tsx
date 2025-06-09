@@ -370,9 +370,6 @@ class TrackerHome extends Component<TrackerHomeProps, AppState> {
         <Grid container spacing={3} justifyContent="center">
           <Grid>
             <div className="section">
-              <Typography variant="h4" sx={{ textAlign: 'center', mb: 2 }}>
-                Welcome to Axiom Mission 4 Tracker
-              </Typography>
               <Divider sx={{ mb: 2 }} />
               <Box sx={{ minHeight: 500 }}>
                 {!this.state.globeInitialized && !this.state.globeError && (
@@ -381,7 +378,6 @@ class TrackerHome extends Component<TrackerHomeProps, AppState> {
                 {this.state.globeError && <Typography color="error">There was an error loading the globe.</Typography>}
                 <div ref={this.globeRef} style={{ height: '100%' }} />
               </Box>
-              <Countdown date={this.launchDate} renderer={this.countdownRenderer} />
             </div>
           </Grid>
         </Grid>
