@@ -24,24 +24,24 @@ class ISSDemo extends Component<ISSDemoProps, ISSDemoState> {
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private renderer: THREE.WebGLRenderer;
-  private controls: OrbitControls;
+  private controls: InstanceType<typeof OrbitControls>; // Use InstanceType to get the type
   private raycaster: THREE.Raycaster;
   private mouse: THREE.Vector2;
   private modules: THREE.Mesh[] = [];
 
   // Mock data for ISS modules
   private moduleInfo: { [key: string]: ISSModuleInfo } = {
-    'Zarya': {
+    Zarya: {
       name: 'Zarya',
       description: 'Functional Cargo Block, provides power and propulsion.',
       launchDate: 'November 20, 1998',
     },
-    'Unity': {
+    Unity: {
       name: 'Unity',
       description: 'Connecting module for US segments.',
       launchDate: 'December 4, 1998',
     },
-    'Destiny': {
+    Destiny: {
       name: 'Destiny',
       description: 'US Laboratory Module for scientific research.',
       launchDate: 'February 7, 2001',
@@ -93,16 +93,16 @@ class ISSDemo extends Component<ISSDemoProps, ISSDemoState> {
   createISSModules = () => {
     // Simplified ISS modules as colored cubes
     const modulesData = [
-      { name: 'Zarya', position: [0, 0, 0], color: 0xff0000 },
-      { name: 'Unity', position: [2, 0, 0], color: 0x00ff00 },
-      { name: 'Destiny', position: [4, 0, 0], color: 0x0000ff },
+      { name: 'Zarya', position: [0, 0, 0] as [number, number, number], color: 0xff0000 },
+      { name: 'Unity', position: [2, 0, 0] as [number, number, number], color: 0x00ff00 },
+      { name: 'Destiny', position: [4, 0, 0] as [number, number, number], color: 0x0000ff },
     ];
 
     modulesData.forEach((module) => {
       const geometry = new THREE.BoxGeometry(1, 1, 1);
       const material = new THREE.MeshStandardMaterial({ color: module.color });
       const mesh = new THREE.Mesh(geometry, material);
-      mesh.position.set(...module.position);
+      mesh.position.set(module.position[0], module.position[1], module.position[2]); // Explicitly pass arguments
       mesh.name = module.name;
       this.scene.add(mesh);
       this.modules.push(mesh);
@@ -184,7 +184,6 @@ class ISSDemo extends Component<ISSDemoProps, ISSDemoState> {
             <Box />
           </Tooltip>
         )}
-
       </Box>
     );
   }
