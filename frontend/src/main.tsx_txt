@@ -7,20 +7,25 @@ import AppTheme from './components/theme/shared-theme/AppTheme';
 import AppNavbar from './components/theme/dashboard/components/AppNavbar';
 import Header from './components/theme/dashboard/components/Header';
 import MainGrid from './components/theme/dashboard/components/MainGrid';
+import LLMTechDemoApp from './components/theme/dashboard/components/LLMTechDemoApp';
+import TaxTechDemoApp from './components/theme/dashboard/components/TaxTechDemoApp';
+import MetricsApp from './components/theme/dashboard/components/MetricsApp';
 import SideMenu from './components/theme/dashboard/components/SideMenu';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { Provider } from 'react-redux';
 import { store } from './reducers/store';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import SignIn from './components/theme/sign-in/SignIn';
+import SignUp from './components/theme/sign-up/SignUp';
+import Checkout from './components/theme/checkout/Checkout';
+import Blog from './components/theme/blog/Blog';
 import {
   chartsCustomizations,
   dataGridCustomizations,
   datePickersCustomizations,
   treeViewCustomizations,
 } from './components/theme/dashboard/theme/customizations';
-import ISSApp from './components/theme/dashboard/components/ISSApp.tsx';
-import AX4App from './components/theme/dashboard/components/AX4App.tsx';
 
 const xThemeComponents = {
   ...chartsCustomizations,
@@ -59,9 +64,13 @@ createRoot(document.getElementById('root')!).render(
                   <Header />
                   <Routes>
                     <Route path="/" element={<MainGrid />} />
-                    <Route path="/iss" element={<ISSApp />} />
-                    <Route path="/ax4" element={<AX4App />} />
-                    
+                    <Route path="/taxtechdemo" element={<TaxTechDemoApp />} />
+                    <Route path="/llmtechdemo" element={<LLMTechDemoApp />} />
+                    <Route path="/metricsdemo" element={<MetricsApp />} />
+                    <Route path="/sign-in" element={<SignIn />} />
+                    <Route path="/sign-up" element={<SignUp />} />
+                    <Route path="/checkout" element={<Checkout />} />
+                    <Route path="/blog" element={<Blog />} />
                   </Routes>
                 </Stack>
               </Box>
