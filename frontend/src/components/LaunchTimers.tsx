@@ -19,7 +19,7 @@ class LaunchTimers extends Component<LaunchTimersProps, AppState> {
   serverBaseUrl = import.meta.env.VITE_GAGANYATRI_BACKEND_APP_API_URL;
   isOnline = true;
 
-  private readonly launchDate = new Date('2025-06-11T17:30:00+05:30');
+  private readonly launchDate = new Date('2025-06-22T13:12:00+05:30');
 
   constructor(props: LaunchTimersProps) {
     super(props);
